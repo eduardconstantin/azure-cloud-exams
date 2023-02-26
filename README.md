@@ -1,9 +1,9 @@
-<h2 align="center">Azure Fundamentals Exam Questions</h2>
+<h1 align="center">Azure Fundamentals Exam Questions</h1>
 <br />
 
 This is a web application built with Next.js, TypeScript, Cosmos DB, GraphQL and Tailwind CSS. The application is a quiz
 that tests your knowledge of Azure fundamentals, specifically for the AZ-900 certification exam. The questions are
-stored in a Cosmos DB database and retrieved using GraphQL queries.
+stored in a Cosmos DB database and retrieved using GraphQL queries. The application is deployed on Microsoft Azure.
 
 This project was created for learning purposes to help me understand Microsoft Azure and Cosmos DB in preparation for
 the AZ-900 exam.
@@ -27,7 +27,7 @@ the AZ-900 exam.
 - Over 400 questions scrapped from this
   [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers).
 - Correct answer displayed for each question
-- Vercel OG image generation used to display the question
+- Vercel OG image generation used to display the questions
 
 ## Getting Started
 
@@ -51,8 +51,8 @@ npm run dev
 
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
-Because I only have a Free Tier accoun for Cosmos DB, the database won't be available for local development. Instead I
-created a json file with some dummy data.
+Because I only have a Free Tier account for Cosmos DB, the database won't be available for local development. Instead I
+created a json file with some dummy data (the file is located in src/qdb.json).
 
 ## Contributing
 
@@ -60,6 +60,8 @@ I welcome feedback and contributions from other developers, which can help impro
 application overall.
 
 Please create an issue or a pull request with your changes.
+
+There is also a [Discussion tab](https://github.com/eduardconstantin/azure-fundamentals/discussions)
 
 For a full list of all authors and contributors, see
 [the contributors page](https://github.com/eduardconstantin/azure-fundamentals/contributors).
