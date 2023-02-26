@@ -1,9 +1,9 @@
-export interface Question {
+export type Question = {
   question: string;
   options: Option[];
-}
+};
 
-interface Option {
+type Option = {
   text: string;
   isAnswer: boolean;
-}
+};
