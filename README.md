@@ -10,6 +10,9 @@ stored in a Cosmos DB database and retrieved using GraphQL queries.
 This project was created for learning purposes to help me understand Microsoft Azure and Cosmos DB in preparation for
 the AZ-900 exam.
 
+<br />
+<img src="screenshot.png"/>
+
 <div align="center">
 <br />
 
