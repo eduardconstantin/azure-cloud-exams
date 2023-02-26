@@ -15,6 +15,7 @@ interface ContextValue {
 const server = new ApolloServer<ContextValue>({
   typeDefs,
   resolvers,
+  introspection: process.env.NODE_ENV !== "production",
 });
 
 export default startServerAndCreateNextHandler(server, {
