@@ -16,7 +16,7 @@ const QuizForm: React.FC<Props> = ({ isLoading, questionSet, handleNextQuestion 
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options } = questionSet!;
-  const imgUrl: string = `http://localhost:3000/api/og?question=${question}`;
+  const imgUrl: string = `/api/og?question=${question}`;
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
 
