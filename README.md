@@ -1,7 +1,5 @@
-<div align="center">
-  <h2>Azure Fundamentals Exam Questions</h2>
-  <br />
-</div>
+<h2 align="center">Azure Fundamentals Exam Questions</h2>
+<br />
 
 This is a web application built with Next.js, TypeScript, Cosmos DB, GraphQL and Tailwind CSS. The application is a quiz
 that tests your knowledge of Azure fundamentals, specifically for the AZ-900 certification exam. The questions are
