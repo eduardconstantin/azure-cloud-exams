@@ -29,7 +29,7 @@ const QuizForm: React.FC<Props> = ({ isLoading, questionSet, handleNextQuestion 
       <div className="relative h-40">
         <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
       </div>
-      <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max">
+      <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (
           <li key={index}>
             <SelectionInput
