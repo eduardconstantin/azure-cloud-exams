@@ -58,7 +58,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
             clipRule="evenodd"
           />
         </svg>
-        <span className="ml-7 text-gray-700 dark:text-gray-200">{label}</span>
+        <span className="sm:ml-3 md:ml-7 text-gray-700 dark:text-gray-200 break-words inline-block w-full">{label}</span>
       </label>
     </>
   );
