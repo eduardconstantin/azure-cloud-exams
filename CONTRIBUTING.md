@@ -7,8 +7,10 @@ It's people like you that make this project such a great tool.
 ## Opening an issue:
 
 Thank you for taking the time to open an issue.
-<br>
+
 Before opening an issue, please be sure that your issue hasn't already been asked by someone.
+
+To begin  go to issues tab, select one of the templates and follow the instructions.
 <br><br>
 
 When creating issues, keep these key points in mind:
