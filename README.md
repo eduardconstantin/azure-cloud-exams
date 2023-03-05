@@ -59,7 +59,7 @@ created a json file with some dummy data (the file is located in src/qdb.json).
 I welcome feedback and contributions from other developers, which can help improve the quality of the code and the
 application overall.
 
-Please create an issue or a pull request with your changes.
+In order to create an issue or a pull request with your changes, please read [our contribution guidelines](CONTRIBUTING.md), and thank you for being involved!
 
 There is also a [Discussion tab](https://github.com/eduardconstantin/azure-fundamentals/discussions)
 
