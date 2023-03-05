@@ -26,7 +26,6 @@ export const QuestionsDataSource = (container: Container) => {
 export const LocalQuestionsDataSource = (container: any) => {
   return {
     async getQuestion(id: string) {
-      console.log(container);
       try {
         return container.filter((el: any) => el.id === id)[0];
       } catch (err) {

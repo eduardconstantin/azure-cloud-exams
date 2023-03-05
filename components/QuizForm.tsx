@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
@@ -13,10 +13,15 @@ type Props = {
 const QuizForm: React.FC<Props> = ({ isLoading, questionSet, handleNextQuestion }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options } = questionSet!;
-  const imgUrl: string = `/api/og?question=${question}`;
+  const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
 
