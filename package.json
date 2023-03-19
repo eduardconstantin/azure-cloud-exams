@@ -25,6 +25,7 @@
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-github-btn": "^1.4.0",
     "react-hook-form": "^7.43.1",
     "reflect-metadata": "^0.1.13",
     "typescript": "4.9.5"

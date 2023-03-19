@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import GitHubButton from "react-github-btn";
 
 const TopNav = () => {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
+
   return (
     <div className="h-16 mb-10 w-full px-3 border-b-2 border-slate-700 text-white flex justify-between items-center">
-      <div className="flex items-center flex-col">{/* empty div */}</div>
-      <div className="flex items-center flex-col">
+      <div className="flex items-center flex-col w-1/2">{/* empty div */}</div>
+      <div className="flex items-center flex-col w-full">
         <p className="font-bold text-4xl leading-7">AZURE</p>
         <p className="text-base">FUNDAMENTALS</p>
       </div>
-      <div className="flex items-center flex-col">{/* github stars button */}</div>
+      <div className="flex items-center flex-col pt-1 w-1/2">
+        <GitHubButton
+          href="https://github.com/eduardconstantin/azure-fundamentals"
+          data-color-scheme="no-preference: light; light: light; dark: dark;"
+          data-icon="octicon-star"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star azure-fundamentals on GitHub"
+        >
+          {windowWidth < 640 ? "" : "Star"}
+        </GitHubButton>
+      </div>
     </div>
   );
 };
