@@ -112,7 +112,3 @@ If you go to your repository on GitHub, you'll see a `Compare & pull request` bu
 Now submit the pull request.
 
 Soon a reviewer will be merging all your changes into the main branch of this project. You will get a notification email once the changes have been merged.
-
-## License
-
-By contributing to this repo, you agree that your contributions will be licensed under the [MIT license](LICENSE).
