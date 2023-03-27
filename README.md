@@ -22,14 +22,14 @@ the AZ-900 exam.
 
 </div>
 
-## Features
+## 🌟 Features
 
 - Over 400 questions scrapped from this
   [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers).
 - Correct answer displayed for each question
 - Vercel OG image generation used to display the questions
 
-## Getting Started
+## 🌱 Getting Started
 
 Clone the repository:
 
@@ -54,7 +54,7 @@ Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 Because I only have a Free Tier account for Cosmos DB, the database won't be available for local development. Instead I
 created a json file with some dummy data (the file is located in src/qdb.json).
 
-## Contributing
+## 👥 Contributing
 
 I welcome feedback and contributions from other developers, which can help improve the quality of the code and the
 application overall.
@@ -66,6 +66,6 @@ There is also a [Discussion tab](https://github.com/eduardconstantin/azure-funda
 For a full list of all authors and contributors, see
 [the contributors page](https://github.com/eduardconstantin/azure-fundamentals/contributors).
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
