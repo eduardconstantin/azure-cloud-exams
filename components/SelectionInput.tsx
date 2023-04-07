@@ -36,14 +36,10 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
       />
       <label
         htmlFor={id}
-        className={`flex cursor-pointer items-center rounded-lg border border-gray-600 bg-gray-600/25 p-4 text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500 ${
+        className={`flex cursor-pointer items-center rounded-lg border p-4 text-xs sm:text-sm font-medium shadow-sm ${
           showCorrectAnswer && isAnswer
-            ? "peer-checked:border-emerald-500 peer-checked:bg-emerald-500/50"
-            : "peer-checked:border-gray-400 peer-checked:bg-gray-500/50 peer-checked:hover:border-gray-300"
-        } ${
-          showCorrectAnswer && isAnswer
-            ? "dark:border-emerald-500 dark:hover:border-emerald-400 bg-emerald-500/25"
-            : "dark:border-gray-600 dark:hover:border-gray-500"
+            ? "border-emerald-500 dark:hover:border-emerald-400 bg-emerald-500/25 peer-checked:border-emerald-500 peer-checked:bg-emerald-500/50"
+            : "hover:border-gray-500 border-gray-600 bg-gray-600/25 peer-checked:border-gray-400 peer-checked:bg-gray-500/50 peer-checked:hover:border-gray-300"
         }`}
       >
         <svg
@@ -58,7 +54,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
             clipRule="evenodd"
           />
         </svg>
-        <span className="pl-7 text-gray-700 dark:text-gray-200 break-words inline-block w-full">{label}</span>
+        <span className="text-gray-200 pl-7 break-words inline-block w-full">{label}</span>
       </label>
     </>
   );
