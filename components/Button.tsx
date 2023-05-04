@@ -35,4 +35,4 @@ export const Button: React.FC<ButtonProps> = ({
     intent,
     size,
     ...props
-}) => <button className={button({ intent, size, className})} { ...props} />
+={`${button({ intent, size })} text-white rounded-lg focus:outline-none focus:ring-1 border mb-2 sm:mb-0`}
