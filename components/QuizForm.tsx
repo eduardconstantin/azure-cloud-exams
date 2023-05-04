@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
-
+import { Button } from "./Button"
 type Props = {
   isLoading: boolean;
   questionSet: Question;
@@ -67,6 +67,12 @@ const QuizForm: React.FC<Props> = ({ isLoading, questionSet, handleNextQuestion 
         >
           Next Question
         </button>
+           {/* <Button type="submit" intent="primary" size="medium">Reveal Answer</Button>
+        <Button type="button"  onClick={() => {
+            reset();
+            setShowCorrectAnswer(false);
+            handleNextQuestion();
+          }} intent="secondary" size="medium">Next Question</Button> */}
       </div>
     </form>
   );
