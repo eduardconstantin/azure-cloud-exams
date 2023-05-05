@@ -12,7 +12,7 @@ const button = cva("button", {
         },
         size: {
             large: ['font-large'],
-            medium: ['font-medium', 'text-xs', 'py-2.5', 'mb-2', 'px-5'],
+            medium: ['font-medium', 'py-2.5', 'px-5', 'sm:text-sm', 'text-xs'],
             small: ['font-small', 'py-2', 'px-2']
         },
         compoundVariants: {
