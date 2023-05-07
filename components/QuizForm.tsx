@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
-
+import { Button } from "./Button"
 type Props = {
   isLoading: boolean;
   questionSet: Question;
