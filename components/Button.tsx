@@ -29,7 +29,7 @@ const button = cva("button", {
         defaultVariants: {
             intent: 'primary',
             size: 'medium',
-            class:  ['text-white', 'rounded-lg', 'text-base/6', 'focus:outline-none', 'focus:ring-1'],
+          
         }
     }
 });
