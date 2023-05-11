@@ -3,34 +3,27 @@ import { useForm } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
-import { Button } from "./Button";
 
 type Props = {
   isLoading: boolean;
   questionSet: Question;
   handleNextQuestion: () => void;
+  currentQuestionIndex: number;
 };
 
 const QuizForm: React.FC<Props> = ({
   isLoading,
   questionSet,
   handleNextQuestion,
+  currentQuestionIndex,
 }) => {
-  const { register, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [questionsSolved, setQuestionsSolved] = useState<number>(0);
-  // const [totalQuestions, setTotalQuestions] = useState<number>(0);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
   }, []);
-
-  // useEffect(() => {
-  //   if (questionSet) {
-  //     setTotalQuestions(questionSet.length); // Update total questions
-  //   }
-  // }, [questionSet]);
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options } = questionSet!;
@@ -42,21 +35,12 @@ const QuizForm: React.FC<Props> = ({
     setShowCorrectAnswer(true);
   };
 
-  const handleNext = () => {
-    reset();
-    setShowCorrectAnswer(false);
-    setQuestionsSolved(questionsSolved + 1);
-    handleNextQuestion();
-  };
-
   return (
-    <div className="relative">
-      <div className="flex justify-center items-center mb-2">
-        <p className="text-white font-medium text-sm">
-          {questionsSolved + 1} / 480
-        </p>
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative h-40">
+        <p className="text-white text-sm mb-2">
+          Question {currentQuestionIndex + 1}
+        </p>
         <Image
           src={imgUrl}
           alt="question"
@@ -82,25 +66,25 @@ const QuizForm: React.FC<Props> = ({
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row">
-        <Button
+        <button
+          className="text-white bg-emerald-600/50 hover:bg-emerald-600/60 border-emerald-600 border focus:ring-1 focus:ring-green-800 font-medium rounded-lg text-xs sm:text-sm sm:px-5 py-2.5 sm:mr-2 mb-2 sm:mb-0 focus:outline-none"
           type="submit"
-          intent="secondary"
-          size="medium"
-          onClick={onSubmit}
         >
           Reveal Answer
-        </Button>
-
-        <Button
+        </button>
+        <button
+          className="text-white bg-blue-600/50 border-blue-600 border hover:bg-blue-600/60 focus:ring-1 focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm sm:px-5 py-2.5 sm:mr-2 focus:outline-none"
+          onClick={() => {
+            reset();
+            setShowCorrectAnswer(false);
+            handleNextQuestion();
+          }}
           type="button"
-          intent="primary"
-          size="medium"
-          onClick={handleNext}
         >
           Next Question
-        </Button>
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 
