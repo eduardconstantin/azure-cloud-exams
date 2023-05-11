@@ -1,5 +1,4 @@
 export type Question = {
-  // length(length: any): unknown;
   question: string;
   options: Option[];
 };
