@@ -1,6 +1,5 @@
 import React from "react";
 import Link from 'next/link'
-import TopNav from './TopNav'
 
 export default function HomePage() {
     return(
