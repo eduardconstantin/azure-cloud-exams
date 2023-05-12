@@ -20,6 +20,18 @@ export const QuestionsDataSource = (container: Container) => {
         throw new Error("Error: " + err);
       }
     },
+    async getQuestions() {
+      const querySpec = {
+        query: "SELECT VALUE COUNT(c.id) FROM c",
+      };
+
+      try {
+        const { resources: items } = await container.items.query(querySpec).fetchAll();
+        return { count: items[0] };
+      } catch (err) {
+        throw new Error("Error: " + err);
+      }
+    },
   };
 };
 
