@@ -44,5 +44,12 @@ export const LocalQuestionsDataSource = (container: any) => {
         throw new Error("Error: " + err);
       }
     },
+    async getQuestions() {
+      try {
+        return { count: container.length };
+      } catch (err) {
+        throw new Error("Error: " + err);
+      }
+    },
   };
 };
