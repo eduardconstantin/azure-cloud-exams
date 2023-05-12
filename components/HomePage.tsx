@@ -12,7 +12,6 @@ export default function HomePage() {
                 <h2 className="group-hover:bg-gradient-to-r group-hover:from-[#0284C7] group-hover:to-[#2DD48F] group-hover:text-transparent group-hover:bg-clip-text uppercase text-2xl font-bold">Practice mode</h2>
                 <p className="text-sm text-slate-400 mt-7">Learn and familiarize yourself with the questions and answers without any time constraint.</p>
             </div>
-            </div>
             </Link>
             <Link href="/exam">
             <div onMouseEnter={() => setHovered(2)} onMouseLeave={() => setHovered(0)} className="flex-auto bg-slate-700 hover:bg-gradient-to-r from-[#F97316] to-[#FACC15] text-white rounded-lg p-[2px] w-[350px] h-[350px] cursor-pointer">
