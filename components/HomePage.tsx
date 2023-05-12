@@ -3,7 +3,6 @@ import Link from 'next/link'
 import TopNav from './TopNav'
 
 export default function HomePage() {
-    const [hovered, setHovered] = useState(0)
     return(
         <div className="mx-auto w-5/6 sm:w-2/5 text-center">
             <h2 className="text-white text-5xl text-leading font-bold uppercase mt-10">Welcome!</h2>
