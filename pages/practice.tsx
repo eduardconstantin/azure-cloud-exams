@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Quiz from "@azure-fundamentals/components/Quiz";
 import TopNav from "@azure-fundamentals/components/TopNav";
+
 export default function Home() {
   return (
     <>
@@ -11,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopNav />
-       <Quiz /> 
+      <Quiz />
     </>
   );
 }
