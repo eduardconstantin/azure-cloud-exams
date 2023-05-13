@@ -10,8 +10,11 @@ const typeDefs = gql`
     question: String
     options: [Option]
   }
+  type Questions {
+    count: Int
+  }
   type Query {
-    allQuestions: [Question]
+    questions: Questions
     questionById(id: ID!): Question
   }
 `;

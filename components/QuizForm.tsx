@@ -10,6 +10,7 @@ type Props = {
   questionSet: Question;
   handleNextQuestion: () => void;
   currentQuestionIndex: number;
+  totalQuestions: number;
 };
 
 const QuizForm: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const QuizForm: React.FC<Props> = ({
   questionSet,
   handleNextQuestion,
   currentQuestionIndex,
+  totalQuestions,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
@@ -38,18 +40,11 @@ const QuizForm: React.FC<Props> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative h-40">
-        <p className="text-white text-sm mb-2">
-          Question {currentQuestionIndex + 1}
+      <div className="relative min-h-40">
+        <p className="text-white text-lg font-semibold mb-1 flex justify-center">
+          {currentQuestionIndex + 1}/{totalQuestions}
         </p>
-        <Image
-          src={imgUrl}
-          alt="question"
-          width={1200}
-          height={200}
-          unoptimized
-          loading="eager"
-        />
+        <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (
