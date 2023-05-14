@@ -41,7 +41,8 @@ const QuizForm: React.FC<Props> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
-        <p className="text-white text-lg font-semibold mb-1 flex justify-center">
+        <p className="text-white text-lg font-semibold mb-1 flex justify-center relative">
+          <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
           {currentQuestionIndex + 1}/{totalQuestions}
         </p>
         <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />

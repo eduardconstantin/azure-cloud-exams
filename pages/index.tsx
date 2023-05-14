@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-4">
         <Link
           href="/practice"
-          className="group bg-slate-700 hover:bg-gradient-to-r from-[#0284C7] to-[#2DD48F] rounded-xl p-[2px] w-[350px] h-[350px] cursor-pointer"
+          className="group bg-slate-700 hover:bg-gradient-to-r from-[#0284C7] to-[#2DD48F] rounded-xl p-[2px] w-full h-[350px] cursor-pointer"
         >
           <div className="flex flex-col h-full bg-slate-800 rounded-xl pt-[40%] px-7">
             <h2 className="text-white group-hover:bg-gradient-to-r group-hover:from-[#0284C7] group-hover:to-[#2DD48F] group-hover:text-transparent bg-clip-text uppercase text-3xl font-bold">
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
         </Link>
         <Link
           href="/exam"
-          className="group bg-slate-700 hover:bg-gradient-to-r from-[#F97316] to-[#FACC15] rounded-xl p-[2px] w-[350px] h-[350px] cursor-pointer"
+          className="group bg-slate-700 hover:bg-gradient-to-r from-[#F97316] to-[#FACC15] rounded-xl p-[2px] w-full h-[350px] cursor-pointer"
         >
           <div className="flex flex-col h-full bg-slate-800 rounded-xl pt-[40%] px-7">
             <h2 className="text-white group-hover:bg-gradient-to-r group-hover:from-[#F97316] group-hover:to-[#FACC15] group-hover:text-transparent bg-clip-text uppercase text-3xl font-bold">
