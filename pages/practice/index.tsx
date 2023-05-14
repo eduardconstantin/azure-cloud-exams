@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import QuizForm from "./QuizForm";
 import { gql, useQuery } from "@apollo/client";
+import type { NextPage } from "next";
+import QuizForm from "@azure-fundamentals/components/QuizForm";
 
 const questionQuery = gql`
   query QuestionById($id: ID!) {
@@ -22,7 +23,7 @@ const questionsQuery = gql`
   }
 `;
 
-export default function Quiz() {
+const Practice: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
   const handleNextQuestion = () => {
@@ -51,4 +52,6 @@ export default function Quiz() {
       />
     </div>
   );
-}
+};
+
+export default Practice;

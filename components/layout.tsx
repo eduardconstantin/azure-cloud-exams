@@ -1,7 +1,12 @@
-import Head from "next/head";
-import Quiz from "@azure-fundamentals/components/Quiz";
 import TopNav from "@azure-fundamentals/components/TopNav";
-export default function Home() {
+import Head from "next/head";
+import Footer from "./Footer";
+
+type LayoutProps = {
+  children: React.ReactNode;
+};
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Head>
@@ -11,7 +16,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopNav />
-       <Quiz /> 
+      <main className="flex flex-col justify-between h-[calc(100vh-2.5rem-64px)]">
+        {children}
+        <Footer />
+      </main>
     </>
   );
 }
