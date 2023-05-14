@@ -9,7 +9,7 @@ This project was created for learning purposes to help me understand Microsoft A
 the AZ-900 exam.
 
 <br />
-<img src="screenshot.png"/>
+<img src="af.gif"/>
 
 <div align="center">
 <br />
@@ -59,7 +59,8 @@ created a json file with some dummy data (the file is located in src/qdb.json).
 I welcome feedback and contributions from other developers, which can help improve the quality of the code and the
 application overall.
 
-In order to create an issue or a pull request with your changes, please read [our contribution guidelines](CONTRIBUTING.md), and thank you for being involved!
+In order to create an issue or a pull request with your changes, please read
+[our contribution guidelines](CONTRIBUTING.md), and thank you for being involved!
 
 There is also a [Discussion tab](https://github.com/eduardconstantin/azure-fundamentals/discussions)
 
