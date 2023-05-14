@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import QuizForm from "@azure-fundamentals/components/QuizForm";
@@ -25,6 +25,11 @@ const questionsQuery = gql`
 
 const Practice: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
 
   const { loading, error, data } = useQuery(questionQuery, {
     variables: { id: currentQuestionIndex },
@@ -44,6 +49,7 @@ const Practice: NextPage = () => {
   return (
     <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <QuizForm
+        windowWidth={windowWidth}
         isLoading={loading || questionsLoading}
         questionSet={data?.questionById}
         handleNextQuestion={handleNextQuestion}

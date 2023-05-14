@@ -11,6 +11,7 @@ type Props = {
   handleNextQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
+  windowWidth: number;
 };
 
 const QuizForm: React.FC<Props> = ({
@@ -19,14 +20,12 @@ const QuizForm: React.FC<Props> = ({
   handleNextQuestion,
   currentQuestionIndex,
   totalQuestions,
+  windowWidth,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, []);
+  const [lastIndex, setLastIndex] = useState<number>(0);
+  const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options } = questionSet!;
@@ -36,25 +35,56 @@ const QuizForm: React.FC<Props> = ({
 
   const onSubmit = () => {
     setShowCorrectAnswer(true);
+    setCanGoBack(true);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
-        <p className="text-white text-lg font-semibold mb-1 flex justify-center relative">
-          <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
-          {currentQuestionIndex + 1}/{totalQuestions}
-        </p>
-        <select
-          onChange={(e) => {
-            console.log(e.target.value);
-            handleNextQuestion(Number(e.target.value));
-            setShowCorrectAnswer(true);
-          }}
-        >
-          <option value={0}>1</option>
-          <option value={1}>2</option>
-        </select>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              handleNextQuestion(currentQuestionIndex - 1);
+            }}
+            disabled={!(currentQuestionIndex > 0) || !canGoBack}
+            className="group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+          </button>
+          <p className="text-white text-lg font-semibold flex justify-center relative w-[15%]">
+            <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
+            {currentQuestionIndex + 1}/{totalQuestions}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              handleNextQuestion(currentQuestionIndex + 1);
+            }}
+            disabled={!(currentQuestionIndex < lastIndex)}
+            className="group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
         <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
@@ -84,6 +114,8 @@ const QuizForm: React.FC<Props> = ({
             reset();
             setShowCorrectAnswer(false);
             handleNextQuestion(currentQuestionIndex + 1);
+            setLastIndex(currentQuestionIndex + 1);
+            setCanGoBack(false);
           }}
         >
           Next Question
