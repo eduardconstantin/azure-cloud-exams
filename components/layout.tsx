@@ -1,8 +1,11 @@
-import Head from "next/head";
-import Quiz from "@azure-fundamentals/components/Quiz";
 import TopNav from "@azure-fundamentals/components/TopNav";
+import Head from "next/head";
 
-export default function Home() {
+type LayoutProps = {
+  children: React.ReactNode;
+};
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Head>
@@ -12,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopNav />
-      <Quiz />
+      {children}
     </>
   );
 }
