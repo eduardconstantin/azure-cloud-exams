@@ -1,5 +1,6 @@
 import TopNav from "@azure-fundamentals/components/TopNav";
 import Head from "next/head";
+import Footer from "./Footer";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -15,7 +16,10 @@ export default function Layout({ children }: LayoutProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopNav />
-      {children}
+      <main className="flex flex-col justify-between h-[calc(100vh-2.5rem-64px)]">
+        {children}
+        <Footer />
+      </main>
     </>
   );
 }
