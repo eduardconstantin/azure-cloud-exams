@@ -26,17 +26,17 @@ const questionsQuery = gql`
 const Practice: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < 480) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
   const { loading, error, data } = useQuery(questionQuery, {
     variables: { id: currentQuestionIndex },
   });
 
   const { data: questionsData, loading: questionsLoading, error: questionsError } = useQuery(questionsQuery);
+
+  const handleNextQuestion = (questionNo: number) => {
+    if (questionNo < questionsData?.questions?.count) {
+      setCurrentQuestionIndex(questionNo);
+    }
+  };
 
   if (error) return <p>Oh no... {error.message}</p>;
   if (questionsError) return <p>Oh no... {questionsError.message}</p>;

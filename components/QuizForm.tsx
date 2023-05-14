@@ -8,7 +8,7 @@ import { Button } from "./Button";
 type Props = {
   isLoading: boolean;
   questionSet: Question;
-  handleNextQuestion: () => void;
+  handleNextQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
 };
@@ -45,6 +45,16 @@ const QuizForm: React.FC<Props> = ({
           <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
           {currentQuestionIndex + 1}/{totalQuestions}
         </p>
+        <select
+          onChange={(e) => {
+            console.log(e.target.value);
+            handleNextQuestion(Number(e.target.value));
+            setShowCorrectAnswer(true);
+          }}
+        >
+          <option value={0}>1</option>
+          <option value={1}>2</option>
+        </select>
         <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
@@ -73,7 +83,7 @@ const QuizForm: React.FC<Props> = ({
           onClick={() => {
             reset();
             setShowCorrectAnswer(false);
-            handleNextQuestion();
+            handleNextQuestion(currentQuestionIndex + 1);
           }}
         >
           Next Question
