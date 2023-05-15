@@ -14,12 +14,12 @@ const TopNav = () => {
     <div className="h-16 mb-10 w-full px-3 border-b-2 border-slate-700 text-white flex justify-between items-center">
       <div className="flex items-center flex-col w-1/2">
         {
-          router.pathname !== "/" ?
-            <HomeButton
-              handleReturnToMainPage={() => {
-                router.push("/");
-              }}
-            ></HomeButton> : null
+          router.pathname !== "/" &&
+          <HomeButton
+            handleReturnToMainPage={() => {
+              router.push("/");
+            }}
+          />
         }
       </div>
       <div className="flex items-center flex-col w-full">
