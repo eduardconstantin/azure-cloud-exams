@@ -29,7 +29,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
         ref={ref}
         type={type}
         disabled={isDisabled}
-        value={value}
+        value={label}
         id={id}
         className="peer hidden [&:checked_+_label_svg]:block"
         {...rest}

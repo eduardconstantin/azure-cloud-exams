@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, FieldValues } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
@@ -12,6 +12,8 @@ type Props = {
   currentQuestionIndex: number;
   totalQuestions: number;
   windowWidth: number;
+  savedAnswers: (string | string[])[];
+  setSavedAnswers: (answers: (string | string[])[]) => void;
 };
 
 const QuizForm: React.FC<Props> = ({
@@ -21,6 +23,8 @@ const QuizForm: React.FC<Props> = ({
   currentQuestionIndex,
   totalQuestions,
   windowWidth,
+  savedAnswers,
+  setSavedAnswers,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
@@ -33,9 +37,25 @@ const QuizForm: React.FC<Props> = ({
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
 
-  const onSubmit = () => {
+  const onSubmit = (data: FieldValues) => {
+    data.options !== null && data.options !== false
+      ? setSavedAnswers([...savedAnswers, data.options])
+      : setSavedAnswers([...savedAnswers, ""]);
     setShowCorrectAnswer(true);
     setCanGoBack(true);
+  };
+
+  const isOptionChecked = (optionText: string): boolean | undefined => {
+    if (!showCorrectAnswer) {
+      return undefined;
+    }
+
+    const savedAnswer = savedAnswers[currentQuestionIndex];
+    if (typeof savedAnswer === "string") {
+      return optionText === savedAnswer;
+    }
+
+    return savedAnswer.includes(optionText);
   };
 
   return (
@@ -98,24 +118,27 @@ const QuizForm: React.FC<Props> = ({
               isAnswer={option.isAnswer}
               showCorrectAnswer={showCorrectAnswer}
               isDisabled={showCorrectAnswer}
+              checked={isOptionChecked(option.text)}
             />
           </li>
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row">
-        <Button type="submit" intent="secondary" size="medium">
+        <Button type="submit" intent="secondary" size="medium" disabled={showCorrectAnswer}>
           Reveal Answer
         </Button>
         <Button
           type="button"
           intent="primary"
           size="medium"
+          disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
             reset();
             setShowCorrectAnswer(false);
             handleNextQuestion(currentQuestionIndex + 1);
             setLastIndex(currentQuestionIndex + 1);
             setCanGoBack(false);
+            if (!showCorrectAnswer) setSavedAnswers([...savedAnswers, ""]);
           }}
         >
           Next Question

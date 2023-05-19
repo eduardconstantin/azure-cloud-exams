@@ -26,6 +26,7 @@ const questionsQuery = gql`
 const Practice: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [savedAnswers, setSavedAnswers] = useState<(string | string[])[]>([]);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -55,6 +56,8 @@ const Practice: NextPage = () => {
         handleNextQuestion={handleNextQuestion}
         totalQuestions={questionsData?.questions?.count}
         currentQuestionIndex={currentQuestionIndex}
+        savedAnswers={savedAnswers}
+        setSavedAnswers={setSavedAnswers}
       />
     </div>
   );
