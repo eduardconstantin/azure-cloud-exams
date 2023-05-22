@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, FieldValues } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
@@ -8,9 +8,12 @@ import { Button } from "./Button";
 type Props = {
   isLoading: boolean;
   questionSet: Question;
-  handleNextQuestion: () => void;
+  handleNextQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
+  windowWidth: number;
+  savedAnswers: (string | string[])[];
+  setSavedAnswers: (answers: (string | string[])[]) => void;
 };
 
 const QuizForm: React.FC<Props> = ({
@@ -19,14 +22,14 @@ const QuizForm: React.FC<Props> = ({
   handleNextQuestion,
   currentQuestionIndex,
   totalQuestions,
+  windowWidth,
+  savedAnswers,
+  setSavedAnswers,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, []);
+  const [lastIndex, setLastIndex] = useState<number>(0);
+  const [canGoBack, setCanGoBack] = useState<boolean>(false);
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options } = questionSet!;
@@ -34,17 +37,74 @@ const QuizForm: React.FC<Props> = ({
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
 
-  const onSubmit = () => {
+  const onSubmit = (data: FieldValues) => {
+    data.options !== null && data.options !== false
+      ? setSavedAnswers([...savedAnswers, data.options])
+      : setSavedAnswers([...savedAnswers, ""]);
     setShowCorrectAnswer(true);
+    setCanGoBack(true);
+  };
+
+  const isOptionChecked = (optionText: string): boolean | undefined => {
+    if (!showCorrectAnswer) {
+      return undefined;
+    }
+
+    const savedAnswer = savedAnswers[currentQuestionIndex];
+    if (typeof savedAnswer === "string") {
+      return optionText === savedAnswer;
+    }
+
+    return savedAnswer.includes(optionText);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
-        <p className="text-white text-lg font-semibold mb-1 flex justify-center relative">
-          <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
-          {currentQuestionIndex + 1}/{totalQuestions}
-        </p>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              handleNextQuestion(currentQuestionIndex - 1);
+            }}
+            disabled={!(currentQuestionIndex > 0) || !canGoBack}
+            className="group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+          </button>
+          <p className="text-white text-lg font-semibold flex justify-center relative w-[15%]">
+            <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
+            {currentQuestionIndex + 1}/{totalQuestions}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              handleNextQuestion(currentQuestionIndex + 1);
+            }}
+            disabled={!(currentQuestionIndex < lastIndex)}
+            className="group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
         <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
@@ -58,22 +118,27 @@ const QuizForm: React.FC<Props> = ({
               isAnswer={option.isAnswer}
               showCorrectAnswer={showCorrectAnswer}
               isDisabled={showCorrectAnswer}
+              checked={isOptionChecked(option.text)}
             />
           </li>
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row">
-        <Button type="submit" intent="secondary" size="medium">
+        <Button type="submit" intent="secondary" size="medium" disabled={showCorrectAnswer}>
           Reveal Answer
         </Button>
         <Button
           type="button"
           intent="primary"
           size="medium"
+          disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
             reset();
             setShowCorrectAnswer(false);
-            handleNextQuestion();
+            handleNextQuestion(currentQuestionIndex + 1);
+            setLastIndex(currentQuestionIndex + 1);
+            setCanGoBack(false);
+            if (!showCorrectAnswer) setSavedAnswers([...savedAnswers, ""]);
           }}
         >
           Next Question
