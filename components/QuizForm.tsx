@@ -47,15 +47,15 @@ const QuizForm: React.FC<Props> = ({
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     if (!showCorrectAnswer) {
-      return undefined;
+      return;
     }
 
     const savedAnswer = savedAnswers[currentQuestionIndex];
     if (typeof savedAnswer === "string") {
       return optionText === savedAnswer;
+    } else {
+      return savedAnswer.includes(optionText);
     }
-
-    return savedAnswer.includes(optionText);
   };
 
   return (
@@ -105,7 +105,7 @@ const QuizForm: React.FC<Props> = ({
             </svg>
           </button>
         </div>
-        <Image src={imgUrl} alt="question" width={1200} height={200} unoptimized loading="eager" />
+        <Image src={imgUrl} alt="question" width={1200} height={200} priority={true} unoptimized loading="eager" />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (
