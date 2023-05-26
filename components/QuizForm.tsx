@@ -22,7 +22,7 @@ const QuizForm: React.FC<Props> = ({
   totalQuestions,
   windowWidth,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(0);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
@@ -126,8 +126,14 @@ const QuizForm: React.FC<Props> = ({
           disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
             setShowCorrectAnswer(false);
-            handleNextQuestion(currentQuestionIndex + 1);
-            setLastIndex(currentQuestionIndex + 1);
+            if (currentQuestionIndex + 1 === totalQuestions) {
+              handleNextQuestion(0);
+              setLastIndex(0);
+              reset();
+            } else {
+              handleNextQuestion(currentQuestionIndex + 1);
+              setLastIndex(currentQuestionIndex + 1);
+            }
             setCanGoBack(false);
           }}
         >
