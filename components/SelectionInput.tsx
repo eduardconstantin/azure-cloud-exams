@@ -6,7 +6,8 @@ type Props = {
   label?: string;
   isAnswer: boolean;
   showCorrectAnswer?: boolean;
-  isDisabled?: boolean;
+  disabled?: boolean;
+  checked?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInput(
@@ -17,8 +18,9 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
     label = "Input Label",
     value,
     isAnswer = false,
-    showCorrectAnswer = false,
-    isDisabled = false,
+    showCorrectAnswer,
+    disabled = false,
+    checked,
     ...rest
   },
   ref
@@ -28,10 +30,11 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(function SelectionInp
       <input
         ref={ref}
         type={type}
-        disabled={isDisabled}
+        disabled={disabled}
         value={label}
         id={id}
         className="peer hidden [&:checked_+_label_svg]:block"
+        checked={checked}
         {...rest}
       />
       <label

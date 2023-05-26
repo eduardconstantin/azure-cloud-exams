@@ -12,8 +12,6 @@ type Props = {
   currentQuestionIndex: number;
   totalQuestions: number;
   windowWidth: number;
-  savedAnswers: (string | string[])[];
-  setSavedAnswers: (answers: (string | string[])[]) => void;
 };
 
 const QuizForm: React.FC<Props> = ({
@@ -23,24 +21,15 @@ const QuizForm: React.FC<Props> = ({
   currentQuestionIndex,
   totalQuestions,
   windowWidth,
-  savedAnswers,
-  setSavedAnswers,
 }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(0);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
-
-  if (isLoading) return <p>Loading...</p>;
-  const { question, options } = questionSet!;
-  const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
-
-  const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
+  const [savedAnswers, setSavedAnswers] = useState<{ [key: number]: string | string[] }>({});
 
   const onSubmit = (data: FieldValues) => {
-    data.options !== null && data.options !== false
-      ? setSavedAnswers([...savedAnswers, data.options])
-      : setSavedAnswers([...savedAnswers, ""]);
+    setSavedAnswers((prev) => ({ ...prev, ...data.options }));
     setShowCorrectAnswer(true);
     setCanGoBack(true);
   };
@@ -51,13 +40,16 @@ const QuizForm: React.FC<Props> = ({
     }
 
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    if (typeof savedAnswer === "string") {
-      return optionText === savedAnswer;
-    } else {
-      return savedAnswer.includes(optionText);
-    }
+    return typeof savedAnswer === "string" || !savedAnswer
+      ? savedAnswer === optionText
+      : savedAnswer.includes(optionText);
   };
 
+  if (isLoading) return <p>Loading...</p>;
+  const { question, options } = questionSet!;
+  const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
+
+  const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
@@ -111,13 +103,13 @@ const QuizForm: React.FC<Props> = ({
         {options.map((option, index) => (
           <li key={index}>
             <SelectionInput
-              {...register("options")}
+              {...register("options." + currentQuestionIndex)}
               index={index}
               type={noOfAnswers > 1 ? "checkbox" : "radio"}
               label={option.text}
               isAnswer={option.isAnswer}
               showCorrectAnswer={showCorrectAnswer}
-              isDisabled={showCorrectAnswer}
+              disabled={showCorrectAnswer}
               checked={isOptionChecked(option.text)}
             />
           </li>
@@ -133,12 +125,10 @@ const QuizForm: React.FC<Props> = ({
           size="medium"
           disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
-            reset();
             setShowCorrectAnswer(false);
             handleNextQuestion(currentQuestionIndex + 1);
             setLastIndex(currentQuestionIndex + 1);
             setCanGoBack(false);
-            if (!showCorrectAnswer) setSavedAnswers([...savedAnswers, ""]);
           }}
         >
           Next Question
