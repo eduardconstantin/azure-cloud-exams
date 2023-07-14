@@ -3,7 +3,7 @@ import ExamLink from "@azure-fundamentals/components/ExamLink";
 
 const Home: NextPage = () => {
   return (
-    <div className="mx-auto w-5/6 sm:w-2/5 text-center">
+    <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/5 text-center">
       <h2 className="text-white text-5xl text-leading font-bold uppercase mt-14">Welcome!</h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
         Test your knowledge under pressure with our timed exam mode, or explore and master over 480 questions at your
