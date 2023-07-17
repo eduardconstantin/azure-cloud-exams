@@ -35,7 +35,7 @@ export const QuestionsDataSource = (container: Container) => {
   };
 };
 
-export const LocalQuestionsDataSource = (container: any) => {
+export const RepoQuestionsDataSource = (container: any) => {
   return {
     async getQuestion(id: string) {
       try {

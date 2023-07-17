@@ -8,6 +8,10 @@ stored in a Cosmos DB database and retrieved using GraphQL queries. The applicat
 This project was created for learning purposes to help me understand Microsoft Azure and Cosmos DB in preparation for
 the AZ-900 exam.
 
+The project is now using the
+[repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers) as a
+database, replacing Cosmos DB.
+
 <br />
 <img src="af.gif"/>
 
