@@ -33,8 +33,14 @@ jobs:
           app_build_command: "npm run build"
           api_build_command: "rm -rf ./node_modules/@next/swc-* && rm -rf ./.next/cache"
           ###### End of Repository/Build Configurations ######
-        env:
-          NEXT_PUBLIC_GA_TRACKING_ID: ${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}
+          app-settings-json: |
+            [
+              {
+                "name": "NEXT_PUBLIC_GA_TRACKING_ID",
+                "value": "${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}",
+                "slotSetting": false
+              }
+            ]
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
