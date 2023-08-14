@@ -33,11 +33,10 @@ const useTimer = (initialTime: Time): TimerHook => {
 
     if (isRunning && remainingTime > 0) {
       timer = setInterval(() => {
-        setRemainingTime((prevTime) => prevTime - 1000);
+        setRemainingTime((prevTime) => Math.max(0, prevTime - 1000));
       }, 1000);
-    } else if (remainingTime <= 0) {
+    } else if (remainingTime <= 0 && isRunning) {
       setIsRunning(false);
-      setRemainingTime(0);
     }
 
     return () => {
