@@ -51,5 +51,13 @@ export const RepoQuestionsDataSource = (container: any) => {
         throw new Error("Error: " + err);
       }
     },
+    async getRandomQuestions() {
+      try {
+        const shuffled = [...container].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 50);
+      } catch (err) {
+        throw new Error("Error: " + err);
+      }
+    },
   };
 };
