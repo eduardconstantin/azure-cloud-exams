@@ -41,22 +41,22 @@ export const RepoQuestionsDataSource = (container: any) => {
       try {
         return container.filter((el: any) => el.id === id)[0];
       } catch (err) {
-        throw new Error("Error: " + err);
+        throw new Error("Question Error: " + err);
       }
     },
     async getQuestions() {
       try {
         return { count: container.length };
       } catch (err) {
-        throw new Error("Error: " + err);
+        throw new Error("Questions Count Error: " + err);
       }
     },
-    async getRandomQuestions() {
+    async getRandomQuestions(range: number) {
       try {
         const shuffled = [...container].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 50);
+        return shuffled.slice(0, range);
       } catch (err) {
-        throw new Error("Error: " + err);
+        throw new Error("Random Questions Error: " + err);
       }
     },
   };
