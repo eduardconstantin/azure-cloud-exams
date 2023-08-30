@@ -16,6 +16,7 @@ const typeDefs = gql`
   type Query {
     questions: Questions
     questionById(id: ID!): Question
+    randomQuestions(range: Int!): [Question]
   }
 `;
 
