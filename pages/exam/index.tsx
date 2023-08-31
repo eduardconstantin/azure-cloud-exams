@@ -1,9 +1,29 @@
 import type { NextPage } from "next";
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import useTimer from "@azure-fundamentals/hooks/useTimer";
 
+const questionsQuery = gql`
+  query RandomQuestions($range: Int!) {
+    randomQuestions(range: $range) {
+      question
+      options {
+        isAnswer
+        text
+      }
+    }
+  }
+`;
+
 const Exam: NextPage = () => {
   const { remainingTime, startTimer, stopTimer } = useTimer({ minutes: 10, seconds: 0 });
+  const { data, loading, error } = useQuery(questionsQuery, {
+    variables: { range: 35 },
+  });
+  console.log(data);
+
+  if (loading) return <p>Loading</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
       <Head>
