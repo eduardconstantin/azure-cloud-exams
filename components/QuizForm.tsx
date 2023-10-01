@@ -73,10 +73,23 @@ const QuizForm: React.FC<Props> = ({
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
           </button>
-          <p className="text-white text-lg font-semibold flex justify-center relative w-[15%]">
-            <span className="absolute text-white opacity-10 font-bold text-4xl bottom-0">Q&A</span>
-            {currentQuestionIndex + 1}/{totalQuestions}
-          </p>
+          <div className="flex justify-center relative w-[15%] z-[1]">
+            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">Q&A</span>
+            <input
+              className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+              type="number"
+              min={0}
+              max={totalQuestions}
+              defaultValue={currentQuestionIndex}
+              value={currentQuestionIndex}
+              onChange={(e) => {
+                handleNextQuestion(Number(e.target.value));
+              }}
+            />
+            <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
+              {totalQuestions}
+            </p>
+          </div>
           <button
             type="button"
             onClick={() => {
