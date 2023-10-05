@@ -64,7 +64,7 @@ const Exam: NextPage = () => {
 
   if (error) return <p>Oh no... {error.message}</p>;
 
-  const numberOfQuestions = 30;
+  const numberOfQuestions = data?.randomQuestions.length - 1 || 0;
 
   const handleNextQuestion = (questionNo: number) => {
     if (questionNo > numberOfQuestions) {
