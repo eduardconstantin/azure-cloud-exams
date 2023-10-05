@@ -7,9 +7,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import ExamQuizForm from "@azure-fundamentals/components/ExamQuizForm";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
 
-const questionQuery = gql`
-  query QuestionById($id: ID!) {
-    questionById(id: $id) {
+const questionsQuery = gql`
+  query RandomQuestions($range: Int!) {
+    randomQuestions(range: $range) {
       question
       options {
         isAnswer
@@ -34,14 +34,17 @@ const Exam: NextPage = () => {
     seconds: 0,
   });
 
-  const { loading, error, data } = useQuery(questionQuery, {
-    variables: { id: currentQuestionIndex },
+  const { loading, error, data } = useQuery(questionsQuery, {
+    variables: { range: 31 },
   });
 
   const checkPassed = useCallback(() => {
     const numberOfCorrectAnswers =
       Object.values(answers).filter(Boolean).length;
-    const percent = (numberOfCorrectAnswers / numberOfQuestions) * 100;
+    const percent = Math.floor(
+      (numberOfCorrectAnswers / numberOfQuestions) * 100
+    );
+
     setPoints(percent);
     stopTimer();
 
@@ -157,7 +160,7 @@ const Exam: NextPage = () => {
         {status === "playing" && (
           <ExamQuizForm
             isLoading={loading}
-            questionSet={data?.questionById}
+            questionSet={data.randomQuestions[currentQuestionIndex]}
             handleNextQuestion={handleNextQuestion}
             totalQuestions={numberOfQuestions}
             currentQuestionIndex={currentQuestionIndex}
