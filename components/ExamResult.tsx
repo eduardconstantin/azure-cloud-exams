@@ -44,7 +44,7 @@ const ExamResult: React.FC<Props> = ({
           </p>
         </div>
       </div>
-      <p className="text-white text-lg">{render}</p>
+      <p className="text-white text-lg mb-12">{render}</p>
       <Button
         type="button"
         intent="primary"
