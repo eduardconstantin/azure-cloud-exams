@@ -15,15 +15,7 @@ const ExamResult: React.FC<Props> = ({
   handleRetakeExam,
 }) => {
   return (
-    <div className="w-[900px] max-h-screen mx-auto bg-[#1E293B] rounded-md border-[2px] border-[#334155] solid">
-    <div className="text-white flex justify-around items-center mt-[51px]">
-      <div className="">30/30</div>
-      <div className="text-center text-white text-4xl font-roboto font-semibold leading-[49.50px] break-words">
-        PRACTICE EXAM
-      </div>
-
-      <div>6:00</div>
-    </div>
+    <div className="w-[900px] max-h-screen mx-auto">
     <div className="mt-16 grid place-items-center gap-8">
       {status === "success" ? (
         <h2 className="text-4xl font-semibold text-center text-green-500">
@@ -53,7 +45,7 @@ const ExamResult: React.FC<Props> = ({
           </p>
         </div>
       </div>
-      <p className="text-white text-lg mx-auto w-[490px] h-[74px]">{render}</p>
+      <p className="text-white text-lg mx-auto w-[490px] text-center">{render}</p>
       
       <div className="pb-[30px]">
         <Button
