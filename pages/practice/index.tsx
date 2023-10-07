@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
+import Head from "next/head";
 import QuizForm from "@azure-fundamentals/components/QuizForm";
 
 const questionQuery = gql`
@@ -48,6 +49,10 @@ const Practice: NextPage = () => {
 
   return (
     <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
+      <Head>
+        <title>Azure Fundamentals - Practice</title>
+        <meta property="og:title" content="Azure Fundamentals - Practice" key="title" />
+      </Head>
       <QuizForm
         windowWidth={windowWidth}
         isLoading={loading || questionsLoading}
