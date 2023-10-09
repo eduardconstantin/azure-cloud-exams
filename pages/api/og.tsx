@@ -13,14 +13,20 @@ export default function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center">
-          <p tw={`px-8 ${width < 640 ? "text-3xl" : "text-2xl"} font-sans text-stone-300`}>{question}</p>
+        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center mt-20">
+          <p
+            tw={`px-8 ${
+              width < 640 ? "text-4xl" : "text-5xl"
+            } font-sans text-stone-300`}
+          >
+            {question}
+          </p>
         </div>
       ),
       {
         width: width < 640 ? 800 : 1200,
         height: width < 640 ? 450 : 200,
-      }
+      },
     );
   } catch (e: any) {
     console.log(`${e.message}`);
