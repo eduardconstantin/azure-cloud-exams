@@ -14,7 +14,7 @@ export default function handler(req: NextRequest) {
     return new ImageResponse(
       (
         <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center">
-          <p tw={`px-8 ${width < 640 ? "text-3xl" : "text-xl"} font-sans text-stone-300`}>{question}</p>
+          <p tw={`px-8 ${width < 640 ? "text-4xl" : "text-4xl"} md:text-6xl font-sans text-stone-300`}>{question}</p>
         </div>
       ),
       {

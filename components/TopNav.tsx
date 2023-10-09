@@ -11,7 +11,7 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="h-16 mb-10 w-full px-3 border-b-2 border-slate-700 text-white flex justify-between items-center">
+    <div className="backdrop-blur fixed top-0 h-16  w-full px-3 border-b-[1px] border-cyan-500 text-white flex justify-between items-center">
       <div className="flex items-center flex-col w-1/2">
         {
           router.pathname !== "/" &&
@@ -23,7 +23,7 @@ const TopNav = () => {
         }
       </div>
       <div className="flex items-center flex-col w-full">
-        <p className="font-bold text-4xl leading-7">AZURE</p>
+        <p className="font-bold text-4xl leading-7 cursor-pointer">AZURE</p>
         <p className="text-base">FUNDAMENTALS</p>
       </div>
       <div className="flex items-center flex-col pt-1 w-1/2">

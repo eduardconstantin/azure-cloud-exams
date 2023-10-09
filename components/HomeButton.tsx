@@ -8,7 +8,7 @@ const HomeButton: React.FC<Props> = ({
     handleReturnToMainPage
 }) => {
     return (
-        <button className='flex cursor-pointer items-center rounded-lg px-2 py-2 pl-5 pr-5 text-xs sm:text-sm font-medium shadow-sm hover:border border-gray-500 border-gray-600 bg-gray-600/25 peer-checked:border border-gray-400 peer-checked:bg-gray-500/50 peer-checked:hover:border border-gray-300'
+        <button className='flex  cursor-pointer items-center rounded-lg px-2 py-2 pl-5 pr-5 text-xs sm:text-sm font-medium shadow-sm hover:border border-gray-500 border-gray-600 bg-gray-600/25 peer-checked:border border-gray-400 peer-checked:bg-gray-500/50 peer-checked:hover:border border-gray-300'
             onClick={() => {
                 handleReturnToMainPage();
             }}>
