@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GitHubButton from "react-github-btn";
 import HomeButton from "./HomeButton";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const TopNav = () => {
   const router = useRouter();
@@ -11,16 +11,15 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="h-16 mb-10 w-full px-3 border-b-2 border-slate-700 text-white flex justify-between items-center">
+    <div className="h-16 mb-10 w-full px-3 border-b-[1px] border-slate-700 text-white flex justify-between items-center">
       <div className="flex items-center flex-col w-1/2">
-        {
-          router.pathname !== "/" &&
+        {router.pathname !== "/" && (
           <HomeButton
             handleReturnToMainPage={() => {
               router.push("/");
             }}
           />
-        }
+        )}
       </div>
       <div className="flex items-center flex-col w-full">
         <p className="font-bold text-4xl leading-7">AZURE</p>
