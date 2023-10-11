@@ -30,7 +30,7 @@ const Exam: NextPage = () => {
   }>({});
 
   const { remainingTime, startTimer, stopTimer, resetTimer } = useTimer({
-    minutes: 0,
+    minutes: 3,
     seconds: 0,
   });
 
@@ -104,13 +104,17 @@ const Exam: NextPage = () => {
           key="title"
         />
       </Head>
-      <div className="">
-        <div className="px-10 w-full flex flex-col xl:flex-row justify-between items-center">
-          <p className="text-white font-bold text-2xl">
+      <div>
+        <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
+          <p className="text-white font-bold text-sm sm:text-2xl">
             {currentQuestionIndex}/{numberOfQuestions}
           </p>
-          <h1 className="text-white font-bold text-3xl">PRACTICE EXAM</h1>
-          <p className="text-white font-bold text-2xl">{remainingTime}</p>
+          <h1 className="text-white font-bold text-lg sm:text-3xl">
+            PRACTICE EXAM
+          </h1>
+          <p className="text-white font-bold text-sm sm:text-2xl">
+            {remainingTime}
+          </p>
         </div>
         {status === "waiting" && (
           <>
@@ -185,7 +189,7 @@ const Exam: NextPage = () => {
             status={"failed"}
             render={
               <>
-                You didn’t pass the exam, you need to score above 75 to pass,
+                You didn't pass the exam, you need to score above 75 to pass,
                 keep learning and try again.
               </>
             }
