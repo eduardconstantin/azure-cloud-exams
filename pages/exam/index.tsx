@@ -42,7 +42,7 @@ const Exam: NextPage = () => {
     const numberOfCorrectAnswers =
       Object.values(answers).filter(Boolean).length;
     const percent = Math.floor(
-      (numberOfCorrectAnswers / numberOfQuestions) * 100
+      (numberOfCorrectAnswers / numberOfQuestions) * 100,
     );
 
     setPoints(percent);
@@ -95,7 +95,7 @@ const Exam: NextPage = () => {
   };
 
   return (
-    <div className="h-screen w-full grid place-items-center">
+    <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <Head>
         <title>Azure Fundamentals - Exam</title>
         <meta
@@ -104,13 +104,17 @@ const Exam: NextPage = () => {
           key="title"
         />
       </Head>
-      <div className="py-10 px-5 sm:p-10 w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
-        <div className="w-full flex flex-col xl:flex-row justify-between items-center">
-          <p className="text-white font-bold text-2xl">
+      <div>
+        <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
+          <p className="text-white font-bold text-sm sm:text-2xl">
             {currentQuestionIndex}/{numberOfQuestions}
           </p>
-          <h1 className="text-white font-bold text-3xl">PRACTICE EXAM</h1>
-          <p className="text-white font-bold text-2xl">{remainingTime}</p>
+          <h1 className="text-white font-bold text-lg sm:text-3xl">
+            PRACTICE EXAM
+          </h1>
+          <p className="text-white font-bold text-sm sm:text-2xl">
+            {remainingTime}
+          </p>
         </div>
         {status === "waiting" && (
           <>
@@ -185,7 +189,7 @@ const Exam: NextPage = () => {
             status={"failed"}
             render={
               <>
-                You didn’t pass the exam, you need to score above 75 to pass,
+                You didn't pass the exam, you need to score above 75 to pass,
                 keep learning and try again.
               </>
             }
