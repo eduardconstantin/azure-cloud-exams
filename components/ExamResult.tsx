@@ -17,11 +17,11 @@ const ExamResult: React.FC<Props> = ({
   return (
     <div className="mt-16 grid place-items-center gap-8">
       {status === "success" ? (
-        <h2 className="text-4xl font-semibold text-center text-green-500">
+        <h2 className="text-4xl font-semibold text-center text-green-500 mt-5">
           EXAM PASSED
         </h2>
       ) : (
-        <h2 className="text-4xl font-semibold text-center text-red-500">
+        <h2 className="text-4xl font-semibold text-center text-red-500 mt-5">
           EXAM FAILED
         </h2>
       )}
@@ -44,7 +44,9 @@ const ExamResult: React.FC<Props> = ({
           </p>
         </div>
       </div>
-<p className="text-white text-lg mx-auto w-[490px] text-center">{render}</p>
+      <p className="text-white text-lg mx-auto w-[490px] text-center mt-5 mb-20">
+        {render}
+      </p>
       <Button
         type="button"
         intent="primary"
