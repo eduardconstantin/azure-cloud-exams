@@ -11,7 +11,7 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="backdrop-blur fixed top-0 h-16  w-full px-3 border-b-[1px] border-cyan-500 text-white flex justify-between items-center">
+    <div className="backdrop-blur fixed top-0 h-16  w-full px-3 border-b-[1px] z-10 border-gray-800 text-white flex justify-between items-center">
       <div className="flex items-center flex-col w-1/2">
         {router.pathname !== "/" && (
           <HomeButton

@@ -26,7 +26,9 @@ const QuizForm: React.FC<Props> = ({
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(0);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
-  const [savedAnswers, setSavedAnswers] = useState<{ [key: number]: string | string[] }>({});
+  const [savedAnswers, setSavedAnswers] = useState<{
+    [key: number]: string | string[];
+  }>({});
 
   const onSubmit = (data: FieldValues) => {
     setSavedAnswers((prev) => ({ ...prev, ...data.options }));
@@ -53,7 +55,7 @@ const QuizForm: React.FC<Props> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-[-10px] mb-[-30px]">
           <button
             type="button"
             onClick={() => {
@@ -70,11 +72,17 @@ const QuizForm: React.FC<Props> = ({
               stroke="currentColor"
               className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
             </svg>
           </button>
           <div className="flex justify-center relative w-[15%] z-[1]">
-            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">Q&A</span>
+            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
+              Q&A
+            </span>
             <input
               className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
               type="number"
@@ -106,11 +114,23 @@ const QuizForm: React.FC<Props> = ({
               stroke="currentColor"
               className="w-6 h-6 text-slate-300 group-disabled:text-transparent"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
             </svg>
           </button>
         </div>
-        <Image src={imgUrl} alt="question" width={1200} height={200} priority={true} unoptimized loading="eager" />
+        <Image
+          src={imgUrl}
+          alt="question"
+          width={1200}
+          height={200}
+          priority={true}
+          unoptimized
+          loading="eager"
+        />
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (
@@ -129,7 +149,12 @@ const QuizForm: React.FC<Props> = ({
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row">
-        <Button type="submit" intent="secondary" size="medium" disabled={showCorrectAnswer}>
+        <Button
+          type="submit"
+          intent="secondary"
+          size="medium"
+          disabled={showCorrectAnswer}
+        >
           Reveal Answer
         </Button>
         <Button
