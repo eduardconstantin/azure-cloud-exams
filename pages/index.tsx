@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         Test your knowledge under pressure with our timed exam mode, or explore
         and master over 480 questions at your own pace with our practice mode.
       </p>
-      <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-10 m-16">
+      <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-10 sm:mx-16">
         <ExamLink
           href="/practice"
           heading="Practice mode"
