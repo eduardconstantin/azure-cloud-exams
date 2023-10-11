@@ -4,7 +4,7 @@ import ExamLink from "@azure-fundamentals/components/ExamLink";
 
 const Home: NextPage = () => {
   return (
-    <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center border-[1px] border-slate-500 mt-20 rounded-lg">
+    <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center  ">
       <Head>
         <title>Azure Fundamentals</title>
         <meta property="og:title" content="Azure Fundamentals" key="title" />
