@@ -13,7 +13,7 @@ export default function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center mt-20 ">
+        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center ">
           <p
             tw={`px-8 ${
               width < 640 ? "text-5xl" : "text-3xl"
