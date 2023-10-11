@@ -55,7 +55,7 @@ const QuizForm: React.FC<Props> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
-        <div className="flex justify-center mt-[-10px] mb-[-30px]">
+        <div className="flex justify-center ">
           <button
             type="button"
             onClick={() => {
