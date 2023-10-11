@@ -1,19 +1,18 @@
-import { ImageResponse } from "@vercel/og";
-import { NextRequest } from "next/server";
+import { ImageResponse, NextRequest } from "next/server";
 
 export const config = {
   runtime: "edge",
 };
 
-export default function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = req.nextUrl;
     const question = searchParams.get("question") ?? "My default title";
-    const width = Number(searchParams.get("width")) ?? 0;
+    const width = parseInt(searchParams.get("width") ?? "0");
 
     return new ImageResponse(
       (
-        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center ">
+        <div tw="flex text-center w-full h-full bg-slate-800 items-center justify-center">
           <p
             tw={`px-8 ${
               width < 640 ? "text-3xl" : "text-2xl"
