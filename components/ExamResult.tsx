@@ -15,23 +15,23 @@ const ExamResult: React.FC<Props> = ({
   handleRetakeExam,
 }) => {
   return (
-    <div className="mt-16 grid place-items-center gap-8">
+    <div className="mt-16 flex flex-col place-items-center gap-8">
       {status === "success" ? (
-        <h2 className="text-4xl font-semibold text-center text-green-500">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-center text-green-500 sm:mt-5">
           EXAM PASSED
         </h2>
       ) : (
-        <h2 className="text-4xl font-semibold text-center text-red-500">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-center text-red-500 sm:mt-5">
           EXAM FAILED
         </h2>
       )}
 
       <div className="flex justify-center relative z-[1]">
-        <span className="text-white opacity-10 font-bold text-8xl sm:text-6xl md:text-8xl lg:text-9xl -z-[1] select-none">
+        <span className="text-white opacity-10 font-bold text-7xl sm:text-6xl md:text-8xl lg:text-9xl -z-[1] select-none">
           POINTS
         </span>
 
-        <div className="absolute text-white text-6xl font-semibold text-center grid place-items-center top-0 bottom-0">
+        <div className="absolute text-white text-4xl sm:text-6xl font-semibold text-center grid place-items-center top-0 bottom-0">
           <p>
             <span
               className={
@@ -44,7 +44,9 @@ const ExamResult: React.FC<Props> = ({
           </p>
         </div>
       </div>
-<p className="text-white text-lg mx-auto w-[490px] text-center">{render}</p>
+      <p className="text-white text-sm sm:text-lg mx-auto sm:w-[490px] text-center mt-5 mb-10 sm:mb-20">
+        {render}
+      </p>
       <Button
         type="button"
         intent="primary"
