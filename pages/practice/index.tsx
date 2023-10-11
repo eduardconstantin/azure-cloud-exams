@@ -52,7 +52,7 @@ const Practice: NextPage = () => {
   if (questionsError) return <p>Oh no... {questionsError.message}</p>;
 
   return (
-    <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg mt-20">
+    <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <Head>
         <title>Azure Fundamentals - Practice</title>
         <meta
