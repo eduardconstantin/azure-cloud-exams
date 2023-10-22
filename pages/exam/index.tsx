@@ -35,7 +35,7 @@ const Exam: NextPage = () => {
   });
 
   const { loading, error, data } = useQuery(questionsQuery, {
-    variables: { range: 31 },
+    variables: { range: 30 },
   });
 
   const checkPassed = useCallback(() => {
@@ -64,7 +64,7 @@ const Exam: NextPage = () => {
 
   if (error) return <p>Oh no... {error.message}</p>;
 
-  const numberOfQuestions = data?.randomQuestions.length - 1 || 0;
+  const numberOfQuestions = data?.randomQuestions.length || 0;
 
   const handleNextQuestion = (questionNo: number) => {
     if (questionNo > numberOfQuestions) {
@@ -87,7 +87,7 @@ const Exam: NextPage = () => {
   };
 
   const handleRetakeExam = () => {
-    handleNextQuestion(0);
+    handleNextQuestion(1);
     resetTimer();
     startTimer();
     setStatus("playing");
@@ -154,6 +154,7 @@ const Exam: NextPage = () => {
                 onClick={() => {
                   startTimer();
                   setStatus("playing");
+                  setCurrentQuestionIndex(1);
                 }}
               >
                 Begin exam
@@ -164,7 +165,7 @@ const Exam: NextPage = () => {
         {status === "playing" && (
           <ExamQuizForm
             isLoading={loading}
-            questionSet={data.randomQuestions[currentQuestionIndex]}
+            questionSet={data.randomQuestions[currentQuestionIndex - 1]}
             handleNextQuestion={handleNextQuestion}
             totalQuestions={numberOfQuestions}
             currentQuestionIndex={currentQuestionIndex}

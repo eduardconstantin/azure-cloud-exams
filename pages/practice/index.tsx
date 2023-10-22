@@ -25,7 +25,7 @@ const questionsQuery = gql`
 `;
 
 const Practice: NextPage = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Practice: NextPage = () => {
   }, []);
 
   const { loading, error, data } = useQuery(questionQuery, {
-    variables: { id: currentQuestionIndex },
+    variables: { id: currentQuestionIndex - 1 },
   });
 
   const {
@@ -43,7 +43,7 @@ const Practice: NextPage = () => {
   } = useQuery(questionsQuery);
 
   const handleNextQuestion = (questionNo: number) => {
-    if (questionNo < questionsData?.questions?.count) {
+    if (questionNo > 0 && questionNo - 1 < questionsData?.questions?.count) {
       setCurrentQuestionIndex(questionNo);
     }
   };
