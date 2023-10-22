@@ -96,6 +96,12 @@ const Exam: NextPage = () => {
   const handleSkipQuestion = (questionNo: number) => {
     skippedQuestions.enqueue(questionNo);
 
+    // Unset any selected answer
+    setAnswers(prevState => {
+      if (prevState[questionNo]) delete prevState[questionNo];
+      return prevState;
+    });
+
     handleNextQuestion(questionNo + 1);
   };
 

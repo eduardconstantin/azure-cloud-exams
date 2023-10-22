@@ -66,7 +66,9 @@ const ExamQuizForm: React.FC<Props> = ({
         type="button" 
         intent="primary" 
         size="medium"
-        onClick={() => handleSkipQuestion(currentQuestionIndex)}
+        onClick={() => {
+          reset(); handleSkipQuestion(currentQuestionIndex);
+        }}
       >
           Skip Question
         </Button>
