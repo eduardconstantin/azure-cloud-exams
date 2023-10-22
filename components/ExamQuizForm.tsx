@@ -23,7 +23,7 @@ const ExamQuizForm: React.FC<Props> = ({
   currentQuestionIndex,
   totalQuestions,
   setAnswer,
-  isQuestionAnswered
+  isQuestionAnswered,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [lastIndex, setLastIndex] = useState<number>(0);
@@ -62,14 +62,15 @@ const ExamQuizForm: React.FC<Props> = ({
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row gap-4">
-        <Button 
-        type="button" 
-        intent="primary" 
-        size="medium"
-        onClick={() => {
-          reset(); handleSkipQuestion(currentQuestionIndex);
-        }}
-      >
+        <Button
+          type="button"
+          intent="primary"
+          size="medium"
+          onClick={() => {
+            reset();
+            handleSkipQuestion(currentQuestionIndex);
+          }}
+        >
           Skip Question
         </Button>
         <Button

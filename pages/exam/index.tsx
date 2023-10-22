@@ -26,8 +26,11 @@ const Exam: NextPage = () => {
   >("waiting");
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [skippedQuestions, setSkippedQuestions] = useState<IQueue<number>>(Queue<number>());
-  const [allQuestionsTouched, setAllQuestionsTouched] = useState<boolean>(false);
+  const [skippedQuestions, setSkippedQuestions] = useState<IQueue<number>>(
+    Queue<number>(),
+  );
+  const [allQuestionsTouched, setAllQuestionsTouched] =
+    useState<boolean>(false);
   const [answers, setAnswers] = useState<{
     [key: number]: boolean;
   }>({});
@@ -73,21 +76,21 @@ const Exam: NextPage = () => {
     if (questionNo <= numberOfQuestions) {
       if (!allQuestionsTouched) {
         setCurrentQuestionIndex(questionNo);
-      }
-      else if (!skippedQuestions.isEmpty()) {
-        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
-      }
-      else {
+      } else if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(
+          skippedQuestions.dequeue() ?? numberOfQuestions,
+        );
+      } else {
         checkPassed();
       }
-    }
-    else {
+    } else {
       setAllQuestionsTouched(true);
 
       if (!skippedQuestions.isEmpty()) {
-        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
-      }
-      else {
+        setCurrentQuestionIndex(
+          skippedQuestions.dequeue() ?? numberOfQuestions,
+        );
+      } else {
         checkPassed();
       }
     }
@@ -97,9 +100,16 @@ const Exam: NextPage = () => {
     skippedQuestions.enqueue(questionNo);
 
     // Unset any selected answer
-    setAnswers(prevState => {
-      if (prevState[questionNo]) delete prevState[questionNo];
-      return prevState;
+    setAnswers((prevState) => {
+      const updatedAnswers = { ...prevState };
+
+      // Reset the response if an answer was selected
+      if (updatedAnswers.hasOwnProperty(questionNo)) {
+        delete updatedAnswers[questionNo];
+      }
+
+      // Replace with the updated state
+      return updatedAnswers;
     });
 
     handleNextQuestion(questionNo + 1);
@@ -127,7 +137,7 @@ const Exam: NextPage = () => {
 
   const isQuestionAnswered = (questionIndex: number) => {
     return answers[questionIndex] !== undefined;
-  }
+  };
 
   return (
     <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
