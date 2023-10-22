@@ -43,7 +43,7 @@ const Practice: NextPage = () => {
   } = useQuery(questionsQuery);
 
   const handleNextQuestion = (questionNo: number) => {
-    if (questionNo - 1 < questionsData?.questions?.count) {
+    if (questionNo > 0 && questionNo - 1 < questionsData?.questions?.count) {
       setCurrentQuestionIndex(questionNo);
     }
   };
