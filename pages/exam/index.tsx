@@ -6,7 +6,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import ExamQuizForm from "@azure-fundamentals/components/ExamQuizForm";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
-import { Queue } from "@azure-fundamentals/utils/Queue";
+import { IQueue, Queue } from "@azure-fundamentals/utils/Queue";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!) {
@@ -26,7 +26,7 @@ const Exam: NextPage = () => {
   >("waiting");
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [skippedQuestions, setSkippedQuestions] = useState<Queue<number>>(new Queue<number>());
+  const [skippedQuestions, setSkippedQuestions] = useState<IQueue<number>>(Queue<number>());
   const [allQuestionsTouched, setAllQuestionsTouched] = useState<boolean>(false);
   const [answers, setAnswers] = useState<{
     [key: number]: boolean;

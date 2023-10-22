@@ -1,20 +1,43 @@
+export interface IQueue<T> {
+    enqueue(element: T): void;
+    dequeue(): T | undefined;
+    front(): T | null;
+    size(): number;
+    isEmpty(): boolean;
+    clear(): void;
+    queue(): T[];
+}
+
 /**
  * A data structure implementing FIFO (first in, first out) behavior
  */
-export class Queue<T> {
-    private collection: T[];
+export function Queue<T>(initialCollection: T[] = []): IQueue<T> {
+    // Private collection
+    let collection: T[];
     
-    constructor(initialCollection: T[] = []) {
-        this.collection = initialCollection;
+    function initQueue(): IQueue<T> {
+        collection = initialCollection;
+
+        return {
+            enqueue,
+            dequeue,
+            clear,
+            front,
+            queue,
+            isEmpty,
+            size
+        }
     }
+
+    initQueue();
 
     /**
      * Adds an element to the back of the queue
      * 
      * @param {T} element The element to be added
      */
-    enqueue(element: T) {
-        this.collection.push(element);
+    function enqueue(element: T) {
+        collection.push(element);
     }
 
     /**
@@ -22,40 +45,40 @@ export class Queue<T> {
      * 
      * @returns The removed element
      */
-    dequeue(): T | undefined {
-        return this.collection.shift();
+    function dequeue(): T | undefined {
+        return collection.shift();
     }
 
     /**
      * 
      * @returns The element at the front of the queue if present, else null
      */
-    front(): T | null {
-        return this.collection[0] ?? null;
+    function front(): T | null {
+        return collection[0] ?? null;
     }
 
     /**
      * 
      * @returns Total number of elements in the queue
      */
-    size(): number {
-        return this.collection.length;
+    function size(): number {
+        return collection.length;
     }
 
     /**
      * 
      * @returns True if the queue is empty
      */
-    isEmpty(): boolean {
-        return this.size() === 0;
+    function isEmpty(): boolean {
+        return size() === 0;
     }
 
     /**
      * Removes all the elements from the queue
      */
-    clear(): void {
-        while (!this.isEmpty()) {
-            this.dequeue();
+    function clear(): void {
+        while (!isEmpty()) {
+            dequeue();
         }
     }
 
@@ -63,7 +86,9 @@ export class Queue<T> {
      * 
      * @returns Returns an array with all the elements in the queue
      */
-    queue(): T[] {
-        return [...this.collection];
+    function queue(): T[] {
+        return [...collection];
     }
+
+    return initQueue();
 }
