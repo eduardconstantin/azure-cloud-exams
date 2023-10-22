@@ -59,7 +59,7 @@ const QuizForm: React.FC<Props> = ({
             onClick={() => {
               handleNextQuestion(currentQuestionIndex - 1);
             }}
-            disabled={!(currentQuestionIndex > 0) || !canGoBack}
+            disabled={!(currentQuestionIndex > 1) || !canGoBack}
             className="group"
           >
             <svg
