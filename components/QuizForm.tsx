@@ -59,6 +59,7 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
+              setShowCorrectAnswer(false);
               handleNextQuestion(currentQuestionIndex - 1);
             }}
             disabled={!(currentQuestionIndex > 0) || !canGoBack}
@@ -91,6 +92,7 @@ const QuizForm: React.FC<Props> = ({
               defaultValue={currentQuestionIndex}
               value={currentQuestionIndex}
               onChange={(e) => {
+                setShowCorrectAnswer(false);
                 handleNextQuestion(Number(e.target.value));
               }}
             />
@@ -101,6 +103,7 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
+              setShowCorrectAnswer(false);
               handleNextQuestion(currentQuestionIndex + 1);
             }}
             disabled={!(currentQuestionIndex < lastIndex)}
