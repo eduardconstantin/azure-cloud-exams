@@ -11,6 +11,7 @@ type Props = {
   handleSkipQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
+  isQuestionAnswered: (q: number) => boolean;
   setAnswer: (isCorrect: boolean) => void;
 };
 
@@ -22,6 +23,7 @@ const ExamQuizForm: React.FC<Props> = ({
   currentQuestionIndex,
   totalQuestions,
   setAnswer,
+  isQuestionAnswered
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [lastIndex, setLastIndex] = useState<number>(0);
@@ -72,7 +74,7 @@ const ExamQuizForm: React.FC<Props> = ({
           type="button"
           intent="secondary"
           size="medium"
-          // disabled={currentQuestionIndex < lastIndex}
+          disabled={!isQuestionAnswered(currentQuestionIndex)}
           onClick={onSubmit}
         >
           Next Question

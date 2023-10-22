@@ -119,6 +119,10 @@ const Exam: NextPage = () => {
     startTimer();
   };
 
+  const isQuestionAnswered = (questionIndex: number) => {
+    return answers[questionIndex] !== undefined;
+  }
+
   return (
     <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <Head>
@@ -195,6 +199,7 @@ const Exam: NextPage = () => {
             totalQuestions={numberOfQuestions}
             currentQuestionIndex={currentQuestionIndex}
             setAnswer={handleSetAnswer}
+            isQuestionAnswered={isQuestionAnswered}
           />
         )}
         {status === "success" && (
