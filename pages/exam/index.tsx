@@ -115,14 +115,13 @@ const Exam: NextPage = () => {
   };
 
   const handleRetakeExam = () => {
-    handleNextQuestion(1);
     resetTimer();
     setStatus("playing");
     setAnswers({});
     setAllQuestionsTouched(false);
     skippedQuestions.clear();
 
-    setCurrentQuestionIndex(0);
+    setCurrentQuestionIndex(1);
     startTimer();
   };
 
