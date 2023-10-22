@@ -6,6 +6,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import ExamQuizForm from "@azure-fundamentals/components/ExamQuizForm";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
+import { Queue } from "@azure-fundamentals/utils/Queue";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!) {
@@ -25,6 +26,8 @@ const Exam: NextPage = () => {
   >("waiting");
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [skippedQuestions, setSkippedQuestions] = useState<Queue<number>>(new Queue<number>());
+  const [allQuestionsTouched, setAllQuestionsTouched] = useState<boolean>(false);
   const [answers, setAnswers] = useState<{
     [key: number]: boolean;
   }>({});
@@ -67,14 +70,33 @@ const Exam: NextPage = () => {
   const numberOfQuestions = data?.randomQuestions.length - 1 || 0;
 
   const handleNextQuestion = (questionNo: number) => {
-    if (questionNo > numberOfQuestions) {
-      checkPassed();
-      return;
-    }
-
     if (questionNo <= numberOfQuestions) {
-      setCurrentQuestionIndex(questionNo);
+      if (!allQuestionsTouched) {
+        setCurrentQuestionIndex(questionNo);
+      }
+      else if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
+      }
+      else {
+        checkPassed();
+      }
     }
+    else {
+      setAllQuestionsTouched(true);
+
+      if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
+      }
+      else {
+        checkPassed();
+      }
+    }
+  };
+
+  const handleSkipQuestion = (questionNo: number) => {
+    skippedQuestions.enqueue(questionNo);
+
+    handleNextQuestion(questionNo + 1);
   };
 
   const handleSetAnswer = (isCorrect: boolean) => {
@@ -87,11 +109,14 @@ const Exam: NextPage = () => {
   };
 
   const handleRetakeExam = () => {
-    handleNextQuestion(0);
     resetTimer();
-    startTimer();
     setStatus("playing");
     setAnswers({});
+    setAllQuestionsTouched(false);
+    skippedQuestions.clear();
+
+    setCurrentQuestionIndex(0);
+    startTimer();
   };
 
   return (
@@ -166,6 +191,7 @@ const Exam: NextPage = () => {
             isLoading={loading}
             questionSet={data.randomQuestions[currentQuestionIndex]}
             handleNextQuestion={handleNextQuestion}
+            handleSkipQuestion={handleSkipQuestion}
             totalQuestions={numberOfQuestions}
             currentQuestionIndex={currentQuestionIndex}
             setAnswer={handleSetAnswer}

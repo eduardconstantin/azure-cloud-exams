@@ -8,6 +8,7 @@ type Props = {
   isLoading: boolean;
   questionSet: Question;
   handleNextQuestion: (q: number) => void;
+  handleSkipQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
   setAnswer: (isCorrect: boolean) => void;
@@ -17,6 +18,7 @@ const ExamQuizForm: React.FC<Props> = ({
   isLoading,
   questionSet,
   handleNextQuestion,
+  handleSkipQuestion,
   currentQuestionIndex,
   totalQuestions,
   setAnswer,
@@ -58,14 +60,19 @@ const ExamQuizForm: React.FC<Props> = ({
         ))}
       </ul>
       <div className="flex justify-center flex-col sm:flex-row gap-4">
-        <Button type="submit" intent="primary" size="medium">
+        <Button 
+        type="button" 
+        intent="primary" 
+        size="medium"
+        onClick={() => handleSkipQuestion(currentQuestionIndex)}
+      >
           Skip Question
         </Button>
         <Button
           type="button"
           intent="secondary"
           size="medium"
-          disabled={currentQuestionIndex < lastIndex}
+          // disabled={currentQuestionIndex < lastIndex}
           onClick={onSubmit}
         >
           Next Question
