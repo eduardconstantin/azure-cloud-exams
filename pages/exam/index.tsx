@@ -81,6 +81,7 @@ const Exam: NextPage = () => {
           skippedQuestions.dequeue() ?? numberOfQuestions,
         );
       } else {
+        setCurrentQuestionIndex(numberOfQuestions);
         checkPassed();
       }
     } else {
@@ -91,6 +92,7 @@ const Exam: NextPage = () => {
           skippedQuestions.dequeue() ?? numberOfQuestions,
         );
       } else {
+        setCurrentQuestionIndex(numberOfQuestions);
         checkPassed();
       }
     }
