@@ -138,7 +138,13 @@ const Exam: NextPage = () => {
   };
 
   const isQuestionAnswered = (questionIndex: number) => {
-    return answers[questionIndex] !== undefined;
+    return Object.hasOwn(answers, questionIndex);
+  };
+
+  const getNumberOfAnsweredQuestions = (): number => {
+    return Object.keys(answers).filter((questionNumber) =>
+      isQuestionAnswered(Number(questionNumber)),
+    ).length;
   };
 
   return (
@@ -154,7 +160,7 @@ const Exam: NextPage = () => {
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            {currentQuestionIndex}/{numberOfQuestions}
+            {getNumberOfAnsweredQuestions()}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM

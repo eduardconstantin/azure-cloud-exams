@@ -45,7 +45,9 @@ const ExamQuizForm: React.FC<Props> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40 mt-8">
-        <p className="text-white px-12 py-6 select-none">{question}</p>
+        <p className="text-white px-12 py-6 select-none">
+          {currentQuestionIndex}. {question}
+        </p>
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (
