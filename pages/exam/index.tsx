@@ -6,6 +6,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import ExamQuizForm from "@azure-fundamentals/components/ExamQuizForm";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
+import { IQueue, Queue } from "@azure-fundamentals/utils/Queue";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!) {
@@ -25,6 +26,11 @@ const Exam: NextPage = () => {
   >("waiting");
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [skippedQuestions, setSkippedQuestions] = useState<IQueue<number>>(
+    Queue<number>(),
+  );
+  const [allQuestionsTouched, setAllQuestionsTouched] =
+    useState<boolean>(false);
   const [answers, setAnswers] = useState<{
     [key: number]: boolean;
   }>({});
@@ -67,14 +73,48 @@ const Exam: NextPage = () => {
   const numberOfQuestions = data?.randomQuestions.length || 0;
 
   const handleNextQuestion = (questionNo: number) => {
-    if (questionNo > numberOfQuestions) {
-      checkPassed();
-      return;
-    }
-
     if (questionNo <= numberOfQuestions) {
-      setCurrentQuestionIndex(questionNo);
+      if (!allQuestionsTouched) {
+        setCurrentQuestionIndex(questionNo);
+      } else if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(
+          skippedQuestions.dequeue() ?? numberOfQuestions,
+        );
+      } else {
+        setCurrentQuestionIndex(numberOfQuestions);
+        checkPassed();
+      }
+    } else {
+      setAllQuestionsTouched(true);
+
+      if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(
+          skippedQuestions.dequeue() ?? numberOfQuestions,
+        );
+      } else {
+        setCurrentQuestionIndex(numberOfQuestions);
+        checkPassed();
+      }
     }
+  };
+
+  const handleSkipQuestion = (questionNo: number) => {
+    skippedQuestions.enqueue(questionNo);
+
+    // Unset any selected answer
+    setAnswers((prevState) => {
+      const updatedAnswers = { ...prevState };
+
+      // Reset the response if an answer was selected
+      if (updatedAnswers.hasOwnProperty(questionNo)) {
+        delete updatedAnswers[questionNo];
+      }
+
+      // Replace with the updated state
+      return updatedAnswers;
+    });
+
+    handleNextQuestion(questionNo + 1);
   };
 
   const handleSetAnswer = (isCorrect: boolean) => {
@@ -87,11 +127,24 @@ const Exam: NextPage = () => {
   };
 
   const handleRetakeExam = () => {
-    handleNextQuestion(1);
     resetTimer();
-    startTimer();
     setStatus("playing");
     setAnswers({});
+    setAllQuestionsTouched(false);
+    skippedQuestions.clear();
+
+    setCurrentQuestionIndex(1);
+    startTimer();
+  };
+
+  const isQuestionAnswered = (questionIndex: number) => {
+    return Object.hasOwn(answers, questionIndex);
+  };
+
+  const getNumberOfAnsweredQuestions = (): number => {
+    return Object.keys(answers).filter((questionNumber) =>
+      isQuestionAnswered(Number(questionNumber)),
+    ).length;
   };
 
   return (
@@ -107,7 +160,7 @@ const Exam: NextPage = () => {
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            {currentQuestionIndex}/{numberOfQuestions}
+            {getNumberOfAnsweredQuestions()}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM
@@ -167,9 +220,11 @@ const Exam: NextPage = () => {
             isLoading={loading}
             questionSet={data.randomQuestions[currentQuestionIndex - 1]}
             handleNextQuestion={handleNextQuestion}
+            handleSkipQuestion={handleSkipQuestion}
             totalQuestions={numberOfQuestions}
             currentQuestionIndex={currentQuestionIndex}
             setAnswer={handleSetAnswer}
+            isQuestionAnswered={isQuestionAnswered}
           />
         )}
         {status === "success" && (
