@@ -37,14 +37,11 @@ const QuizForm: React.FC<Props> = ({
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
-    if (!showCorrectAnswer) {
-      return;
-    }
-
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    return typeof savedAnswer === "string" || !savedAnswer
-      ? savedAnswer === optionText
-      : savedAnswer.includes(optionText);
+    if (savedAnswer != null && typeof savedAnswer === "string") {
+        return savedAnswer === optionText
+    }
+    return
   };
 
   if (isLoading) return <p>Loading...</p>;
