@@ -35,9 +35,16 @@ const Exam: NextPage = () => {
     [key: number]: boolean;
   }>({});
 
-  const { remainingTime, startTimer, stopTimer, resetTimer } = useTimer({
+  const { minutes, seconds } = {
     minutes: 3,
     seconds: 0,
+  };
+
+  const totalTimeInSeconds = minutes * 60 + seconds;
+
+  const { remainingTime, startTimer, stopTimer, resetTimer } = useTimer({
+    minutes,
+    seconds,
   });
 
   const { loading, error, data } = useQuery(questionsQuery, {
@@ -68,9 +75,8 @@ const Exam: NextPage = () => {
     }
   }, [checkPassed, remainingTime]);
 
-  const totalSeconds = 3 * 60;
   const elapsedSeconds =
-    totalSeconds -
+    totalTimeInSeconds -
     (parseInt(remainingTime.split(":")[0]) * 60 +
       parseInt(remainingTime.split(":")[1]));
 
