@@ -68,6 +68,12 @@ const Exam: NextPage = () => {
     }
   }, [checkPassed, remainingTime]);
 
+  const totalSeconds = 3 * 60;
+  const elapsedSeconds =
+    totalSeconds -
+    (parseInt(remainingTime.split(":")[0]) * 60 +
+      parseInt(remainingTime.split(":")[1]));
+
   if (error) return <p>Oh no... {error.message}</p>;
 
   const numberOfQuestions = data?.randomQuestions.length || 0;
@@ -232,8 +238,11 @@ const Exam: NextPage = () => {
             status={"success"}
             render={
               <>
-                Congratulations! You completed the exam in {remainingTime}
-                minutes.
+                <p>Congratulations!</p>
+                <p>
+                  You completed the exam in {Math.floor(elapsedSeconds / 60)}{" "}
+                  minutes and {elapsedSeconds % 60} seconds.
+                </p>
               </>
             }
             points={points}
