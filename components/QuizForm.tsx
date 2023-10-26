@@ -37,14 +37,11 @@ const QuizForm: React.FC<Props> = ({
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
-    if (!showCorrectAnswer) {
-      return;
-    }
-
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    return typeof savedAnswer === "string" || !savedAnswer
-      ? savedAnswer === optionText
-      : savedAnswer.includes(optionText);
+    if (savedAnswer != null && typeof savedAnswer === "string") {
+        return savedAnswer === optionText
+    }
+    return
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -59,6 +56,12 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
+              if(currentQuestionIndex < lastIndex + 2) {
+                setShowCorrectAnswer(true);
+              }
+              else {
+                  setShowCorrectAnswer(false);
+              }
               handleNextQuestion(currentQuestionIndex - 1);
             }}
             disabled={!(currentQuestionIndex > 1) || !canGoBack}
@@ -91,6 +94,12 @@ const QuizForm: React.FC<Props> = ({
               defaultValue={currentQuestionIndex}
               value={currentQuestionIndex}
               onChange={(e) => {
+                if(Number(e.target.value) < lastIndex + 1) {
+                  setShowCorrectAnswer(true);
+                }
+                else {
+                  setShowCorrectAnswer(false);
+                }
                 handleNextQuestion(Number(e.target.value));
               }}
             />
@@ -101,6 +110,12 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
+              if(currentQuestionIndex < lastIndex) {
+                setShowCorrectAnswer(true);
+              }
+              else {
+                setShowCorrectAnswer(false);
+              }
               handleNextQuestion(currentQuestionIndex + 1);
             }}
             disabled={!(currentQuestionIndex < lastIndex)}
