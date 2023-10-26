@@ -35,9 +35,16 @@ const Exam: NextPage = () => {
     [key: number]: boolean;
   }>({});
 
-  const { remainingTime, startTimer, stopTimer, resetTimer } = useTimer({
+  const { minutes, seconds } = {
     minutes: 3,
     seconds: 0,
+  };
+
+  const totalTimeInSeconds = minutes * 60 + seconds;
+
+  const { remainingTime, startTimer, stopTimer, resetTimer } = useTimer({
+    minutes,
+    seconds,
   });
 
   const { loading, error, data } = useQuery(questionsQuery, {
@@ -67,6 +74,11 @@ const Exam: NextPage = () => {
       checkPassed();
     }
   }, [checkPassed, remainingTime]);
+
+  const elapsedSeconds =
+    totalTimeInSeconds -
+    (parseInt(remainingTime.split(":")[0]) * 60 +
+      parseInt(remainingTime.split(":")[1]));
 
   if (error) return <p>Oh no... {error.message}</p>;
 
@@ -232,8 +244,11 @@ const Exam: NextPage = () => {
             status={"success"}
             render={
               <>
-                Congratulations! You completed the exam in {remainingTime}
-                minutes.
+                <p>Congratulations!</p>
+                <p>
+                  You completed the exam in {Math.floor(elapsedSeconds / 60)}{" "}
+                  minutes and {elapsedSeconds % 60} seconds.
+                </p>
               </>
             }
             points={points}
