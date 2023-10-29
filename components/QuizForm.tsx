@@ -31,17 +31,22 @@ const QuizForm: React.FC<Props> = ({
   }>({});
 
   const onSubmit = (data: FieldValues) => {
-    setSavedAnswers((prev) => ({ ...prev, ...data.options }));
+    setSavedAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: data.options[currentQuestionIndex],
+    }));
     setShowCorrectAnswer(true);
     setCanGoBack(true);
+    reset();
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    if (savedAnswer != null && typeof savedAnswer === "string") {
-        return savedAnswer === optionText
+    if (savedAnswer !== null && typeof savedAnswer === "string") {
+      return savedAnswer === optionText;
+    } else {
+      return;
     }
-    return
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -56,12 +61,12 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
-              if(currentQuestionIndex < lastIndex + 2) {
+              if (currentQuestionIndex < lastIndex + 2) {
                 setShowCorrectAnswer(true);
+              } else {
+                setShowCorrectAnswer(false);
               }
-              else {
-                  setShowCorrectAnswer(false);
-              }
+              reset();
               handleNextQuestion(currentQuestionIndex - 1);
             }}
             disabled={!(currentQuestionIndex > 1) || !canGoBack}
@@ -91,16 +96,15 @@ const QuizForm: React.FC<Props> = ({
               type="number"
               min={0}
               max={totalQuestions}
-              defaultValue={currentQuestionIndex}
               value={currentQuestionIndex}
               onChange={(e) => {
-                if(Number(e.target.value) < lastIndex + 1) {
+                if (Number(e.target.value) < lastIndex + 1) {
                   setShowCorrectAnswer(true);
-                }
-                else {
+                } else {
                   setShowCorrectAnswer(false);
                 }
                 handleNextQuestion(Number(e.target.value));
+                reset();
               }}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
@@ -110,12 +114,12 @@ const QuizForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => {
-              if(currentQuestionIndex < lastIndex) {
+              if (currentQuestionIndex < lastIndex) {
                 setShowCorrectAnswer(true);
-              }
-              else {
+              } else {
                 setShowCorrectAnswer(false);
               }
+              reset();
               handleNextQuestion(currentQuestionIndex + 1);
             }}
             disabled={!(currentQuestionIndex < lastIndex)}
@@ -151,14 +155,14 @@ const QuizForm: React.FC<Props> = ({
         {options.map((option, index) => (
           <li key={index}>
             <SelectionInput
-              {...register("options." + currentQuestionIndex)}
-              index={index}
+              {...register(`options.${currentQuestionIndex}`)}
+              index={`${currentQuestionIndex}.${index}`}
               type={noOfAnswers > 1 ? "checkbox" : "radio"}
               label={option.text}
               isAnswer={option.isAnswer}
               showCorrectAnswer={showCorrectAnswer}
               disabled={showCorrectAnswer}
-              checked={isOptionChecked(option.text)}
+              defaultChecked={isOptionChecked(option.text)}
             />
           </li>
         ))}
@@ -182,12 +186,12 @@ const QuizForm: React.FC<Props> = ({
             if (currentQuestionIndex === totalQuestions) {
               handleNextQuestion(1);
               setLastIndex(1);
-              reset();
             } else {
               handleNextQuestion(currentQuestionIndex + 1);
               setLastIndex(currentQuestionIndex + 1);
             }
             setCanGoBack(false);
+            reset();
           }}
         >
           Next Question
