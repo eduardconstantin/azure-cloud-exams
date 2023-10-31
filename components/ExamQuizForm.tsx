@@ -26,7 +26,6 @@ const ExamQuizForm: React.FC<Props> = ({
   isQuestionAnswered,
 }) => {
   const { register, handleSubmit, reset } = useForm();
-  const [lastIndex, setLastIndex] = useState<number>(0);
 
   const onSubmit = () => {
     if (currentQuestionIndex > totalQuestions) {
@@ -34,7 +33,6 @@ const ExamQuizForm: React.FC<Props> = ({
       return;
     }
     handleNextQuestion(currentQuestionIndex + 1);
-    setLastIndex(currentQuestionIndex + 1);
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -54,7 +52,7 @@ const ExamQuizForm: React.FC<Props> = ({
           <li key={`q${currentQuestionIndex}-o${index}`}>
             <SelectionInput
               {...register("options." + currentQuestionIndex)}
-              index={index}
+              index={`answer-${index}`}
               type={noOfAnswers > 1 ? "checkbox" : "radio"}
               label={option.text}
               isAnswer={option.isAnswer}
