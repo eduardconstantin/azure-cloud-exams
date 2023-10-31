@@ -1,6 +1,6 @@
 import SelectionInput from "@azure-fundamentals/components/SelectionInput";
 import { Button } from "@azure-fundamentals/components/Button";
-import React, { useState } from "react";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Question } from "@azure-fundamentals/components/types";
 
@@ -15,7 +15,7 @@ type Props = {
   setAnswer: (isCorrect: boolean) => void;
 };
 
-const ExamQuizForm: React.FC<Props> = ({
+const ExamQuizForm: FC<Props> = ({
   isLoading,
   questionSet,
   handleNextQuestion,

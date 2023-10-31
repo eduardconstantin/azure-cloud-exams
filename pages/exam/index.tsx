@@ -113,16 +113,13 @@ const Exam: NextPage = () => {
   const handleSkipQuestion = (questionNo: number) => {
     skippedQuestions.enqueue(questionNo);
 
-    // Unset any selected answer
     setAnswers((prevState) => {
       const updatedAnswers = { ...prevState };
 
-      // Reset the response if an answer was selected
       if (updatedAnswers.hasOwnProperty(questionNo)) {
         delete updatedAnswers[questionNo];
       }
 
-      // Replace with the updated state
       return updatedAnswers;
     });
 
@@ -259,10 +256,10 @@ const Exam: NextPage = () => {
           <ExamResult
             status={"failed"}
             render={
-              <>
+              <p>
                 You didn't pass the exam, you need to score above 75 to pass,
                 keep learning and try again.
-              </>
+              </p>
             }
             points={points}
             handleRetakeExam={handleRetakeExam}

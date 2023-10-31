@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
@@ -14,7 +14,7 @@ type Props = {
   windowWidth: number;
 };
 
-const QuizForm: React.FC<Props> = ({
+const QuizForm: FC<Props> = ({
   isLoading,
   questionSet,
   handleNextQuestion,
