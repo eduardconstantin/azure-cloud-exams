@@ -29,6 +29,7 @@ const Exam: NextPage = () => {
   const [skippedQuestions, setSkippedQuestions] = useState<IQueue<number>>(
     Queue<number>(),
   );
+  const [answeredQuestionsCount, setAnsweredQuestionsCount] = useState(0);
   const [allQuestionsTouched, setAllQuestionsTouched] =
     useState<boolean>(false);
   const [answers, setAnswers] = useState<{
@@ -89,9 +90,7 @@ const Exam: NextPage = () => {
       if (!allQuestionsTouched) {
         setCurrentQuestionIndex(questionNo);
       } else if (!skippedQuestions.isEmpty()) {
-        setCurrentQuestionIndex(
-          skippedQuestions.dequeue() ?? numberOfQuestions,
-        );
+        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
       } else {
         setCurrentQuestionIndex(numberOfQuestions);
         checkPassed();
@@ -100,15 +99,17 @@ const Exam: NextPage = () => {
       setAllQuestionsTouched(true);
 
       if (!skippedQuestions.isEmpty()) {
-        setCurrentQuestionIndex(
-          skippedQuestions.dequeue() ?? numberOfQuestions,
-        );
+        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
       } else {
         setCurrentQuestionIndex(numberOfQuestions);
         checkPassed();
       }
     }
+
+    const answeredQuestions = getNumberOfAnsweredQuestions();
+    setAnsweredQuestionsCount(answeredQuestions);
   };
+
 
   const handleSkipQuestion = (questionNo: number) => {
     skippedQuestions.enqueue(questionNo);
@@ -123,8 +124,19 @@ const Exam: NextPage = () => {
       return updatedAnswers;
     });
 
-    handleNextQuestion(questionNo + 1);
+    if (questionNo < numberOfQuestions) {
+      setCurrentQuestionIndex(questionNo + 1);
+    } else {
+      setAllQuestionsTouched(true);
+      if (!skippedQuestions.isEmpty()) {
+        setCurrentQuestionIndex(skippedQuestions.dequeue() ?? numberOfQuestions);
+      } else {
+        setCurrentQuestionIndex(numberOfQuestions);
+        checkPassed();
+      }
+    }
   };
+
 
   const handleSetAnswer = (isCorrect: boolean) => {
     setAnswers((prevState) => {
@@ -139,15 +151,16 @@ const Exam: NextPage = () => {
     resetTimer();
     setStatus("playing");
     setAnswers({});
+    setAnsweredQuestionsCount(0);
     setAllQuestionsTouched(false);
     skippedQuestions.clear();
-
     setCurrentQuestionIndex(1);
     startTimer();
+
   };
 
   const isQuestionAnswered = (questionIndex: number) => {
-    return Object.hasOwn(answers, questionIndex);
+    return answers.hasOwnProperty(questionIndex);
   };
 
   const getNumberOfAnsweredQuestions = (): number => {
@@ -169,7 +182,7 @@ const Exam: NextPage = () => {
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            {getNumberOfAnsweredQuestions()}/{numberOfQuestions}
+            {answeredQuestionsCount}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM
