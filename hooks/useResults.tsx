@@ -34,14 +34,14 @@ const useResults = (data: ResultsData): ResultsHook => {
         }
       }
       if (!isOneBad && pointRaisedCount === noOfAnswers) {
-        points = points + 1;
+        points = (Math.round((points + 1) * 100) / 100);
       } else {
-        points = points + (partialPoints > 0 ? partialPoints : 0);
+        points = points + (partialPoints > 0 ? (Math.round(partialPoints * 100) / 100) : 0);
         points = (Math.round(points * 100) / 100);
       }
     } else if (noOfAnswers === 1 && !Array.isArray(data.answers[i])) {
       if (data.questions[i]?.options?.filter((el: any) => el.isAnswer === true)[0]?.text === data.answers[i]) {
-        points = points + 1;
+        points = (Math.round((points + 1) * 100) / 100);
       }
     }
   }
