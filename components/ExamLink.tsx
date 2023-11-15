@@ -29,7 +29,7 @@ const ExamLink = ({
       <div
         className={clsx(
           headingClassNames,
-          "flex flex-col h-full bg-slate-800 rounded-xl pt-[40%] px-7"
+          'flex flex-col justify-center items-center h-full bg-slate-800 rounded-xl px-7',
         )}
       >
         <h2 className="text-white group-hover:bg-gradient-to-r group-hover:text-transparent bg-clip-text uppercase text-3xl font-bold">

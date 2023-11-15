@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watchAll"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
@@ -47,5 +48,8 @@
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
     "ts-jest": "^29.1.1"
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
   }
 }
