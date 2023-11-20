@@ -203,27 +203,44 @@ const QuizExamForm: React.FC<Props> = ({
                     />
                     <label
                       htmlFor={`options.${currentQuestionIndex}.${index}`}
-                      className={`flex cursor-pointer items-center rounded-lg border p-4 text-xs sm:text-sm font-medium shadow-sm ${
+                      className={`m-[1px] flex cursor-pointer items-center rounded-lg border hover:bg-slate-600 p-4 text-xs sm:text-sm font-medium shadow-sm ${
                         showCorrectAnswer &&
                         formik.values.options[index]?.isAnswer
-                          ? "border-emerald-500 dark:hover:border-emerald-400 bg-emerald-500/25"
-                          : "hover:border-gray-500 border-gray-600 bg-gray-600/25 hover:bg-gray-600"
+                          ? formik.values.options[index]?.checked
+                            ? "border-emerald-500 bg-emerald-500/25 hover:border-emerald-400 hover:bg-emerald-600/50"
+                            : `border-emerald-500 bg-emerald-500/25 hover:border-emerald-400 hover:bg-emerald-600/50 ${
+                                formik.values.options[index]?.checked
+                                  ? "border-emerald-500 bg-emerald-500/50"
+                                  : ""
+                              }`
+                          : formik.values.options[index]?.checked
+                            ? "border-gray-400 bg-gray-500/25 hover:border-gray-300 hover:bg-gray-600"
+                            : `border-slate-500 bg-gray-600/25 hover:border-gray-400/75 hover:bg-gray-600/75 ${
+                                formik.values.options[index]?.checked
+                                  ? "border-gray-400 hover:border-slate-300 bg-gray-600"
+                                  : ""
+                              }`
                       }`}
                     >
                       <svg
-                        className={`hidden absolute h-5 w-5 ${
+                        className={`border rounded-full absolute h-5 w-5 p-0.5 ${
                           showCorrectAnswer &&
                           formik.values.options[index]?.isAnswer
-                            ? "text-emerald-500"
-                            : "text-gray-200"
+                            ? "text-emerald-500 border-emerald-600"
+                            : "text-gray-200 border-slate-500"
                         }`}
                         xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
+                        viewBox="0 0 16 16"
                         fill="currentColor"
                       >
                         <path
+                          className={`${
+                            formik.values.options[index]?.checked
+                              ? "block"
+                              : "hidden"
+                          }`}
                           fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
                           clipRule="evenodd"
                         />
                       </svg>
