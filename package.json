@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -47,9 +47,9 @@
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
-    "ts-jest": "^29.1.1"
+    "ts-jest": "^29.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
+    "prettier": "^3.0.3"
   }
 }
