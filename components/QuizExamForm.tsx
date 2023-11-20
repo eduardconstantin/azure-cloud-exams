@@ -55,9 +55,7 @@ const QuizExamForm: React.FC<Props> = ({
     onSubmit: () => {
       saveAnswers().then(() => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        console.profile
         const { points } = useResults({ questions: questions, answers: savedAnswers });
-        console.profileEnd
         getResultPoints(points);
       })
       stopTimer()
