@@ -3,9 +3,9 @@ import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import useTimer from "@azure-fundamentals/hooks/useTimer";
 import { Button } from "@azure-fundamentals/components/Button";
-import { useEffect, useState } from "react";
 import QuizExamForm from "@azure-fundamentals/components/QuizExamForm";
 import { Question } from "@azure-fundamentals/components/types";
+import React, { useCallback, useEffect, useState } from "react";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!) {

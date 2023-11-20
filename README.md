@@ -1,6 +1,7 @@
 <h1 align="center">Azure Fundamentals Exam Questions</h1>
 <br />
 
+<div align="center">
 This is a web application built with Next.js, TypeScript, Cosmos DB, GraphQL and Tailwind CSS. The application is a quiz
 that tests your knowledge of Azure fundamentals, specifically for the AZ-900 certification exam. The questions are
 stored in a Cosmos DB database and retrieved using GraphQL queries. The application is deployed on Microsoft Azure.
@@ -8,9 +9,10 @@ stored in a Cosmos DB database and retrieved using GraphQL queries. The applicat
 This project was created for learning purposes to help me understand Microsoft Azure and Cosmos DB in preparation for
 the AZ-900 exam.
 
-The project is now using the
+The project is now using this
 [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers) as a
 database, replacing Cosmos DB.
+</div>
 
 <br />
 <img src="af.gif"/>
@@ -18,10 +20,11 @@ database, replacing Cosmos DB.
 <div align="center">
 <br />
 
-[![Project license](https://img.shields.io/github/license/eduardconstantin/azure-fundamentals?style=flat-square)](LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/eduardconstantin/azure-fundamentals?style=flat-square)](https://github.com/eduardconstantin/azure-fundamentals/graphs/contributors)
 [![Issue](https://img.shields.io/github/issues/eduardconstantin/azure-fundamentals?style=flat-square)](https://github.com/eduardconstantin/azure-fundamentals/issues)
 [![PRs](https://img.shields.io/github/issues-pr/eduardconstantin/azure-fundamentals?style=flat-square)](https://github.com/eduardconstantin/azure-fundamentals/pulls)
+<br>
+[![Project license](https://img.shields.io/github/license/eduardconstantin/azure-fundamentals?style=flat-square)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/eduardconstantin/azure-fundamentals?style=flat-square)](https://github.com/eduardconstantin/azure-fundamentals/stargazers)
 
 </div>
@@ -30,8 +33,8 @@ database, replacing Cosmos DB.
 
 - Over 400 questions scrapped from this
   [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers).
-- Correct answer displayed for each question
-- Vercel OG image generation used to display the questions
+- Correct answer displayed for each question.
+- Vercel OG image generation used to display the questions.
 
 ## 🌱 Getting Started
 
@@ -47,6 +50,12 @@ Install dependencies:
 npm install
 ```
 
+Enable Git hooks:
+
+```bash
+npm run prepare
+```
+
 Run the app:
 
 ```bash
@@ -54,9 +63,6 @@ npm run dev
 ```
 
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
-
-Because I only have a Free Tier account for Cosmos DB, the database won't be available for local development. Instead I
-created a json file with some dummy data (the file is located in src/qdb.json).
 
 ## 👥 Contributing
 
