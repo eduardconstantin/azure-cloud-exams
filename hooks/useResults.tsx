@@ -1,5 +1,4 @@
 import { Question } from "@azure-fundamentals/components/types";
-import { useState, useEffect } from "react";
 
 export type ResultsData = {
   questions: Question[];
