@@ -150,8 +150,8 @@ const Exam: NextPage = () => {
                 ) : (
                   <>
                     <p>
-                      You didn't pass the exam, you need to score above 75 to
-                      pass, keep learning and try again.
+                      You didn&apos;t pass the exam, you need to score above 75
+                      to pass, keep learning and try again.
                     </p>
                   </>
                 )}
