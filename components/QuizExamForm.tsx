@@ -10,6 +10,7 @@ import useResults from "@azure-fundamentals/hooks/useResults";
 type Props = {
   isLoading: boolean;
   handleNextQuestion: (q: number) => void;
+  handleSkipQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
   windowWidth: number;
@@ -20,11 +21,13 @@ type Props = {
   getResultPoints: (data: number) => void;
   revealExam?: boolean;
   hideExam?: () => void;
+  remainingTime?: string;
 };
 
 const QuizExamForm: React.FC<Props> = ({
   isLoading,
   handleNextQuestion,
+  handleSkipQuestion,
   currentQuestionIndex,
   totalQuestions,
   windowWidth,
@@ -35,6 +38,7 @@ const QuizExamForm: React.FC<Props> = ({
   questions,
   revealExam,
   hideExam,
+  remainingTime,
 }) => {
   const { register, handleSubmit, reset, getValues } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
@@ -55,7 +59,7 @@ const QuizExamForm: React.FC<Props> = ({
       ],
     },
     onSubmit: () => {
-      saveAnswers().then(() => {
+      saveAnswers(false).then(() => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { points } = useResults({
           questions: questions,
@@ -73,6 +77,57 @@ const QuizExamForm: React.FC<Props> = ({
     }
   }, [revealExam]);
 
+  useEffect(() => {
+    if (remainingTime === "00:00") {
+      formik.submitForm();
+    }
+  }, [remainingTime]);
+
+  const nextQuestion = (skip: boolean) => {
+    if (skip === false) {
+      let done = true;
+      for (let x = 0; x < savedAnswers.length; x++) {
+        if (savedAnswers[x] === null && x !== currentQuestionIndex) {
+          done = false;
+          break;
+        } else {
+          console.log(savedAnswers);
+        }
+      }
+      if (done === true) {
+        formik.submitForm();
+        return;
+      } else {
+        saveAnswers(skip);
+      }
+    } else {
+      saveAnswers(skip);
+    }
+    let areAllQuestionsAnswered = false;
+    let i = currentQuestionIndex + 1;
+    while (savedAnswers[i] !== null && i < totalQuestions) {
+      i++;
+    }
+    if (i >= totalQuestions) {
+      i = 0;
+    }
+    while (savedAnswers[i] !== null && i < totalQuestions) {
+      i++;
+    }
+    if (i >= totalQuestions) {
+      areAllQuestionsAnswered = true;
+    }
+    if (skip === true) {
+      handleSkipQuestion(i);
+    } else {
+      if (areAllQuestionsAnswered) {
+        formik.submitForm();
+      } else {
+        handleNextQuestion(i);
+      }
+    }
+  };
+
   const areAllQuestionsAnswered = (): boolean => {
     for (const answers of savedAnswers) {
       if (answers == null) {
@@ -82,16 +137,14 @@ const QuizExamForm: React.FC<Props> = ({
     return true;
   };
 
-  const isLastQuestionAnswered = (): boolean => {
-    if (currentQuestionIndex === totalQuestions - 1) {
-      for (const answer of formik.values.options) {
-        if (answer.checked === true) {
-          return true;
-        }
+  const isQuestionAnswered = (): boolean => {
+    for (const answer of formik.values?.options) {
+      if (answer.checked === true) {
+        return true;
       }
-      return savedAnswers[currentQuestionIndex] != null;
     }
     return false;
+    //return savedAnswers[currentQuestionIndex] != null;
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
@@ -124,7 +177,13 @@ const QuizExamForm: React.FC<Props> = ({
     formik.setFieldValue("options", opt ?? []);
   }, [options]);
 
-  const saveAnswers = async () => {
+  const saveAnswers = async (skip = false) => {
+    if (skip === true) {
+      let saved = [...savedAnswers];
+      saved[currentQuestionIndex] = null;
+      setSavedAnswers(saved);
+      return;
+    }
     let selectedArr = [];
     let selected = null;
     for (const answer of formik.values.options) {
@@ -134,19 +193,19 @@ const QuizExamForm: React.FC<Props> = ({
         selected = answer.text;
       }
     }
-    let saved = savedAnswers;
+    let saved = [...savedAnswers];
     saved[currentQuestionIndex] =
       noOfAnswers > 1 && selectedArr?.length > 0 ? selectedArr : selected;
     setSavedAnswers(saved);
   };
 
   if (isLoading) return <p>Loading...</p>;
-  const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
+  //const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
 
   return (
     <FormikProvider value={formik}>
       <div className="relative min-h-40">
-        <Image
+        {/* <Image
           src={imgUrl}
           alt="question"
           width={1200}
@@ -154,7 +213,12 @@ const QuizExamForm: React.FC<Props> = ({
           priority={true}
           unoptimized
           loading="eager"
-        />
+        /> */}
+        <div className="relative min-h-40 mt-8">
+          <p className="text-white px-12 py-6 select-none">
+            {currentQuestionIndex + 1}. {question}
+          </p>
+        </div>
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         <FieldArray
@@ -254,95 +318,80 @@ const QuizExamForm: React.FC<Props> = ({
           }
         />
       </ul>
-      <div className="flex justify-between sm:flex-row">
-        <Button
-          type="button"
-          intent="primary"
-          size="medium"
-          disabled={currentQuestionIndex === 0}
-          onClick={async () => {
-            //setShowCorrectAnswer(false);
-            saveAnswers();
-            if (currentQuestionIndex - 1 === 0) {
-              handleNextQuestion(0);
-            } else {
-              handleNextQuestion(currentQuestionIndex - 1);
-            }
-          }}
-        >
-          <span className={`${currentQuestionIndex === 0 ? "opacity-50" : ""}`}>
-            Previous Question
-          </span>
-        </Button>
-        <Button
-          type="button"
-          intent="primary"
-          size="medium"
-          disabled={currentQuestionIndex === totalQuestions - 1}
-          onClick={async () => {
-            //setShowCorrectAnswer(false);
-            saveAnswers();
-            if (currentQuestionIndex + 1 === totalQuestions) {
-              handleNextQuestion(totalQuestions);
-            } else {
-              handleNextQuestion(currentQuestionIndex + 1);
-            }
-          }}
-        >
-          <span
-            className={`${
-              currentQuestionIndex === totalQuestions - 1 ? "opacity-50" : ""
-            }`}
-          >
-            Next Question
-          </span>
-        </Button>
-      </div>
-      <div className="mt-5 flex justify-center sm:flex-row">
-        {!revealExam ? (
+      {!revealExam ? (
+        <div className="flex justify-center flex-col sm:flex-row gap-4">
           <Button
             type="button"
             intent="primary"
             size="medium"
-            disabled={!areAllQuestionsAnswered() && !isLastQuestionAnswered()}
-            onClick={() => {
-              formik.submitForm();
+            onClick={async () => {
+              nextQuestion(true);
+            }}
+          >
+            <span>Skip Question</span>
+          </Button>
+          <Button
+            type="button"
+            intent="primary"
+            size="medium"
+            disabled={!isQuestionAnswered()}
+            onClick={async () => {
+              nextQuestion(false);
+            }}
+          >
+            <span className={`${!isQuestionAnswered() ? "opacity-50" : ""}`}>
+              Next Question
+            </span>
+          </Button>
+        </div>
+      ) : (
+        <div className="flex justify-center flex-col sm:flex-row gap-4">
+          <Button
+            type="button"
+            intent="primary"
+            size="medium"
+            disabled={currentQuestionIndex === 0}
+            onClick={async () => {
+              handleNextQuestion(currentQuestionIndex - 1);
+            }}
+          >
+            <span
+              className={`${currentQuestionIndex === 0 ? "opacity-50" : ""}`}
+            >
+              Previous Question
+            </span>
+          </Button>
+          <Button
+            type="button"
+            intent="primary"
+            size="medium"
+            disabled={currentQuestionIndex === totalQuestions - 1}
+            onClick={async () => {
+              handleNextQuestion(currentQuestionIndex + 1);
             }}
           >
             <span
               className={`${
-                !areAllQuestionsAnswered() && !isLastQuestionAnswered()
-                  ? "opacity-50"
-                  : ""
+                currentQuestionIndex === totalQuestions - 1 ? "opacity-50" : ""
               }`}
             >
-              Submit
+              Next Question
             </span>
           </Button>
-        ) : (
           <Button
             type="button"
-            intent="primary"
+            intent="secondary"
             size="medium"
-            disabled={!areAllQuestionsAnswered() && !isLastQuestionAnswered()}
             onClick={() => {
               if (hideExam) {
                 hideExam();
               }
             }}
           >
-            <span
-              className={`${
-                !areAllQuestionsAnswered() && !isLastQuestionAnswered()
-                  ? "opacity-50"
-                  : ""
-              }`}
-            >
-              Back
-            </span>
+            <span>Back</span>
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </FormikProvider>
   );
 };

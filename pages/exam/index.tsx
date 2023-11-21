@@ -20,8 +20,13 @@ const questionsQuery = gql`
 `;
 
 const Exam: NextPage = () => {
+  const { minutes, seconds } = {
+    minutes: 1,
+    seconds: 0,
+  };
+  const totalTimeInSeconds = minutes * 60 + seconds;
   const { remainingTime, startTimer, stopTimer, isRunning, isFinished } =
-    useTimer({ minutes: 10, seconds: 0 });
+    useTimer({ minutes: minutes, seconds: seconds });
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
   const [revealExam, setRevealExam] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
@@ -32,23 +37,31 @@ const Exam: NextPage = () => {
   const [passed, setPassed] = useState<boolean>(false);
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
+  const elapsedSeconds =
+    totalTimeInSeconds -
+    (parseInt(remainingTime.split(":")[0]) * 60 +
+      parseInt(remainingTime.split(":")[1]));
+
+  const handleSkipQuestion = (questionNo: number) => {
+    setCurrentQuestionIndex(questionNo);
+    setCurrentQuestion(data?.randomQuestions[questionNo]);
+  };
+
   const handleNextQuestion = (questionNo: number) => {
-    if (questionNo < data?.randomQuestions?.length) {
-      setCurrentQuestionIndex(questionNo);
-      setCurrentQuestion(data?.randomQuestions[questionNo]);
-    }
+    setCurrentQuestionIndex(questionNo);
+    setCurrentQuestion(data?.randomQuestions[questionNo]);
   };
 
   const getResultPoints = (points: number) => {
     const maxPoints = data?.randomQuestions?.length;
-    const percentage = Math.round((points / maxPoints) * 100);
+    const percentage = Math.round((points / maxPoints) * 10000) / 100;
     if (percentage >= 75) {
       setPassed(true);
     } else {
       setPassed(false);
     }
 
-    setResultPoints(points);
+    setResultPoints(percentage);
   };
 
   useEffect(() => {
@@ -75,7 +88,7 @@ const Exam: NextPage = () => {
   const numberOfQuestions = data.randomQuestions.length || 0;
 
   return (
-    <div className="h-screen w-full grid place-items-center">
+    <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <Head>
         <title>Azure Fundamentals - Exam</title>
         <meta
@@ -86,66 +99,85 @@ const Exam: NextPage = () => {
       </Head>
       {!isRunning && isFinished && !revealExam ? (
         <>
-          <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
-            <div className="w-full flex flex-col xl:flex-row justify-between items-center">
-              <p className="text-white font-bold text-2xl">
+          <div className="">
+            <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
+              <p className="text-white font-bold text-sm sm:text-2xl">
                 {currentQuestionIndex + 1}/{numberOfQuestions}
               </p>
-              <h1 className="text-white font-bold text-3xl">PRACTICE EXAM</h1>
-              <p className="text-white font-bold text-2xl">{remainingTime}</p>
-            </div>
-            <div className="h-max">
-              <div className="grid pt-20 place-items-center">
-                {passed ? (
-                  <p className="exam-finished-success">EXAM PASSED</p>
-                ) : (
-                  <p className="exam-finished-fail">EXAM FAILED</p>
-                )}
-              </div>
-              <p className="points-bg text-white font-bold text-xl text-center pt-20 px-6">
-                <div className="pb-20 points-font">
-                  {passed ? (
-                    <span className="exam-passed">{resultPoints}</span>
-                  ) : (
-                    <span className="exam-failed">{resultPoints}</span>
-                  )}
-                  /{numberOfQuestions}
-                </div>
+              <h1 className="text-white font-bold text-lg sm:text-3xl">
+                PRACTICE EXAM
+              </h1>
+              <p className="text-white font-bold text-sm sm:text-2xl">
+                {remainingTime}
               </p>
-              {!passed ? (
-                <p className="text-white font-bold text-xl text-center mb-20">
-                  You didn’t pass the exam, you need to score above 75% to pass,
-                  keep learning and try again.
-                </p>
-              ) : (
-                <p className="text-white font-bold text-xl text-center mb-20">
-                  Congratulations! You completed the exam in{" "}
-                  {`${remainingTime.split(":")[0]}:${
-                    remainingTime.split(":")[1]
-                  }`}{" "}
-                  minutes.
-                </p>
-              )}
             </div>
-            <div className="flex flex-col sm:flex-row justify-center">
-              <Button
-                type="button"
-                intent="secondary"
-                size="medium"
-                onClick={() => setRevealExam(true)}
-              >
-                Reveal Exam
-              </Button>
-              <Button
-                type="button"
-                intent="primary"
-                size="medium"
-                onClick={() => {
-                  window.location.reload();
-                }}
-              >
-                Retake Exam
-              </Button>
+            <div className="mt-16 flex flex-col place-items-center gap-8">
+              {passed ? (
+                <h2 className="text-3xl sm:text-4xl font-semibold text-center text-green-500 sm:mt-5">
+                  EXAM PASSED
+                </h2>
+              ) : (
+                <h2 className="text-3xl sm:text-4xl font-semibold text-center text-red-500 sm:mt-5">
+                  EXAM FAILED
+                </h2>
+              )}
+              <div className="flex justify-center relative z-[1]">
+                <span className="text-white opacity-10 font-bold text-7xl sm:text-6xl md:text-8xl lg:text-9xl -z-[1] select-none">
+                  POINTS
+                </span>
+
+                <div className="absolute text-white text-4xl sm:text-6xl font-semibold text-center grid place-items-center top-0 bottom-0">
+                  <p>
+                    <span
+                      className={passed ? "text-green-500" : "text-red-500"}
+                    >
+                      {resultPoints}
+                    </span>
+                    /100
+                  </p>
+                </div>
+              </div>
+              <p className="text-white text-sm sm:text-lg mx-auto sm:w-[490px] text-center mt-5 mb-10 sm:mb-20">
+                {passed ? (
+                  <>
+                    <p>Congratulations!</p>
+                    <p>
+                      You completed the exam in{" "}
+                      {Math.floor(elapsedSeconds / 60)} minutes and{" "}
+                      {elapsedSeconds % 60} seconds.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      You didn't pass the exam, you need to score above 75 to
+                      pass, keep learning and try again.
+                    </p>
+                  </>
+                )}
+              </p>
+              <div className="flex justify-center flex-col sm:flex-row gap-4">
+                <Button
+                  type="button"
+                  intent="secondary"
+                  size="medium"
+                  onClick={() => {
+                    setRevealExam(true);
+                  }}
+                >
+                  Reveal Exam
+                </Button>
+                <Button
+                  type="button"
+                  intent="primary"
+                  size="medium"
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                >
+                  Retake Exam
+                </Button>
+              </div>
             </div>
           </div>
         </>
@@ -153,19 +185,25 @@ const Exam: NextPage = () => {
       <div
         className={`${
           (isRunning && !isFinished) || revealExam ? "" : "hidden"
-        } py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg`}
+        }`}
       >
-        <div className="w-full flex flex-col xl:flex-row justify-between items-center">
-          <p className="text-white font-bold text-2xl">
+        <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
+          <p className="text-white font-bold text-sm sm:text-2xl">
             {currentQuestionIndex + 1}/{numberOfQuestions}
           </p>
-          <h1 className="text-white font-bold text-3xl">PRACTICE EXAM</h1>
-          <p className="text-white font-bold text-2xl">{remainingTime}</p>
+          <h1 className="text-white font-bold text-lg sm:text-3xl">
+            PRACTICE EXAM
+          </h1>
+          <p className="text-white font-bold text-sm sm:text-2xl">
+            {remainingTime}
+          </p>
         </div>
         <div className="h-max">
           <QuizExamForm
             windowWidth={windowWidth}
+            remainingTime={remainingTime}
             isLoading={loading}
+            handleSkipQuestion={handleSkipQuestion}
             handleNextQuestion={handleNextQuestion}
             totalQuestions={data.randomQuestions?.length}
             currentQuestionIndex={currentQuestionIndex}
@@ -182,13 +220,17 @@ const Exam: NextPage = () => {
         </div>
       </div>
       {!isRunning && !isFinished && !revealExam ? (
-        <div className="py-10 px-5 sm:p-10 w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
-          <div className="w-full flex flex-col xl:flex-row justify-between items-center">
-            <p className="text-white font-bold text-2xl">
-              0/{numberOfQuestions}
+        <div className="">
+          <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
+            <p className="text-white font-bold text-sm sm:text-2xl">
+              {currentQuestionIndex + 1}/{numberOfQuestions}
             </p>
-            <h1 className="text-white font-bold text-3xl">PRACTICE EXAM</h1>
-            <p className="text-white font-bold text-2xl">{remainingTime}</p>
+            <h1 className="text-white font-bold text-lg sm:text-3xl">
+              PRACTICE EXAM
+            </h1>
+            <p className="text-white font-bold text-sm sm:text-2xl">
+              {remainingTime}
+            </p>
           </div>
           <div className="h-max">
             <div className="grid pt-20 place-items-center">
