@@ -1,8 +1,5 @@
-import React, { use, useCallback, useEffect, useState } from "react";
-import { useForm, FieldValues, set } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { Question } from "./types";
-import Image from "next/image";
-import SelectionInput from "./SelectionInput";
 import { FieldArray, FormikProvider, Field, useFormik } from "formik";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
@@ -11,6 +8,7 @@ type Props = {
   isLoading: boolean;
   handleNextQuestion: (q: number) => void;
   handleSkipQuestion: (q: number) => void;
+  handleCountAnswered: () => void;
   currentQuestionIndex: number;
   totalQuestions: number;
   windowWidth: number;
@@ -28,6 +26,7 @@ const QuizExamForm: React.FC<Props> = ({
   isLoading,
   handleNextQuestion,
   handleSkipQuestion,
+  handleCountAnswered,
   currentQuestionIndex,
   totalQuestions,
   windowWidth,
@@ -40,7 +39,6 @@ const QuizExamForm: React.FC<Props> = ({
   hideExam,
   remainingTime,
 }) => {
-  const { register, handleSubmit, reset, getValues } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<any>([]);
 
@@ -90,11 +88,10 @@ const QuizExamForm: React.FC<Props> = ({
         if (savedAnswers[x] === null && x !== currentQuestionIndex) {
           done = false;
           break;
-        } else {
-          console.log(savedAnswers);
         }
       }
       if (done === true) {
+        handleCountAnswered();
         formik.submitForm();
         return;
       } else {
@@ -123,6 +120,7 @@ const QuizExamForm: React.FC<Props> = ({
       if (areAllQuestionsAnswered) {
         formik.submitForm();
       } else {
+        handleCountAnswered();
         handleNextQuestion(i);
       }
     }

@@ -30,6 +30,7 @@ const Exam: NextPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
   const [revealExam, setRevealExam] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [countAnswered, setCountAnswered] = useState<number>(0);
   const { data, loading, error } = useQuery(questionsQuery, {
     variables: { range: 10 },
   });
@@ -41,6 +42,10 @@ const Exam: NextPage = () => {
     totalTimeInSeconds -
     (parseInt(remainingTime.split(":")[0]) * 60 +
       parseInt(remainingTime.split(":")[1]));
+
+  const handleCountAnswered = () => {
+    setCountAnswered(countAnswered + 1);
+  };
 
   const handleSkipQuestion = (questionNo: number) => {
     setCurrentQuestionIndex(questionNo);
@@ -102,7 +107,7 @@ const Exam: NextPage = () => {
           <div className="">
             <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
               <p className="text-white font-bold text-sm sm:text-2xl">
-                {currentQuestionIndex + 1}/{numberOfQuestions}
+                {countAnswered}/{numberOfQuestions}
               </p>
               <h1 className="text-white font-bold text-lg sm:text-3xl">
                 PRACTICE EXAM
@@ -189,7 +194,7 @@ const Exam: NextPage = () => {
       >
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            {currentQuestionIndex + 1}/{numberOfQuestions}
+            {countAnswered}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM
@@ -203,6 +208,7 @@ const Exam: NextPage = () => {
             windowWidth={windowWidth}
             remainingTime={remainingTime}
             isLoading={loading}
+            handleCountAnswered={handleCountAnswered}
             handleSkipQuestion={handleSkipQuestion}
             handleNextQuestion={handleNextQuestion}
             totalQuestions={data.randomQuestions?.length}
@@ -223,7 +229,7 @@ const Exam: NextPage = () => {
         <div className="">
           <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
             <p className="text-white font-bold text-sm sm:text-2xl">
-              {currentQuestionIndex + 1}/{numberOfQuestions}
+              {countAnswered}/{numberOfQuestions}
             </p>
             <h1 className="text-white font-bold text-lg sm:text-3xl">
               PRACTICE EXAM
