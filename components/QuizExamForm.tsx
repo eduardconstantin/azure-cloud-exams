@@ -41,6 +41,7 @@ const QuizExamForm: React.FC<Props> = ({
 }) => {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<any>([]);
+  const { points, reCount } = useResults(savedAnswers);
 
   const noOfAnswers = options
     ? options?.filter((el: any) => el.isAnswer === true).length
@@ -58,16 +59,18 @@ const QuizExamForm: React.FC<Props> = ({
     },
     onSubmit: () => {
       saveAnswers(false).then(() => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { points } = useResults({
+        reCount({
           questions: questions,
           answers: savedAnswers,
         });
-        getResultPoints(points);
       });
       stopTimer();
     },
   });
+
+  useEffect(() => {
+    getResultPoints(points);
+  }, [points]);
 
   useEffect(() => {
     if (revealExam) {
