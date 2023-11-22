@@ -10,6 +10,8 @@ type TimerHook = {
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;
+  isRunning: boolean;
+  isFinished: boolean;
 };
 
 function timeToMilliseconds(time: Time): number {
@@ -27,6 +29,7 @@ const useTimer = (initialTime: Time): TimerHook => {
   const initialDuration = timeToMilliseconds(initialTime);
   const [remainingTime, setRemainingTime] = useState(initialDuration);
   const [isRunning, setIsRunning] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -36,6 +39,7 @@ const useTimer = (initialTime: Time): TimerHook => {
         setRemainingTime((prevTime) => Math.max(0, prevTime - 1000));
       }, 1000);
     } else if (remainingTime <= 0 && isRunning) {
+      setIsFinished(true);
       setIsRunning(false);
     }
 
@@ -46,16 +50,19 @@ const useTimer = (initialTime: Time): TimerHook => {
 
   const startTimer = () => {
     if (!isRunning) {
+      setIsFinished(false);
       setIsRunning(true);
     }
   };
 
   const stopTimer = () => {
     setIsRunning(false);
+    setIsFinished(true);
   };
 
   const resetTimer = () => {
     setIsRunning(false);
+    setIsFinished(false);
     setRemainingTime(initialDuration);
   };
 
@@ -64,6 +71,8 @@ const useTimer = (initialTime: Time): TimerHook => {
     startTimer,
     stopTimer,
     resetTimer,
+    isRunning,
+    isFinished
   };
 };
 

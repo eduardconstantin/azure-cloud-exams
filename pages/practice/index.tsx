@@ -42,6 +42,10 @@ const Practice: NextPage = () => {
     error: questionsError,
   } = useQuery(questionsQuery);
 
+  useEffect(() => {
+    console.log(questionsData);
+  }, [questionsData]);
+
   const handleNextQuestion = (questionNo: number) => {
     if (questionNo > 0 && questionNo - 1 < questionsData?.questions?.count) {
       setCurrentQuestionIndex(questionNo);
@@ -55,11 +59,7 @@ const Practice: NextPage = () => {
     <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <Head>
         <title>Azure Fundamentals - Practice</title>
-        <meta
-          property="og:title"
-          content="Azure Fundamentals - Practice"
-          key="title"
-        />
+        <meta property="og:title" content="Azure Fundamentals - Practice" key="title" />
       </Head>
       <QuizForm
         windowWidth={windowWidth}
