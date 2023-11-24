@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Question } from "./types";
 import { FieldArray, FormikProvider, Field, useFormik } from "formik";
 import { Button } from "./Button";
@@ -11,7 +11,6 @@ type Props = {
   handleCountAnswered: () => void;
   currentQuestionIndex: number;
   totalQuestions: number;
-  windowWidth: number;
   question: string;
   questions: Question[];
   options: any;
@@ -29,7 +28,6 @@ const QuizExamForm: React.FC<Props> = ({
   handleCountAnswered,
   currentQuestionIndex,
   totalQuestions,
-  windowWidth,
   question,
   options,
   stopTimer,
@@ -129,15 +127,6 @@ const QuizExamForm: React.FC<Props> = ({
     }
   };
 
-  const areAllQuestionsAnswered = (): boolean => {
-    for (const answers of savedAnswers) {
-      if (answers == null) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   const isQuestionAnswered = (): boolean => {
     for (const answer of formik.values?.options) {
       if (answer.checked === true) {
@@ -145,14 +134,9 @@ const QuizExamForm: React.FC<Props> = ({
       }
     }
     return false;
-    //return savedAnswers[currentQuestionIndex] != null;
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
-    /* if (!showCorrectAnswer) {
-      return false;
-    } */
-
     const savedAnswer = savedAnswers[currentQuestionIndex];
     return typeof savedAnswer === "string" || !savedAnswer
       ? savedAnswer === optionText
@@ -201,20 +185,10 @@ const QuizExamForm: React.FC<Props> = ({
   };
 
   if (isLoading) return <p>Loading...</p>;
-  //const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
 
   return (
     <FormikProvider value={formik}>
       <div className="relative min-h-40">
-        {/* <Image
-          src={imgUrl}
-          alt="question"
-          width={1200}
-          height={200}
-          priority={true}
-          unoptimized
-          loading="eager"
-        /> */}
         <div className="relative min-h-40 mt-8">
           <p className="text-white px-12 py-6 select-none">
             {currentQuestionIndex + 1}. {question}
@@ -333,7 +307,7 @@ const QuizExamForm: React.FC<Props> = ({
           </Button>
           <Button
             type="button"
-            intent="primary"
+            intent="secondary"
             size="medium"
             disabled={!isQuestionAnswered()}
             onClick={async () => {
