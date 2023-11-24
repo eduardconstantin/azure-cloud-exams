@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
@@ -5,7 +6,6 @@ import useTimer from "@azure-fundamentals/hooks/useTimer";
 import { Button } from "@azure-fundamentals/components/Button";
 import QuizExamForm from "@azure-fundamentals/components/QuizExamForm";
 import { Question } from "@azure-fundamentals/components/types";
-import React, { useCallback, useEffect, useState } from "react";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!) {
@@ -73,18 +73,8 @@ const Exam: NextPage = () => {
     setWindowWidth(window.innerWidth);
   }, []);
 
-  /* useEffect(() => {
-    if (isFinished) {
-      console.log(savedAnswers);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { points } = useResults({ questions: data?.randomQuestions, answers: savedAnswers });
-      setResultPoints(points);
-    }
-  }, [isFinished]); */
-
   useEffect(() => {
     setCurrentQuestion(data?.randomQuestions[0]);
-    console.log(data);
   }, [data]);
 
   if (loading) return <p>Loading</p>;
