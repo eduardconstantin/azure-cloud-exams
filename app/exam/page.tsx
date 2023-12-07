@@ -1,7 +1,8 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { gql, useQuery } from "@apollo/client";
-import Head from "next/head";
 import useTimer from "@azure-fundamentals/hooks/useTimer";
 import { Button } from "@azure-fundamentals/components/Button";
 import QuizExamForm from "@azure-fundamentals/components/QuizExamForm";
@@ -85,14 +86,6 @@ const Exam: NextPage = () => {
 
   return (
     <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
-      <Head>
-        <title>Azure Fundamentals - Exam</title>
-        <meta
-          property="og:title"
-          content="Azure Fundamentals - Exam"
-          key="title"
-        />
-      </Head>
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">

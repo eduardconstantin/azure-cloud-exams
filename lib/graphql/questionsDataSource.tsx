@@ -14,7 +14,9 @@ export const QuestionsDataSource = (container: Container) => {
       };
 
       try {
-        const { resources: items } = await container.items.query(querySpec).fetchAll();
+        const { resources: items } = await container.items
+          .query(querySpec)
+          .fetchAll();
         return items[0];
       } catch (err) {
         throw new Error("Error: " + err);
@@ -26,7 +28,9 @@ export const QuestionsDataSource = (container: Container) => {
       };
 
       try {
-        const { resources: items } = await container.items.query(querySpec).fetchAll();
+        const { resources: items } = await container.items
+          .query(querySpec)
+          .fetchAll();
         return { count: items[0] };
       } catch (err) {
         throw new Error("Error: " + err);

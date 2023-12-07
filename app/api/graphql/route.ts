@@ -2,10 +2,10 @@
 // import { QuestionsDataSource, LocalQuestionsDataSource } from "@azure-fundamentals/src/graphql/questionsDataSource";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import typeDefs from "@azure-fundamentals/src/graphql/schemas";
-import resolvers from "@azure-fundamentals/src/graphql/resolvers";
-import { RepoQuestionsDataSource } from "@azure-fundamentals/src/graphql/questionsDataSource";
-import { FetchQuestions } from "@azure-fundamentals/src/graphql/repoQuestions";
+import typeDefs from "@azure-fundamentals/lib/graphql/schemas";
+import resolvers from "@azure-fundamentals/lib/graphql/resolvers";
+import { RepoQuestionsDataSource } from "@azure-fundamentals/lib/graphql/questionsDataSource";
+import { FetchQuestions } from "@azure-fundamentals/lib/graphql/repoQuestions";
 
 interface ContextValue {
   dataSources: {
@@ -21,7 +21,7 @@ const server = new ApolloServer<ContextValue>({
 
 const questions = await FetchQuestions();
 
-export default startServerAndCreateNextHandler(server, {
+const handler = startServerAndCreateNextHandler(server, {
   context: async () => {
     return {
       dataSources: {
@@ -33,3 +33,5 @@ export default startServerAndCreateNextHandler(server, {
     };
   },
 });
+
+export { handler as GET, handler as POST };
