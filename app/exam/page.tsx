@@ -23,7 +23,7 @@ const questionsQuery = gql`
 
 const Exam: NextPage = () => {
   const { minutes, seconds } = {
-    minutes: 1,
+    minutes: 15,
     seconds: 0,
   };
   const totalTimeInSeconds = minutes * 60 + seconds;
@@ -34,7 +34,7 @@ const Exam: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [countAnswered, setCountAnswered] = useState<number>(0);
   const { data, loading, error } = useQuery(questionsQuery, {
-    variables: { range: 10 },
+    variables: { range: 30 },
   });
   const [resultPoints, setResultPoints] = useState<number>(0);
   const [passed, setPassed] = useState<boolean>(false);
