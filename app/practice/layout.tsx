@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Azure Fundamentals - Practice",
+  title: "Azure Cloud Exams - Practice",
   openGraph: {
-    title: "Azure Fundamentals - Practice",
+    title: "Azure Cloud Exams - Practice",
   },
 };
 

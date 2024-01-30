@@ -8,9 +8,9 @@ import ApolloProvider from "@azure-fundamentals/components/ApolloProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
-  title: "Azure Fundamentals",
+  title: "Azure Cloud Exams",
   openGraph: {
-    title: "Azure Fundamentals",
+    title: "Azure Cloud Exams",
   },
 };
 
