@@ -23,13 +23,13 @@ const ExamLink = ({
       {...linkProps}
       className={clsx(
         wrapperClassNames,
-        "group bg-slate-700 hover:bg-gradient-to-r rounded-xl p-[2px] w-full h-[350px] cursor-pointer"
+        "group bg-slate-700 hover:bg-gradient-to-r rounded-xl p-[2px] w-full h-[350px] cursor-pointer",
       )}
     >
       <div
         className={clsx(
           headingClassNames,
-          'flex flex-col justify-center items-center h-full bg-slate-800 rounded-xl px-7',
+          "flex flex-col justify-center items-center h-full bg-slate-800 rounded-xl px-7",
         )}
       >
         <h2 className="text-white group-hover:bg-gradient-to-r group-hover:text-transparent bg-clip-text uppercase text-3xl font-bold">
