@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import ExamLink from "@azure-fundamentals/components/ExamLink";
+import NameLink from "@azure-fundamentals/components/NameLink";
 
 const Home: NextPage = () => {
   return (
@@ -8,24 +8,36 @@ const Home: NextPage = () => {
         Welcome!
       </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
-        Test your knowledge under pressure with our timed exam mode, or explore
-        and master over 480 questions at your own pace with our practice mode.
+        Select a Microsoft Azure exam from the list bellow.
       </p>
-      <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-10 sm:mx-16">
-        <ExamLink
-          href="/practice"
-          heading="Practice mode"
-          paragraph="Learn and familiarize yourself with the questions and answers without any time constraint."
-          wrapperClassNames="from-[#0284C7] to-[#2DD48F]"
-          headingClassNames="group-hover:from-[#0284C7] group-hover:to-[#2DD48F]"
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 sm:mx-16">
+        <NameLink
+          href="/modes"
+          heading="MICROSOFT AZURE AZ-900"
+          paragraph="Microsoft Azure Fundamentals"
+          wrapperClassNames="hover:bg-[#C7D2E2]"
+          headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
         />
-        <ExamLink
-          href="/exam"
-          heading="Exam mode"
-          paragraph="Put your knowledge to the test by answering a fixed number of randomly selected questions under a time
-            limit."
-          wrapperClassNames="from-[#F97316] to-[#FACC15]"
-          headingClassNames="group-hover:from-[#F97316] group-hover:to-[#FACC15]"
+        <NameLink
+          href="/practice"
+          heading="MICROSOFT AZURE AI-900"
+          paragraph="Microsoft Azure AI Fundamentals"
+          wrapperClassNames="hover:bg-[#C7D2E2]"
+          headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
+        />
+        <NameLink
+          href="/practice"
+          heading="MICROSOFT AZURE AZ-900"
+          paragraph="Microsoft Azure Fundamentals"
+          wrapperClassNames="hover:bg-[#C7D2E2]"
+          headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
+        />
+        <NameLink
+          href="/practice"
+          heading="MICROSOFT AZURE AZ-900"
+          paragraph="Microsoft Azure Fundamentals"
+          wrapperClassNames="hover:bg-[#C7D2E2]"
+          headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
         />
       </div>
     </div>
