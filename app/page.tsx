@@ -16,7 +16,10 @@ const Home: NextPage = async () => {
           return (
             <NameLink
               key={exam.name}
-              href="/modes"
+              href={{
+                pathname: "/modes",
+                query: { url: exam.url, name: exam.name },
+              }}
               heading={exam.name}
               paragraph={exam.subtitle}
               wrapperClassNames="hover:bg-[#C7D2E2]"
