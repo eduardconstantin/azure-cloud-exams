@@ -1,9 +1,14 @@
 import type { NextPage } from "next";
 import ExamLink from "@azure-fundamentals/components/ExamLink";
 
-const Home: NextPage = () => {
+const Modes: NextPage = ({ searchParams }) => {
+  const { url, name } = searchParams;
+
   return (
     <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
+      <h2 className="text-white text-4xl text-leading font-bold uppercase mt-14">
+        {name}
+      </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
         Test your knowledge under pressure with our timed exam mode, or explore
         and master over 480 questions at your own pace with our practice mode.
@@ -17,7 +22,10 @@ const Home: NextPage = () => {
           headingClassNames="group-hover:from-[#0284C7] group-hover:to-[#2DD48F]"
         />
         <ExamLink
-          href="/exam"
+          href={{
+            pathname: "/exam",
+            query: { url },
+          }}
           heading="Exam mode"
           paragraph="Put your knowledge to the test by answering a fixed number of randomly selected questions under a time
             limit."
@@ -29,4 +37,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Modes;
