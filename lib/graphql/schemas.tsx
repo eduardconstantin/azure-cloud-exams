@@ -14,9 +14,9 @@ const typeDefs = gql`
     count: Int
   }
   type Query {
-    questions: Questions
-    questionById(id: ID!): Question
-    randomQuestions(range: Int!): [Question]
+    questions(link: String): Questions
+    questionById(id: ID!, link: String): Question
+    randomQuestions(range: Int!, link: String): [Question]
   }
 `;
 

@@ -33,9 +33,9 @@ const scrapeQuestions = (markdownText: string) => {
   return questions;
 };
 
-export const FetchQuestions = async () => {
+export const FetchQuestions = async (link: string) => {
   try {
-    const res = await fetch(url);
+    const res = await fetch(link);
     if (!res.ok) {
       throw new Error(res.statusText);
     }

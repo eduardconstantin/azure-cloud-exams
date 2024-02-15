@@ -15,7 +15,10 @@ const Modes: NextPage = ({ searchParams }) => {
       </p>
       <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-10 sm:mx-16">
         <ExamLink
-          href="/practice"
+          href={{
+            pathname: "/practice",
+            query: { url },
+          }}
           heading="Practice mode"
           paragraph="Learn and familiarize yourself with the questions and answers without any time constraint."
           wrapperClassNames="from-[#0284C7] to-[#2DD48F]"

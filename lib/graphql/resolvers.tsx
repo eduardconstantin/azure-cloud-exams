@@ -1,25 +1,31 @@
+import { FetchQuestions } from "@azure-fundamentals/lib/graphql/repoQuestions";
+
 const resolvers = {
   Query: {
     questions: async (
       _: unknown,
-      __: unknown,
+      { link }: { link: string },
       { dataSources }: { dataSources: any },
     ) => {
-      return await dataSources.questionsDB.getQuestions();
+      const response = await FetchQuestions(link);
+      return { count: response?.length };
     },
     questionById: async (
       _: unknown,
-      { id }: { id: string },
+      { id, link }: { id: string; link: string },
       { dataSources }: { dataSources: any },
     ) => {
-      return await dataSources.questionsDB.getQuestion(id);
+      const response = await FetchQuestions(link);
+      return response?.filter((el: any) => el.id === id)[0];
     },
     randomQuestions: async (
       _: unknown,
-      { range }: { range: number },
+      { range, link }: { range: number; link: string },
       { dataSources }: { dataSources: any },
     ) => {
-      return await dataSources.questionsDB.getRandomQuestions(range);
+      const response = await FetchQuestions(link);
+      const shuffled = response?.sort(() => 0.5 - Math.random());
+      return shuffled?.slice(0, range);
     },
   },
 };

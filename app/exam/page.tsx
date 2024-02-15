@@ -10,8 +10,8 @@ import { Question } from "@azure-fundamentals/components/types";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
 
 const questionsQuery = gql`
-  query RandomQuestions($range: Int!) {
-    randomQuestions(range: $range) {
+  query RandomQuestions($range: Int!, $link: String) {
+    randomQuestions(range: $range, link: $link) {
       question
       options {
         isAnswer
@@ -21,7 +21,7 @@ const questionsQuery = gql`
   }
 `;
 
-const Exam: NextPage = () => {
+const Exam: NextPage = ({ searchParams }) => {
   const { minutes, seconds } = {
     minutes: 15,
     seconds: 0,
@@ -34,7 +34,7 @@ const Exam: NextPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [countAnswered, setCountAnswered] = useState<number>(0);
   const { data, loading, error } = useQuery(questionsQuery, {
-    variables: { range: 30 },
+    variables: { range: 30, link: searchParams.url },
   });
   const [resultPoints, setResultPoints] = useState<number>(0);
   const [passed, setPassed] = useState<boolean>(false);
