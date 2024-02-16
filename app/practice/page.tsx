@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import QuizForm from "@azure-fundamentals/components/QuizForm";
 
 const questionQuery = gql`
-  query QuestionById($id: ID!) {
-    questionById(id: $id) {
+  query QuestionById($id: ID!, $link: String) {
+    questionById(id: $id, link: $link) {
       question
       options {
         isAnswer
@@ -18,14 +18,14 @@ const questionQuery = gql`
 `;
 
 const questionsQuery = gql`
-  query Questions {
-    questions {
+  query Questions($link: String) {
+    questions(link: $link) {
       count
     }
   }
 `;
 
-const Practice: NextPage = () => {
+const Practice: NextPage = ({ searchParams }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
@@ -34,14 +34,16 @@ const Practice: NextPage = () => {
   }, []);
 
   const { loading, error, data } = useQuery(questionQuery, {
-    variables: { id: currentQuestionIndex - 1 },
+    variables: { id: currentQuestionIndex - 1, link: searchParams.url },
   });
 
   const {
     data: questionsData,
     loading: questionsLoading,
     error: questionsError,
-  } = useQuery(questionsQuery);
+  } = useQuery(questionsQuery, {
+    variables: { link: searchParams.url },
+  });
 
   const handleNextQuestion = (questionNo: number) => {
     if (questionNo > 0 && questionNo - 1 < questionsData?.questions?.count) {

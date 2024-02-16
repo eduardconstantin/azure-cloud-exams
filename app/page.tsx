@@ -1,32 +1,32 @@
 import type { NextPage } from "next";
-import ExamLink from "@azure-fundamentals/components/ExamLink";
+import NameLink from "@azure-fundamentals/components/NameLink";
+import exams from "@azure-fundamentals/lib/exams.json";
 
-const Home: NextPage = () => {
+const Home: NextPage = async () => {
   return (
     <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
       <h2 className="text-white text-5xl text-leading font-bold uppercase mt-14">
         Welcome!
       </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
-        Test your knowledge under pressure with our timed exam mode, or explore
-        and master over 480 questions at your own pace with our practice mode.
+        Select a Microsoft Azure exam from the list bellow.
       </p>
-      <div className="flex max-sm:flex-col max-sm:align-center justify-center gap-10 sm:mx-16">
-        <ExamLink
-          href="/practice"
-          heading="Practice mode"
-          paragraph="Learn and familiarize yourself with the questions and answers without any time constraint."
-          wrapperClassNames="from-[#0284C7] to-[#2DD48F]"
-          headingClassNames="group-hover:from-[#0284C7] group-hover:to-[#2DD48F]"
-        />
-        <ExamLink
-          href="/exam"
-          heading="Exam mode"
-          paragraph="Put your knowledge to the test by answering a fixed number of randomly selected questions under a time
-            limit."
-          wrapperClassNames="from-[#F97316] to-[#FACC15]"
-          headingClassNames="group-hover:from-[#F97316] group-hover:to-[#FACC15]"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 sm:mx-16">
+        {exams.map((exam) => {
+          return (
+            <NameLink
+              key={exam.name}
+              href={{
+                pathname: "/modes",
+                query: { url: exam.url, name: exam.name },
+              }}
+              heading={exam.name}
+              paragraph={exam.subtitle}
+              wrapperClassNames="hover:bg-[#C7D2E2]"
+              headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -2,7 +2,8 @@ const url =
   "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers/main/README.md";
 
 const scrapeQuestions = (markdownText: string) => {
-  const regex = /### (.*?)\n\n((?:- \[(?:x| )\] .*?\n)+)/gs;
+  const regex =
+    /### (.*?)\s*\n\n\!\[.*?\]\(.*?\)\s*\n\n((?:- \[(?:x| )\] .*?\n)+)/gs;
   const optionsRegex = /- \[(x| )\] (.*?)(?=\n- \[|$)/g;
   const questions = [];
   let match;
@@ -33,13 +34,14 @@ const scrapeQuestions = (markdownText: string) => {
   return questions;
 };
 
-export const FetchQuestions = async () => {
+export const FetchQuestions = async (link: string) => {
   try {
-    const res = await fetch(url);
+    const res = await fetch(link);
     if (!res.ok) {
       throw new Error(res.statusText);
     }
     const markdown = await res.text();
+
     return scrapeQuestions(markdown);
   } catch (err: any) {
     console.error(err.message);
