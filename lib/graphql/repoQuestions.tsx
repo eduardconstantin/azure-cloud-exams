@@ -3,8 +3,9 @@ const url =
 
 const scrapeQuestions = (markdownText: string) => {
   const regex =
-    /### (.*?)\s*\n\n((?:\!\[.*?\]\(.*?\)\s*\n\n)+)((?:- \[(?:x| )\] .*?\n)+)/gs;
+    /### (.*?)\s*\n\n((?:\!\[.*?\]\(.*?\)\s*\n\n)*?)((?:- \[(?:x| )\] .*?\n)+)/gs;
   const optionsRegex = /- \[(x| )\] (.*?)(?=\n- \[|$)/g;
+  const imageRegex = /\!\[(.*?)\]\((.*?)\)/g;
   const questions = [];
   let match;
   let id = 0;
@@ -16,7 +17,7 @@ const scrapeQuestions = (markdownText: string) => {
 
     const images = [];
     let imageMatch;
-    const imageRegex = /\!\[(.*?)\]\((.*?)\)/g;
+
     while ((imageMatch = imageRegex.exec(imagesText)) !== null) {
       const altText = imageMatch[1].trim();
       const imageUrl = imageMatch[2].trim();
