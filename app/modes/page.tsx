@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
 import ExamLink from "@azure-fundamentals/components/ExamLink";
 
-const Modes: NextPage = ({ searchParams }) => {
+const Modes: NextPage<{ searchParams: { url: string; name: string } }> = ({
+  searchParams,
+}) => {
   const { url, name } = searchParams;
 
   return (

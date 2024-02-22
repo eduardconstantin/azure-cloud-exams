@@ -29,7 +29,9 @@ const questionsQuery = gql`
   }
 `;
 
-const Practice: NextPage = ({ searchParams }) => {
+const Practice: NextPage<{ searchParams: { url: string; name: string } }> = ({
+  searchParams,
+}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { url } = searchParams;

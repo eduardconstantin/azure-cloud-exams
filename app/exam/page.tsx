@@ -21,7 +21,9 @@ const questionsQuery = gql`
   }
 `;
 
-const Exam: NextPage = ({ searchParams }) => {
+const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
+  searchParams,
+}) => {
   const { minutes, seconds } = {
     minutes: 15,
     seconds: 0,
