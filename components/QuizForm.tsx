@@ -31,6 +31,10 @@ const QuizForm: FC<Props> = ({
   const [savedAnswers, setSavedAnswers] = useState<{
     [key: number]: string | string[];
   }>({});
+  const [selectedImage, setSelectedImage] = useState<{
+    url: string;
+    alt: string;
+  } | null>(null);
 
   const onSubmit = (data: FieldValues) => {
     setSavedAnswers((prev) => ({
@@ -155,18 +159,37 @@ const QuizForm: FC<Props> = ({
         {images && (
           <ul className="flex flex-row justify-center gap-2 mt-5 mb-8 select-none md:px-12 px-0">
             {images.map((image) => (
-              <li key={image.alt}>
+              <li
+                key={image.alt}
+                className="w-[40px] h-[40px] rounded-md border border-white overflow-hidden flex flex-row justify-center"
+                onClick={() => setSelectedImage(image)}
+              >
                 <Image
                   src={link + image.url}
                   alt={image.alt}
-                  width={40}
-                  height={40}
-                  priority={true}
+                  className="max-h-max max-w-max hover:opacity-60"
                   unoptimized
+                  width={200}
+                  height={200}
                 />
               </li>
             ))}
           </ul>
+        )}
+        {selectedImage && (
+          <div className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+            <img
+              src={link + selectedImage.url}
+              alt={selectedImage.alt}
+              className="max-w-[90%] max-h-[90%]"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-3 right-5 px-3 py-1 bg-white text-black rounded-md"
+            >
+              Close
+            </button>
+          </div>
         )}
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
