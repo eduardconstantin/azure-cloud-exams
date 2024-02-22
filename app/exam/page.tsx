@@ -17,6 +17,10 @@ const questionsQuery = gql`
         isAnswer
         text
       }
+      images {
+        url
+        alt
+      }
     }
   }
 `;
@@ -24,6 +28,7 @@ const questionsQuery = gql`
 const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
   searchParams,
 }) => {
+  const { url } = searchParams;
   const { minutes, seconds } = {
     minutes: 15,
     seconds: 0,
@@ -36,12 +41,12 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [countAnswered, setCountAnswered] = useState<number>(0);
   const { data, loading, error } = useQuery(questionsQuery, {
-    variables: { range: 30, link: searchParams.url },
+    variables: { range: 30, link: url },
   });
   const [resultPoints, setResultPoints] = useState<number>(0);
   const [passed, setPassed] = useState<boolean>(false);
   const [windowWidth, setWindowWidth] = useState<number>(0);
-
+  const editedUrl = url.substring(0, url.lastIndexOf("/") + 1);
   const elapsedSeconds =
     totalTimeInSeconds -
     (parseInt(remainingTime.split(":")[0]) * 60 +
@@ -124,6 +129,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
               currentQuestionIndex={currentQuestionIndex}
               question={currentQuestion?.question ?? ""}
               options={currentQuestion?.options}
+              images={currentQuestion?.images}
               stopTimer={stopTimer}
               revealExam={revealExam}
               getResultPoints={getResultPoints}
@@ -131,6 +137,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
               hideExam={() => {
                 setRevealExam(false);
               }}
+              link={editedUrl}
             />
           </div>
         </div>
