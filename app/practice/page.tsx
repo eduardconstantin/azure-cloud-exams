@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import QuizForm from "@azure-fundamentals/components/QuizForm";
@@ -32,13 +32,9 @@ const questionsQuery = gql`
 const Practice: NextPage<{ searchParams: { url: string; name: string } }> = ({
   searchParams,
 }) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
   const { url } = searchParams;
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const editedUrl = url.substring(0, url.lastIndexOf("/") + 1);
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-  }, []);
 
   const { loading, error, data } = useQuery(questionQuery, {
     variables: { id: currentQuestionIndex - 1, link: url },
@@ -64,7 +60,6 @@ const Practice: NextPage<{ searchParams: { url: string; name: string } }> = ({
   return (
     <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <QuizForm
-        windowWidth={windowWidth}
         isLoading={loading || questionsLoading}
         questionSet={data?.questionById}
         handleNextQuestion={handleNextQuestion}

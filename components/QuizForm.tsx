@@ -11,7 +11,6 @@ type Props = {
   handleNextQuestion: (q: number) => void;
   currentQuestionIndex: number;
   totalQuestions: number;
-  windowWidth: number;
   link: string;
 };
 
@@ -21,7 +20,6 @@ const QuizForm: FC<Props> = ({
   handleNextQuestion,
   currentQuestionIndex,
   totalQuestions,
-  windowWidth,
   link,
 }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -57,7 +55,6 @@ const QuizForm: FC<Props> = ({
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options, images } = questionSet!;
-  const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
   return (
@@ -147,16 +144,8 @@ const QuizForm: FC<Props> = ({
             </svg>
           </button>
         </div>
-        <Image
-          src={imgUrl}
-          alt="question"
-          width={1200}
-          height={200}
-          priority={true}
-          unoptimized
-          loading="eager"
-        />
-        {images && (
+        <p className="text-white px-12 pt-10 pb-5 select-none">{question}</p>
+        {images.length !== 0 && (
           <ul className="flex flex-row justify-center gap-2 mt-5 mb-8 select-none md:px-12 px-0">
             {images.map((image) => (
               <li
