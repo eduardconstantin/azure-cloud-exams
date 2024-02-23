@@ -5,10 +5,15 @@ const typeDefs = gql`
     text: String
     isAnswer: Boolean
   }
+  type Images {
+    alt: String
+    url: String
+  }
   type Question {
     id: String
     question: String
     options: [Option]
+    images: [Images]
   }
   type Questions {
     count: Int

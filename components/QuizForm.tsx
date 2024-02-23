@@ -12,6 +12,7 @@ type Props = {
   currentQuestionIndex: number;
   totalQuestions: number;
   windowWidth: number;
+  link: string;
 };
 
 const QuizForm: FC<Props> = ({
@@ -21,6 +22,7 @@ const QuizForm: FC<Props> = ({
   currentQuestionIndex,
   totalQuestions,
   windowWidth,
+  link,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
@@ -29,6 +31,10 @@ const QuizForm: FC<Props> = ({
   const [savedAnswers, setSavedAnswers] = useState<{
     [key: number]: string | string[];
   }>({});
+  const [selectedImage, setSelectedImage] = useState<{
+    url: string;
+    alt: string;
+  } | null>(null);
 
   const onSubmit = (data: FieldValues) => {
     setSavedAnswers((prev) => ({
@@ -50,7 +56,7 @@ const QuizForm: FC<Props> = ({
   };
 
   if (isLoading) return <p>Loading...</p>;
-  const { question, options } = questionSet!;
+  const { question, options, images } = questionSet!;
   const imgUrl: string = `/api/og?question=${question}&width=${windowWidth}`;
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
@@ -88,7 +94,9 @@ const QuizForm: FC<Props> = ({
             </svg>
           </button>
           <div className="flex justify-center relative w-[15%] z-[1]">
-            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">Q&A</span>
+            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
+              Q&A
+            </span>
             <input
               className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
               type="number"
@@ -148,6 +156,41 @@ const QuizForm: FC<Props> = ({
           unoptimized
           loading="eager"
         />
+        {images && (
+          <ul className="flex flex-row justify-center gap-2 mt-5 mb-8 select-none md:px-12 px-0">
+            {images.map((image) => (
+              <li
+                key={image.alt}
+                className="w-[40px] h-[40px] rounded-md border border-white overflow-hidden flex flex-row justify-center"
+                onClick={() => setSelectedImage(image)}
+              >
+                <Image
+                  src={link + image.url}
+                  alt={image.alt}
+                  className="max-h-max max-w-max hover:opacity-60"
+                  unoptimized
+                  width={200}
+                  height={200}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+        {selectedImage && (
+          <div className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+            <img
+              src={link + selectedImage.url}
+              alt={selectedImage.alt}
+              className="max-w-[90%] max-h-[90%]"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-3 right-5 px-3 py-1 bg-white text-black rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        )}
       </div>
       <ul className="flex flex-col gap-2 mt-5 mb-16 select-none md:px-12 px-0 h-max min-h-[250px]">
         {options.map((option, index) => (

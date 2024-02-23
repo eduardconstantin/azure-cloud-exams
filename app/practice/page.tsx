@@ -13,6 +13,10 @@ const questionQuery = gql`
         isAnswer
         text
       }
+      images {
+        alt
+        url
+      }
     }
   }
 `;
@@ -25,16 +29,19 @@ const questionsQuery = gql`
   }
 `;
 
-const Practice: NextPage = ({ searchParams }) => {
+const Practice: NextPage<{ searchParams: { url: string; name: string } }> = ({
+  searchParams,
+}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [windowWidth, setWindowWidth] = useState<number>(0);
-
+  const { url } = searchParams;
+  const editedUrl = url.substring(0, url.lastIndexOf("/") + 1);
   useEffect(() => {
     setWindowWidth(window.innerWidth);
   }, []);
 
   const { loading, error, data } = useQuery(questionQuery, {
-    variables: { id: currentQuestionIndex - 1, link: searchParams.url },
+    variables: { id: currentQuestionIndex - 1, link: url },
   });
 
   const {
@@ -42,7 +49,7 @@ const Practice: NextPage = ({ searchParams }) => {
     loading: questionsLoading,
     error: questionsError,
   } = useQuery(questionsQuery, {
-    variables: { link: searchParams.url },
+    variables: { link: url },
   });
 
   const handleNextQuestion = (questionNo: number) => {
@@ -63,6 +70,7 @@ const Practice: NextPage = ({ searchParams }) => {
         handleNextQuestion={handleNextQuestion}
         totalQuestions={questionsData?.questions?.count}
         currentQuestionIndex={currentQuestionIndex}
+        link={editedUrl}
       />
     </div>
   );
