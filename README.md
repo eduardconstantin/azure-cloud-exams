@@ -12,6 +12,7 @@ the AZ-900 exam.
 UPDATE: The project is now using this
 [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers) as a
 database, replacing Cosmos DB.
+
 UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev?q=azure&type=all&language=&sort=)
 
 </div>
