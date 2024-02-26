@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import NameLink from "@azure-fundamentals/components/NameLink";
 import exams from "@azure-fundamentals/lib/exams.json";
 
-const Home: NextPage = async () => {
+const Home: NextPage = () => {
   return (
     <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
       <h2 className="text-white text-5xl text-leading font-bold uppercase mt-14">
