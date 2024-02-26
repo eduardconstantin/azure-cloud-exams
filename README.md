@@ -17,7 +17,7 @@ UPDATE2: The project has a new name to better fit it's purpose, now it has all a
 </div>
 
 <br />
-<img src="af.gif"/>
+<img src="ace.gif"/>
 
 <div align="center">
 <br />
