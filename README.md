@@ -6,7 +6,7 @@ This is a web application built with Next.js, TypeScript, CosmosDB, GraphQL and 
 that tests your knowledge of Azure fundamentals, specifically for the AZ-900 certification exam. The questions are
 stored in a Cosmos DB database and retrieved using GraphQL queries. The application is deployed on Microsoft Azure.
 
-This project was created for learning purposes to help me understand Microsoft Azure and Cosmos DB in preparation for
+This project was created for learning purposes to help me understand Microsoft Azure and CosmosDB in preparation for
 the AZ-900 exam.
 
 UPDATE: The project is now using this
@@ -33,10 +33,10 @@ UPDATE2: The project has a new name to better fit it's purpose, now it has all a
 
 ## 🌟 Features
 
-- Over 400 questions scrapped from this
-  [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers).
+- Question sets scrapped from this
+  [repo](https://github.com/Ditectrev?q=azure&type=all&language=&sort=).
 - Correct answer displayed for each question.
-- Vercel OG image generation used to display the questions.
+- Practice mode & Exam mode.
 
 ## 🌱 Getting Started
 

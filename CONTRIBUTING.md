@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-First off, thank you for considering contributing to Azure Fundamentals Exam Questions.
+First off, thank you for considering contributing to Azure Cloud Exams.
 
 It's people like you that make this project such a great tool.
 
@@ -10,7 +10,7 @@ Thank you for taking the time to open an issue.
 
 Before opening an issue, please be sure that your issue hasn't already been asked by someone.
 
-To begin  go to issues tab, select one of the templates and follow the instructions.
+To begin go to issues tab, select one of the templates and follow the instructions.
 <br><br>
 
 When creating issues, keep these key points in mind:
@@ -19,9 +19,10 @@ When creating issues, keep these key points in mind:
 - A thorough description of the issue, (one word descriptions are very hard to understand)
 - Screenshots (if appropriate)
 - Links (if appropriate)
-<br><br>
-  
+  <br><br>
+
 # TLTR: Create a Pull Request
+
 1. Fork this repository.
 2. Clone your new repository to your system.
 3. Switch to dev branch.
@@ -50,7 +51,7 @@ Now clone the forked repository to your machine. Go to your GitHub account, open
 Open a terminal and run the following git command:
 
 ```
-git clone https://github.com/eduardconstantin/azure-fundamentals.git
+git clone https://github.com/eduardconstantin/azure-cloud-exams.git
 ```
 
 ## Create a branch
@@ -58,7 +59,7 @@ git clone https://github.com/eduardconstantin/azure-fundamentals.git
 Change to the repository directory on your computer (if you are not already there):
 
 ```
-cd azure-fundamentals
+cd azure-cloud-exams
 ```
 
 Make sure you are on the `dev` branch by running the command :
