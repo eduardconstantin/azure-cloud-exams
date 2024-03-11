@@ -1,10 +1,10 @@
+import { type ReactNode } from "react";
+import { type Metadata } from "next";
 import TopNav from "@azure-fundamentals/components/TopNav";
 import Footer from "../components/Footer";
-import { ReactNode } from "react";
-import { Metadata } from "next";
-import "styles/globals.css";
-import Script from "next/script";
 import ApolloProvider from "@azure-fundamentals/components/ApolloProvider";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import "styles/globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
@@ -30,7 +30,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
             {children}
             <Footer />
           </main>
-          <Script
+          <GoogleTagManager gtmId={GA_TRACKING_ID!} />
+          <GoogleAnalytics gaId={GA_TRACKING_ID!} />
+          {/*<Script
             src={
               "https://www.googletagmanager.com/gtag/js?id=" + GA_TRACKING_ID
             }
@@ -45,7 +47,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             page_path: window.location.pathname,
           });
         `}
-          </Script>
+        </Script>*/}
         </ApolloProvider>
       </body>
     </html>
