@@ -30,12 +30,12 @@ const TopNav = () => {
       </div>
       <div className="flex items-center flex-col pt-1 w-1/2">
         <GitHubButton
-          href="https://github.com/eduardconstantin/azure-fundamentals"
+          href="https://github.com/Ditectrev/Practice-Exams-Platform"
           data-color-scheme="no-preference: light; light: light; dark: dark;"
           data-icon="octicon-star"
           data-size="large"
           data-show-count="true"
-          aria-label="Star azure-fundamentals on GitHub"
+          aria-label="Star our platform on GitHub"
         >
           {windowWidth < 640 ? "" : "Star"}
         </GitHubButton>

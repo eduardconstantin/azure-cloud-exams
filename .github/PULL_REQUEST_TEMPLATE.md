@@ -5,7 +5,7 @@ Please choose the PR Type and give as many details as possible about your PR.
 
 Fixes #0000 <!-- link to issue if one exists -->
 
-- [ ] I have read and agree to the [Code of Conduct](https://github.com/eduardconstantin/azure-fundamentals/blob/main/CODE_OF_CONDUCT.md), and have followed the [Contributing guidelines](https://github.com/eduardconstantin/azure-fundamentals/blob/main/CONTRIBUTING.md).
+- [ ] I have read and agree to the [Code of Conduct](CODE_OF_CONDUCT.md), and have followed the [Contributing guidelines](CONTRIBUTING.md).
 
 ## Pull Request Type
 
