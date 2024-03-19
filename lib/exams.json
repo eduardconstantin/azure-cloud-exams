@@ -1,8 +1,63 @@
 [
   {
-    "name": "Microsoft Azure AZ-900",
-    "subtitle": "Microsoft Azure Fundamentals",
-    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Practice-Tests-Exams-Questions-Answers/main/README.md"
+    "name": "AWS Certified ANS-C01",
+    "subtitle": "AWS Certified Advanced Networking Specialty",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-Certified-AWS-Certified-Advanced-Networking-Specialty-ANS-C01-Practice-Test-Exam/main/README.md"
+  },
+  {
+    "name": "AWS Certified CLF-C02",
+    "subtitle": "AWS Certified Cloud Practitioner",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-AWS-Certified-Cloud-Practitioner-CLF-C02-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "AWS Certified DAS-C01",
+    "subtitle": "AWS Certified Data Analytics Specialty",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-Certified-AWS-Certified-Data-Analytics-DAS-C01-Practice-Tests-Exams-Question/main/README.md"
+  },
+  {
+    "name": "AWS Certified DBS-C01",
+    "subtitle": "AWS Certified Database Specialty",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-Certified-AWS-Certified-Database-DBS-C01-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "AWS Certified DVA-C02",
+    "subtitle": "AWS Certified Developer Associate",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-AWS-Developer-Associate-DVA-C02-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "AWS Certified MLS-C01",
+    "subtitle": "AWS Certified Machine Learning Specialty",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-Certified-AWS-Certified-Machine-Learning-MLS-C01-Practice-Tests-Exams-Question/main/README.md"
+  },
+  {
+    "name": "AWS Certified SAA-C03",
+    "subtitle": "AWS Certified Solutions Architect Associate",
+    "url": "https://raw.githubusercontent.com/Ditectrev/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "AWS Certified SCS-C02",
+    "subtitle": "AWS Certified Security Specialty",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Amazon-Web-Services-Certified-AWS-Certified-Security-SCS-C02-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "GCP ACE",
+    "subtitle": "GCP Associate Cloud Engineer",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Google-Cloud-Platform-GCP-Associate-Cloud-Engineer-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "ITIL 4 Foundation",
+    "subtitle": "IT Service Management",
+    "url": "https://raw.githubusercontent.com/Ditectrev/ITIL-4-Foundation-IT-Service-Management-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "Microsoft Azure AZ-104",
+    "subtitle": "Microsoft Azure Administrator",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-104-Microsoft-Azure-Administrator-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "Microsoft Azure AZ-204",
+    "subtitle": "Developing Solutions for Azure",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-204-Developing-Solutions-for-Microsoft-Azure-Practice-Tests-Exams-Question-Answer/main/README.md"
   },
   {
     "name": "Microsoft Azure AZ-305",
@@ -15,13 +70,43 @@
     "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-400-Designing-and-Implementing-Microsoft-DevOps-Solutions-Practice-Tests-Exams-QA/main/README.md"
   },
   {
-    "name": "Microsoft Azure AZ-104",
-    "subtitle": "Microsoft Azure Administrator",
-    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-104-Microsoft-Azure-Administrator-Practice-Tests-Exams-Questions-Answers/main/README.md"
+    "name": "Microsoft Azure AZ-500",
+    "subtitle": "Azure Security Engineer",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-500-Azure-Security-Engineer-Practice-Tests-Exams-Questions-Answers/main/README.md"
   },
   {
     "name": "Microsoft Azure AZ-800",
     "subtitle": "Windows Server Hybrid Administrator",
     "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-800-Windows-Server-Hybrid-Administrator-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "Microsoft Azure AZ-900",
+    "subtitle": "Microsoft Azure Fundamentals",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "Microsoft Azure SC-900",
+    "subtitle": "Microsoft Security, Compliance, and Identity Fundamentals",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Microsoft-SC-900-Microsoft-Security-Compliance-and-Identity-Fundamentals-Practice-Tests-Exams-QA/main/README.md"
+  },
+  {
+    "name": "PSD I",
+    "subtitle": "Scrum Developer I for PSD I",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Professional-Scrum-Developer-I-PSD-I-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "PSM I",
+    "subtitle": "Scrum Master I for PSM I",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Professional-Scrum-Master-I-PSM-I-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "PSM II",
+    "subtitle": "Scrum Master II for PSM II",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Professional-Scrum-Master-II-PSM-II-Practice-Tests-Exams-Questions-Answers/main/README.md"
+  },
+  {
+    "name": "PSPO I",
+    "subtitle": "Scrum Product Owner I for PSPO I",
+    "url": "https://raw.githubusercontent.com/Ditectrev/Professional-Scrum-Product-Owner-PSPO-I-Practice-Tests-Exams-Questions-Answers/main/README.md"
   }
 ]
