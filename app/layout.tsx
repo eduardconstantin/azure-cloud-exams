@@ -8,9 +8,9 @@ import "styles/globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
-  title: "Azure Cloud Exams",
+  title: "🧪 Practice Exams Platform | Ditectrev",
   openGraph: {
-    title: "Azure Cloud Exams",
+    title: "🧪 Practice Exams Platform | Ditectrev",
   },
 };
 

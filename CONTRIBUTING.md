@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-First off, thank you for considering contributing to Azure Cloud Exams.
+First off, thank you for considering contributing to Practice Exams Platform.
 
 It's people like you that make this project such a great tool.
 

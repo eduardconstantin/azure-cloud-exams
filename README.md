@@ -1,4 +1,4 @@
-<h1 align="center">Azure Cloud Exams</h1>
+<h1 align="center">🧪 Practice Exams Platform</h1>
 <br />
 
 <div align="center">
