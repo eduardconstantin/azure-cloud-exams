@@ -26,7 +26,6 @@ const TopNav = () => {
         )}
       </div>
       <div className="flex items-center flex-col w-full">
-        <p className="font-bold text-4xl leading-7">AZURE</p>
         <Image
           src="/logo.svg"
           alt="Ditectrev Logo"
