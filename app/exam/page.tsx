@@ -92,7 +92,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
   const numberOfQuestions = data.randomQuestions.length || 0;
 
   return (
-    <div className="py-10 px-5 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
+    <div className="py-10 px-5 mb-6 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">

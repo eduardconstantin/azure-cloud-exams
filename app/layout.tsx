@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className="bg-slate-900">
         <ApolloProvider>
           <TopNav />
-          <main className="flex flex-col justify-between md:h-[calc(100vh-2.5rem-64px)]">
+          <main className="flex flex-col justify-between md:h-[calc(100vh-2.5rem-64px)] h-full">
             {children}
             <Footer />
             <Cookie />
