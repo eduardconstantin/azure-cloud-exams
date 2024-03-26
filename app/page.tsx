@@ -4,8 +4,8 @@ import exams from "@azure-fundamentals/lib/exams.json";
 
 const Home: NextPage = () => {
   return (
-    <div className="mx-auto w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
-      <h2 className="text-white text-5xl text-leading font-bold uppercase mt-14">
+    <div className="mx-auto mb-6 w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
+      <h2 className="text-white text-5xl text-leading font-bold uppercase md:mt-14">
         Welcome!
       </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
