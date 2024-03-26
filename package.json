@@ -12,7 +12,10 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "e2e": "npx playwright test",
+    "e2e:ui": "npx playwright test --ui",
+    "e2e:headed": "npx playwright test --headed"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
