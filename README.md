@@ -15,6 +15,10 @@ database, replacing Cosmos DB.
 
 UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev)
 
+UPDATE3: Ditectrev took over this project and using it as a platform for students to practice their exam preparations for tests from our repositories.
+
+IMPORTANT: do not delete commented out code related to CosmosDB. We might use it to store questions soon in the future instead of from the repositories. Additionally, for the same reason let's keep Azure deployment, with that, the usage of NoSQL (CosmosDB) database is practically ready after commenting out some lines of code.
+
 </div>
 
 <br />
