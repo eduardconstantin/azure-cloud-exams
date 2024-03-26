@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const QuizForm: FC<Props> = ({
   totalQuestions,
   link,
 }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(1);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
@@ -55,6 +55,7 @@ const QuizForm: FC<Props> = ({
 
   if (isLoading) return <p>Loading...</p>;
   const { question, options, images } = questionSet!;
+  const watchInput = watch(`options.${currentQuestionIndex}`);
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
   return (
@@ -213,6 +214,10 @@ const QuizForm: FC<Props> = ({
           disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
             setShowCorrectAnswer(false);
+            setSavedAnswers((prev) => ({
+              ...prev,
+              [currentQuestionIndex]: watchInput,
+            }));
             if (currentQuestionIndex === totalQuestions) {
               handleNextQuestion(1);
               setLastIndex(1);
