@@ -4,14 +4,14 @@ import exams from "@azure-fundamentals/lib/exams.json";
 
 const Home: NextPage = () => {
   return (
-    <div className="mx-auto mb-6 w-5/6 sm:w-2/3 lg:w-2/3 xl:w-2/4 text-center">
+    <div className="mx-auto mb-6 w-full lg:w-[70vw] 2xl:w-[45%] text-center">
       <h2 className="text-white text-5xl text-leading font-bold uppercase md:mt-14">
         Welcome!
       </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
         Select a Microsoft Azure exam from the list bellow.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 sm:mx-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 mx-5 lg:mx-0">
         {exams.map((exam) => {
           return (
             <NameLink
