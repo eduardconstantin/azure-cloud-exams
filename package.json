@@ -12,7 +12,10 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "e2e": "npx playwright test",
+    "e2e:ui": "npx playwright test --ui",
+    "e2e:headed": "npx playwright test --headed"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
@@ -40,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",
+    "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.1",
