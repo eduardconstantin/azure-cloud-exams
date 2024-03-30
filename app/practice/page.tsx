@@ -58,7 +58,7 @@ const Practice: NextPage<{ searchParams: { url: string; name: string } }> = ({
   if (questionsError) return <p>Oh no... {questionsError.message}</p>;
 
   return (
-    <div className="py-10 px-5 sm:p-10 mx-auto w-5/6 sm:w-1/2 bg-slate-800 border-2 border-slate-700 rounded-lg">
+    <div className="py-10 px-5 mb-6 sm:p-10 mx-auto w-[90vw] lg:w-[60vw] 2xl:w-[45%] bg-slate-800 border-2 border-slate-700 rounded-lg">
       <QuizForm
         isLoading={loading || questionsLoading}
         questionSet={data?.questionById}
