@@ -17,7 +17,7 @@ const Cookie: FC = () => {
   return (
     <>
       <button
-        className="w-fit self-center md:absolute bg-white p-2 rounded-2xl md:bottom-1 md:left-1"
+        className="w-fit self-center md:fixed bg-white p-2 rounded-2xl md:bottom-1 md:left-1"
         type="button"
         onClick={CookieConsent.showPreferences}
       >
