@@ -1,9 +1,8 @@
-//const url = "https://raw.githubusercontent.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers/main/README.md";
-
 const scrapeQuestions = (markdownText: string) => {
   const regex =
-    /### (.*?)\s*\n\n((?:\!\[.*?\]\(.*?\)\s*\n\n)*?)((?:- \[(?:x| )\] .*?\n)+)/gs;
-  const optionsRegex = /- \[(x| )\] (.*?)(?=\n- \[|$)/g;
+    /### (.*?)\s*\r?\n\r?\n((?:\!\[.*?\]\(.*?\)\s*\r?\n\r?\n)*?)((?:- \[(?:x| )\] .*?\r?\n)+)/gs;
+
+  const optionsRegex = /- \[(x| )\] (.*?)(?=\r?\n- \[|$)/g;
   const imageRegex = /\!\[(.*?)\]\((.*?)\)/g;
   const questions = [];
   let match;
