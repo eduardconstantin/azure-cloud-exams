@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         Welcome!
       </h2>
       <p className="text-white text-lg mt-4 mb-14 px-5 leading-6">
-        Select a Microsoft Azure exam from the list bellow.
+        Select an exam from the list bellow.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 mx-5 lg:mx-0">
         {exams.map((exam) => {

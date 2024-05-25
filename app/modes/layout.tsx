@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import "styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Azure Cloud Exams - Modes",
+  title: "🧪 Practice Exams Platform - Modes | Ditectrev",
   openGraph: {
-    title: "Azure Cloud Exams - Modes",
+    title: "🧪 Practice Exams Platform - Modes | Ditectrev",
   },
 };
 

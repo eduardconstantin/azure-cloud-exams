@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-First off, thank you for considering contributing to Azure Cloud Exams.
+First off, thank you for considering contributing to Practice Exams Platform.
 
 It's people like you that make this project such a great tool.
 
@@ -51,7 +51,7 @@ Now clone the forked repository to your machine. Go to your GitHub account, open
 Open a terminal and run the following git command:
 
 ```
-git clone https://github.com/eduardconstantin/azure-cloud-exams.git
+git clone https://github.com/Ditectrev/Practice-Exams-Platform.git
 ```
 
 ## Create a branch
@@ -59,7 +59,7 @@ git clone https://github.com/eduardconstantin/azure-cloud-exams.git
 Change to the repository directory on your computer (if you are not already there):
 
 ```
-cd azure-cloud-exams
+cd Practice-Exams-Platform
 ```
 
 Make sure you are on the `dev` branch by running the command :

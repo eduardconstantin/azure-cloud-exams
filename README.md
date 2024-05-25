@@ -1,4 +1,4 @@
-<h1 align="center">Azure Cloud Exams</h1>
+<h1 align="center">🧪 Practice Exams Platform</h1>
 <br />
 
 <div align="center">
@@ -13,7 +13,11 @@ UPDATE: The project is now using this
 [repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers) as a
 database, replacing Cosmos DB.
 
-UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev?q=azure&type=all&language=&sort=)
+UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev)
+
+UPDATE3: Ditectrev took over this project and using it as a platform for students to practice their exam preparations for tests from our repositories.
+
+IMPORTANT: do not delete commented out code related to CosmosDB. We might use it to store questions soon in the future instead of from the repositories. Additionally, for the same reason let's keep Azure deployment, with that, the usage of NoSQL (CosmosDB) database is practically ready after commenting out some lines of code.
 
 </div>
 
@@ -23,19 +27,19 @@ UPDATE2: The project has a new name to better fit it's purpose, now it has all a
 <div align="center">
 <br />
 
-[![Contributors](https://img.shields.io/github/contributors/eduardconstantin/azure-cloud-exams?style=flat-square)](https://github.com/eduardconstantin/azure-cloud-exams/graphs/contributors)
-[![Issue](https://img.shields.io/github/issues/eduardconstantin/azure-cloud-exams?style=flat-square)](https://github.com/eduardconstantin/azure-cloud-exams/issues)
-[![PRs](https://img.shields.io/github/issues-pr/eduardconstantin/azure-cloud-exams?style=flat-square)](https://github.com/eduardconstantin/azure-cloud-exams/pulls)
+[![Contributors](https://img.shields.io/github/contributors/Ditectrev/Practice-Exams-Platform?style=flat-square)](../../graphs/contributors)
+[![Issue](https://img.shields.io/github/issues/Ditectrev/Practice-Exams-Platform?style=flat-square)](../../issues)
+[![PRs](https://img.shields.io/github/issues-pr/Ditectrev/Practice-Exams-Platform?style=flat-square)](../../pulls)
 <br>
-[![Project license](https://img.shields.io/github/license/eduardconstantin/azure-cloud-exams?style=flat-square)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/eduardconstantin/azure-cloud-exams?style=flat-square)](https://github.com/eduardconstantin/azure-cloud-exams/stargazers)
+[![Project license](https://img.shields.io/github/license/Ditectrev/Practice-Exams-Platform?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/Ditectrev/Practice-Exams-Platform?style=flat-square)](../../Practice-Exams-Platform/stargazers)
 
 </div>
 
 ## 🌟 Features
 
 - Question sets scrapped from this
-  [repo](https://github.com/Ditectrev?q=azure&type=all&language=&sort=).
+  [repo](https://github.com/Ditectrev).
 - Correct answer displayed for each question.
 - Practice mode & Exam mode.
 
@@ -44,7 +48,7 @@ UPDATE2: The project has a new name to better fit it's purpose, now it has all a
 Clone the repository:
 
 ```bash
-git clone https://github.com/eduardconstantin/azure-cloud-exams.git
+git clone https://github.com/Ditectrev/Practice-Exams-Platform.git
 ```
 
 Install dependencies:
@@ -75,10 +79,10 @@ application overall.
 In order to create an issue or a pull request with your changes, please read
 [our contribution guidelines](CONTRIBUTING.md), and thank you for being involved!
 
-There is also a [Discussion tab](https://github.com/eduardconstantin/azure-cloud-exams/discussions)
+There is also a [Discussion tab](../../discussions)
 
 For a full list of all authors and contributors, see
-[the contributors page](https://github.com/eduardconstantin/azure-cloud-exams/contributors).
+[the contributors page](../../contributors).
 
 ## 📜 License
 

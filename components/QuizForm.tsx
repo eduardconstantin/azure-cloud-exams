@@ -54,6 +54,9 @@ const QuizForm: FC<Props> = ({
   };
 
   if (isLoading) return <p>Loading...</p>;
+  //Error Handling for loading issues
+  if (!questionSet) return <p>Loading questions failed</p>;
+  
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
 
