@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { Question } from "./types";
 import Image from "next/image";
@@ -24,6 +24,9 @@ const QuizForm: FC<Props> = ({
 }) => {
   const { register, handleSubmit, reset, watch } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
+  const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
+  const [explanation, setExplanation] = useState<string | null>(null);
   const [lastIndex, setLastIndex] = useState<number>(1);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<{
@@ -33,6 +36,21 @@ const QuizForm: FC<Props> = ({
     url: string;
     alt: string;
   } | null>(null);
+
+  useEffect(() => {
+    const checkOllamaStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:11434");
+        if (response.ok) {
+          setOllamaAvailable(true);
+        }
+      } catch (error) {
+        console.error("Error checking server status:", error);
+      }
+    };
+
+    checkOllamaStatus();
+  }, []);
 
   const onSubmit = (data: FieldValues) => {
     setSavedAnswers((prev) => ({
@@ -53,10 +71,46 @@ const QuizForm: FC<Props> = ({
     }
   };
 
+  const explainCorrectAnswer = async () => {
+    try {
+      const prompt = `${question} Explain why these answers are correct: ${options
+        .filter((o) => o.isAnswer == true)
+        .map((o) => o.text)}`;
+
+      const response = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "mistral",
+          prompt: prompt,
+          stream: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      if (responseData && "response" in responseData) {
+        setExplanation(responseData.response);
+      } else {
+        console.error("Response does not contain explanation:", responseData);
+      }
+    } catch (error) {
+      console.error("Error fetching explanation:", error);
+    } finally {
+      setIsThinking(false);
+    }
+  };
+
   if (isLoading) return <p>Loading...</p>;
   //Error Handling for loading issues
   if (!questionSet) return <p>Loading questions failed</p>;
-  
+
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
 
@@ -201,6 +255,9 @@ const QuizForm: FC<Props> = ({
           </li>
         ))}
       </ul>
+      {explanation && (
+        <p className="text-white md:px-12 mb-16 select-none">{explanation}</p>
+      )}
       <div className="flex justify-center flex-col sm:flex-row">
         <Button
           type="submit"
@@ -210,6 +267,22 @@ const QuizForm: FC<Props> = ({
         >
           Reveal Answer
         </Button>
+        {ollamaAvailable && (
+          <Button
+            type="button"
+            intent="secondary"
+            size="medium"
+            disabled={isThinking}
+            onClick={() => {
+              setShowCorrectAnswer(true);
+              setIsThinking(true);
+              explainCorrectAnswer();
+              reset();
+            }}
+          >
+            {isThinking ? "Thinking..." : "Explain"}
+          </Button>
+        )}
         <Button
           type="button"
           intent="primary"
@@ -217,6 +290,7 @@ const QuizForm: FC<Props> = ({
           disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
             setShowCorrectAnswer(false);
+            setExplanation(null);
             setSavedAnswers((prev) => ({
               ...prev,
               [currentQuestionIndex]: watchInput,
