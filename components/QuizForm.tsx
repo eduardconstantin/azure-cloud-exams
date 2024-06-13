@@ -23,15 +23,20 @@ const QuizForm: FC<Props> = ({
   link,
 }) => {
   const { register, handleSubmit, reset, watch } = useForm();
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [isThinking, setIsThinking] = useState<boolean>(false);
   const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
   const [explanation, setExplanation] = useState<string | null>(null);
-  const [lastIndex, setLastIndex] = useState<number>(1);
-  const [canGoBack, setCanGoBack] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<{
     [key: number]: string | string[];
   }>({});
+
+  const [checkedAnswers, setCheckedAnswers] = useState<{
+    [key: number]: string[];
+  }>({});
+
   const [selectedImage, setSelectedImage] = useState<{
     url: string;
     alt: string;
@@ -52,14 +57,20 @@ const QuizForm: FC<Props> = ({
     checkOllamaStatus();
   }, []);
 
+  const recordShowCorrectAnswer = () => {
+    setShowCorrectAnswer((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: true,
+    }));
+  };
+
   const onSubmit = (data: FieldValues) => {
     setSavedAnswers((prev) => ({
       ...prev,
       [currentQuestionIndex]: data.options[currentQuestionIndex],
     }));
-    setShowCorrectAnswer(true);
-    setCanGoBack(true);
-    reset();
+
+    recordShowCorrectAnswer();
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
@@ -109,12 +120,53 @@ const QuizForm: FC<Props> = ({
 
   if (isLoading) return <p>Loading...</p>;
   //Error Handling for loading issues
-  if (!questionSet) return <p>Loading questions failed</p>;
+  if (!questionSet) {
+    handleNextQuestion(1);
+    return <p>Loading questions failed</p>;
+  }
 
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
+
+  const handleNextQueClick = () => {
+    setExplanation(null);
+    setSavedAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: watchInput,
+    }));
+    if (currentQuestionIndex === totalQuestions) {
+      handleNextQuestion(1);
+    } else {
+      handleNextQuestion(currentQuestionIndex + 1);
+    }
+    reset();
+  };
+
+  const isOptionCheckedWithoutReveal = (
+    optionText: string,
+  ): boolean | undefined => {
+    const savedAnswer = checkedAnswers[currentQuestionIndex];
+    if (savedAnswer?.length) {
+      return savedAnswer.includes(optionText);
+    } else {
+      return;
+    }
+  };
+
+  const handleRadioCheckboxClick = (event: any, isItMulti: boolean = false) => {
+    let finalData = [event.target.value];
+    if (isItMulti) {
+      const savedData = checkedAnswers[currentQuestionIndex] || [];
+      finalData = [...savedData, event.target.value];
+    }
+    setCheckedAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: finalData,
+    }));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
@@ -122,15 +174,9 @@ const QuizForm: FC<Props> = ({
           <button
             type="button"
             onClick={() => {
-              if (currentQuestionIndex < lastIndex + 2) {
-                setShowCorrectAnswer(true);
-              } else {
-                setShowCorrectAnswer(false);
-              }
-              reset();
               handleNextQuestion(currentQuestionIndex - 1);
             }}
-            disabled={!(currentQuestionIndex > 1) || !canGoBack}
+            disabled={currentQuestionIndex == 1}
             className="group"
           >
             <svg
@@ -159,11 +205,6 @@ const QuizForm: FC<Props> = ({
               max={totalQuestions}
               value={currentQuestionIndex}
               onChange={(e) => {
-                if (Number(e.target.value) < lastIndex + 1) {
-                  setShowCorrectAnswer(true);
-                } else {
-                  setShowCorrectAnswer(false);
-                }
                 handleNextQuestion(Number(e.target.value));
                 reset();
               }}
@@ -174,16 +215,8 @@ const QuizForm: FC<Props> = ({
           </div>
           <button
             type="button"
-            onClick={() => {
-              if (currentQuestionIndex < lastIndex) {
-                setShowCorrectAnswer(true);
-              } else {
-                setShowCorrectAnswer(false);
-              }
-              reset();
-              handleNextQuestion(currentQuestionIndex + 1);
-            }}
-            disabled={!(currentQuestionIndex < lastIndex)}
+            onClick={handleNextQueClick}
+            disabled={currentQuestionIndex == totalQuestions}
             className="group"
           >
             <svg
@@ -248,9 +281,17 @@ const QuizForm: FC<Props> = ({
               type={noOfAnswers > 1 ? "checkbox" : "radio"}
               label={option.text}
               isAnswer={option.isAnswer}
-              showCorrectAnswer={showCorrectAnswer}
-              disabled={showCorrectAnswer}
-              defaultChecked={isOptionChecked(option.text)}
+              showCorrectAnswer={
+                showCorrectAnswer[currentQuestionIndex] || false
+              }
+              disabled={showCorrectAnswer[currentQuestionIndex] || false}
+              defaultChecked={
+                isOptionChecked(option.text) ||
+                isOptionCheckedWithoutReveal(option.text)
+              }
+              handleChange={(e) => {
+                handleRadioCheckboxClick(e, noOfAnswers > 1 ? true : false);
+              }}
             />
           </li>
         ))}
@@ -263,7 +304,7 @@ const QuizForm: FC<Props> = ({
           type="submit"
           intent="secondary"
           size="medium"
-          disabled={showCorrectAnswer}
+          disabled={showCorrectAnswer[currentQuestionIndex] || false}
         >
           Reveal Answer
         </Button>
@@ -274,7 +315,7 @@ const QuizForm: FC<Props> = ({
             size="medium"
             disabled={isThinking}
             onClick={() => {
-              setShowCorrectAnswer(true);
+              recordShowCorrectAnswer();
               setIsThinking(true);
               explainCorrectAnswer();
               reset();
@@ -287,24 +328,8 @@ const QuizForm: FC<Props> = ({
           type="button"
           intent="primary"
           size="medium"
-          disabled={currentQuestionIndex < lastIndex}
-          onClick={() => {
-            setShowCorrectAnswer(false);
-            setExplanation(null);
-            setSavedAnswers((prev) => ({
-              ...prev,
-              [currentQuestionIndex]: watchInput,
-            }));
-            if (currentQuestionIndex === totalQuestions) {
-              handleNextQuestion(1);
-              setLastIndex(1);
-            } else {
-              handleNextQuestion(currentQuestionIndex + 1);
-              setLastIndex(currentQuestionIndex + 1);
-            }
-            setCanGoBack(false);
-            reset();
-          }}
+          // disabled={currentQuestionIndex < lastIndex}
+          onClick={handleNextQueClick}
         >
           Next Question
         </Button>
