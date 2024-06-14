@@ -4,16 +4,18 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import NameLink from "@azure-fundamentals/components/NameLink";
 import exams from "@azure-fundamentals/lib/exams.json";
+import useDebounce from "@azure-fundamentals/hooks/useDebounce";
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300); // 300ms debounce delay
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const filteredExams = exams.filter((exam) =>
-    exam.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    exam.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()),
   );
 
   return (
