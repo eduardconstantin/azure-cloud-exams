@@ -43,6 +43,24 @@ const QuizForm: FC<Props> = ({
   } | null>(null);
 
   useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [setSelectedImage]);
+
+  const handleClickOutside = (event) => {
+    if (event.target === event.currentTarget) {
+      setSelectedImage(null);
+    }
+  };
+
+  useEffect(() => {
     const checkOllamaStatus = async () => {
       try {
         const response = await fetch("http://localhost:11434");
@@ -136,11 +154,7 @@ const QuizForm: FC<Props> = ({
       ...prev,
       [currentQuestionIndex]: watchInput,
     }));
-    if (currentQuestionIndex === totalQuestions) {
-      handleNextQuestion(1);
-    } else {
-      handleNextQuestion(currentQuestionIndex + 1);
-    }
+    handleNextQuestion(currentQuestionIndex + 1);
   };
 
   const isOptionCheckedWithoutReveal = (
@@ -260,7 +274,10 @@ const QuizForm: FC<Props> = ({
           </ul>
         )}
         {selectedImage && (
-          <div className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+          <div
+            onClick={handleClickOutside}
+            className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50"
+          >
             <img
               src={link + selectedImage.url}
               alt={selectedImage.alt}
@@ -293,7 +310,7 @@ const QuizForm: FC<Props> = ({
                 isOptionCheckedWithoutReveal(option.text)
               }
               handleChange={(e) => {
-                handleRadioCheckboxClick(e, noOfAnswers > 1 ? true : false);
+                handleRadioCheckboxClick(e, noOfAnswers > 1);
               }}
             />
           </li>
@@ -330,7 +347,7 @@ const QuizForm: FC<Props> = ({
           type="button"
           intent="primary"
           size="medium"
-          // disabled={currentQuestionIndex < lastIndex}
+          disabled={currentQuestionIndex == totalQuestions}
           onClick={handleNextQueClick}
         >
           Next Question
