@@ -215,10 +215,9 @@ const QuizForm: FC<Props> = ({
             </svg>
           </button>
           <div className="flex justify-center relative w-[15%] z-[1]">
-            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 right-0 -z-[1] select-none">
+            <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
               Q&A
             </span>
-
             <input
               className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
               type="number"
