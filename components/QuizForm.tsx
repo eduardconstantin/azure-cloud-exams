@@ -43,7 +43,7 @@ const QuizForm: FC<Props> = ({
   } | null>(null);
 
   useEffect(() => {
-    const handleEsc = (event) => {
+    const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setSelectedImage(null);
       }
@@ -54,7 +54,9 @@ const QuizForm: FC<Props> = ({
     };
   }, [setSelectedImage]);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     if (event.target === event.currentTarget) {
       setSelectedImage(null);
     }
@@ -309,7 +311,7 @@ const QuizForm: FC<Props> = ({
                 isOptionChecked(option.text) ||
                 isOptionCheckedWithoutReveal(option.text)
               }
-              handleChange={(e) => {
+              handleChange={(e: any) => {
                 handleRadioCheckboxClick(e, noOfAnswers > 1);
               }}
             />
