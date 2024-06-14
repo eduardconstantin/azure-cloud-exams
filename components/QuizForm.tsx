@@ -22,7 +22,7 @@ const QuizForm: FC<Props> = ({
   totalQuestions,
   link,
 }) => {
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<{
     [key: number]: boolean;
   }>({});
@@ -141,7 +141,6 @@ const QuizForm: FC<Props> = ({
     } else {
       handleNextQuestion(currentQuestionIndex + 1);
     }
-    reset();
   };
 
   const isOptionCheckedWithoutReveal = (
@@ -211,7 +210,6 @@ const QuizForm: FC<Props> = ({
               value={currentQuestionIndex}
               onChange={(e) => {
                 handleNextQuestion(Number(e.target.value));
-                reset();
               }}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
@@ -323,7 +321,6 @@ const QuizForm: FC<Props> = ({
               recordShowCorrectAnswer();
               setIsThinking(true);
               explainCorrectAnswer();
-              reset();
             }}
           >
             {isThinking ? "Thinking..." : "Explain"}
