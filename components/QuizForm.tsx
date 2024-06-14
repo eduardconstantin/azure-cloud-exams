@@ -156,10 +156,15 @@ const QuizForm: FC<Props> = ({
   };
 
   const handleRadioCheckboxClick = (event: any, isItMulti: boolean = false) => {
-    let finalData = [event.target.value];
+    const valueToManage = event.target.value;
+    let finalData = [valueToManage];
     if (isItMulti) {
       const savedData = checkedAnswers[currentQuestionIndex] || [];
-      finalData = [...savedData, event.target.value];
+      if (savedData.includes(valueToManage)) {
+        finalData = savedData.filter((item) => item !== valueToManage);
+      } else {
+        finalData = [...savedData, valueToManage];
+      }
     }
     setCheckedAnswers((prev) => ({
       ...prev,
