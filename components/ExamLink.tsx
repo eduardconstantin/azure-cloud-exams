@@ -7,6 +7,7 @@ interface ExamLinkProps
     LinkProps {
   heading: string;
   paragraph: string;
+  subparagraph?: string;
   wrapperClassNames?: string;
   headingClassNames?: string;
 }
@@ -16,6 +17,7 @@ const ExamLink = ({
   paragraph,
   wrapperClassNames,
   headingClassNames,
+  subparagraph = "",
   ...linkProps
 }: ExamLinkProps) => {
   return (
@@ -36,6 +38,9 @@ const ExamLink = ({
           {heading}
         </h2>
         <p className="text-sm text-slate-400 mt-7">{paragraph}</p>
+        {subparagraph !== "" && (
+          <p className="text-sm text-slate-400 mt-2">{subparagraph}</p>
+        )}
       </div>
     </Link>
   );
