@@ -4,7 +4,7 @@ import { Question } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
-import NumberInputComponent from "./NumberInputComponent";
+// import NumberInputComponent from "./NumberInputComponent";
 import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
@@ -220,10 +220,22 @@ const QuizForm: FC<Props> = ({
             <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
               Q&A
             </span>
-            <NumberInputComponent
+            {/*  Debounce rerendering issue on prev next click
+              <NumberInputComponent
               totalQuestions={totalQuestions}
               currentQuestionIndex={currentQuestionIndex}
               handleNextQuestion={handleNextQuestion}
+            /> */}
+
+            <input
+              className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+              type="number"
+              min={0}
+              max={totalQuestions}
+              value={currentQuestionIndex}
+              onChange={(e) => {
+                handleNextQuestion(Number(e.target.value));
+              }}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
               {totalQuestions}
