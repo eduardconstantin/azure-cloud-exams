@@ -5,6 +5,7 @@ import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
 import NumberInputComponent from "./NumberInputComponent";
+import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
   isLoading: boolean;
@@ -139,7 +140,7 @@ const QuizForm: FC<Props> = ({
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator />;
   //Error Handling for loading issues
   if (!questionSet) {
     handleNextQuestion(1);
