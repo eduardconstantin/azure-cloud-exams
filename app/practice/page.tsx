@@ -53,17 +53,12 @@ const Practice: NextPage = () => {
     variables: { link: url },
   });
 
-  const setThisSeqIntoURL = useCallback(
-    (seq: number) => {
-      const newSearchParams = new URLSearchParams(searchParams.toString());
-      newSearchParams.set("seq", seq.toString());
-      const newUrl = `${
-        window.location.pathname
-      }?${newSearchParams.toString()}`;
-      router.push(newUrl, { shallow: true });
-    },
-    [router, searchParams],
-  );
+  const setThisSeqIntoURL = useCallback((seq: number) => {
+    const newSearchParams = new URLSearchParams(window.location.search);
+    newSearchParams.set("seq", seq.toString());
+    const newUrl = `${window.location.pathname}?${newSearchParams.toString()}`;
+    window.history.replaceState(null, "", newUrl);
+  }, []);
 
   useEffect(() => {
     setCurrentQuestionIndex(seq);
