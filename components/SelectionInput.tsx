@@ -8,6 +8,7 @@ type Props = {
   showCorrectAnswer?: boolean;
   disabled?: boolean;
   checked?: boolean;
+  handleChange?: Function;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const SelectionInput = forwardRef<HTMLInputElement, Props>(
@@ -22,6 +23,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
       showCorrectAnswer,
       disabled = false,
       defaultChecked,
+      handleChange = () => {},
       ...rest
     },
     ref,
@@ -36,6 +38,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
           id={id}
           className={`peer hidden [&:checked_+_label_svg_path]:block `}
           defaultChecked={defaultChecked}
+          onClick={handleChange}
           {...rest}
         />
         <label
@@ -71,6 +74,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
               clipRule="evenodd"
             />
           </svg>
+
           <span className="text-gray-200 pl-7 break-words inline-block w-full">
             {label}
           </span>

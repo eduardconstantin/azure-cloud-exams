@@ -3,6 +3,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Question } from "@azure-fundamentals/components/types";
+import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
   isLoading: boolean;
@@ -35,7 +36,7 @@ const ExamQuizForm: FC<Props> = ({
     handleNextQuestion(currentQuestionIndex + 1);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator />;
   const { question, options } = questionSet;
 
   const noOfAnswers = options.filter((el) => el.isAnswer).length;
