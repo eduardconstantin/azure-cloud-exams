@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import QuizForm from "@azure-fundamentals/components/QuizForm";
@@ -31,11 +30,11 @@ const questionsQuery = gql`
 `;
 
 const Practice: NextPage = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const url = searchParams.get("url") || "";
-  const seqParam = searchParams.get("seq");
+  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
+    null,
+  );
+  const url = searchParams?.get("url") || "";
+  const seqParam = searchParams?.get("seq");
   const seq = seqParam ? parseInt(seqParam) : 1;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(seq);
@@ -44,6 +43,11 @@ const Practice: NextPage = () => {
   const { loading, error, data } = useQuery(questionQuery, {
     variables: { id: currentQuestionIndex - 1, link: url },
   });
+
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search);
+    setSearchParams(param);
+  }, []);
 
   const {
     data: questionsData,
