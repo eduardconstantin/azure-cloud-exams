@@ -100,7 +100,7 @@ const QuizForm: FC<Props> = ({
     if (savedAnswer !== null && typeof savedAnswer === "string") {
       return savedAnswer === optionText;
     } else {
-      return;
+      return false;
     }
   };
 
@@ -168,7 +168,7 @@ const QuizForm: FC<Props> = ({
     if (savedAnswer?.length) {
       return savedAnswer.includes(optionText);
     } else {
-      return;
+      return false;
     }
   };
 
@@ -316,7 +316,7 @@ const QuizForm: FC<Props> = ({
                 showCorrectAnswer[currentQuestionIndex] || false
               }
               disabled={showCorrectAnswer[currentQuestionIndex] || false}
-              defaultChecked={
+              checked={
                 isOptionChecked(option.text) ||
                 isOptionCheckedWithoutReveal(option.text)
               }
