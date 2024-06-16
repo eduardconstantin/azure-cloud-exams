@@ -8,7 +8,7 @@ type Props = {
   showCorrectAnswer?: boolean;
   disabled?: boolean;
   checked?: boolean;
-  handleChange?: void;
+  handleChange?: (e: React.MouseEvent<HTMLInputElement>) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const SelectionInput = forwardRef<HTMLInputElement, Props>(
