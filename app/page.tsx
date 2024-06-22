@@ -8,7 +8,7 @@ import useDebounce from "@azure-fundamentals/hooks/useDebounce";
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 300); // 300ms debounce delay
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
