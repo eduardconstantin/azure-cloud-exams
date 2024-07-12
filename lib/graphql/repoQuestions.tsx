@@ -1,6 +1,7 @@
 const scrapeQuestions = (markdownText: string) => {
   const regex =
     /### (.*?)\s*\r?\n\r?\n((?:\!\[.*?\]\(.*?\)\s*\r?\n\r?\n)*?)((?:- \[(?:x| )\] .*?\r?\n)+)/gs;
+
   const optionsRegex = /- \[(x| )\] (.*?)(?=\r?\n- \[|$)/g;
   const imageRegex = /\!\[(.*?)\]\((.*?)\)/g;
   const questions = [];
