@@ -21,9 +21,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "18.x"
+          node-version: "20.x"
         env:
-          NODE_VERSION: "18.x"
+          NODE_VERSION: "20.x"
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
