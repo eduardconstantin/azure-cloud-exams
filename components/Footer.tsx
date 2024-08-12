@@ -65,10 +65,7 @@ const Footer = () => {
 
   return (
     <footer>
-      <div
-        style={{ color: "white" }}
-        className="mx-3 my-3 social-icons-container"
-      >
+      <div className="mx-3 my-3 social-icons-container text-white">
         {socialMediaLinks.map((link, index) => (
           <a
             key={index}
