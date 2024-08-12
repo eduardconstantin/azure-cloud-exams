@@ -5,10 +5,11 @@
 
 .social-icons-container a {
   transition: transform 0.5s ease, color 0.5s ease;
+  color: inherit;
 }
 
 .social-icons-container a:hover {
-  color: inherit;
+  transform: scale(1.2);
 }
 
 .social-icons-container a:hover .discord {
@@ -53,11 +54,6 @@
 
 .social-icons-container a:hover .x {
   color: #aaa;
-}
-
-.social-icons-container a:hover {
-  transform: scale(1.2);
-
 }
 
 @media (max-width: 768px) {

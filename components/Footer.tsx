@@ -12,7 +12,6 @@ import {
   SiX,
 } from "react-icons/si";
 import "styles/footer.css";
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const iconSize = 28;
@@ -42,7 +41,6 @@ const Footer = () => {
       url: "https://play.google.com/store/books/collection/cluster?gsr=SheCARQKEAoMWjZNR0VRQUFRQkFKEAkQBA%3D%3D:S:ANO1ljK1zJ0",
       icon: <SiGoogleplay className="googleplay" size={iconSize} />,
     },
-
     {
       url: "https://instagram.com/ditectrev",
       icon: <SiInstagram className="instagram" size={iconSize} />,
@@ -72,7 +70,14 @@ const Footer = () => {
         className="mx-3 my-3 social-icons-container"
       >
         {socialMediaLinks.map((link, index) => (
-          <a key={index} className="px-2" href={link.url} target="_blank">
+          <a
+            key={index}
+            className="px-2"
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visit ${link.url}`}
+          >
             {link.icon}
           </a>
         ))}
