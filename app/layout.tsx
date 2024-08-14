@@ -21,6 +21,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      <link rel="manifest" href="/manifest.json" />
       <body className="bg-slate-900">
         <ApolloProvider>
           <TopNav />
