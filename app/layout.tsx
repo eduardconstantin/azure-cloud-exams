@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     "Scrum Exams",
   ],
   manifest: "/manifest.json",
-  metadataBase: new URL("/"),
+  metadataBase: new URL("https://education.ditectrev.com"),
   openGraph: {
     description:
       "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community.",
