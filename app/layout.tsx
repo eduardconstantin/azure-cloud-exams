@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   },
   themeColor: "#3f51b5",
   title: {
-    default: "Dashboard",
+    default: "🧪 Practice Exams Platform - %s | Ditectrev",
     template: "🧪 Practice Exams Platform - %s | Ditectrev",
   },
   twitter: {
