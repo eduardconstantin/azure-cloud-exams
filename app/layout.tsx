@@ -14,7 +14,10 @@ export const metadata: Metadata = {
   },
   applicationName: "🧪 Practice Exams Platform | Ditectrev",
   authors: [
-    { name: "Daniel Danielecki", url: "https://github.com/danieldanielecki" },
+    {
+      name: "Daniel Danielecki",
+      url: "https://github.com/danieldanielecki",
+    },
     {
       name: "Eduard-Constantin Ibinceanu",
       url: "https://github.com/eduardconstantin",
