@@ -39,7 +39,7 @@ const TopNav = () => {
           height={50}
           width={200}
         />
-        <p className={`windowWidth < 640 ? "text-lg" : "text-md"`}>
+        <p className={`windowWidth < 640 ? "text-lg" : "text-sm"`}>
           🧪 Practice Exams Platform
         </p>
       </div>
