@@ -2,12 +2,12 @@ import { test, expect } from "@playwright/test";
 
 test("Application should have correct initial state", async ({ page }) => {
   await page.goto("");
-  expect(await page.getByRole("main").getByRole("link").all()).toHaveLength(22);
+  expect(await page.getByRole("main").getByRole("link").all()).toHaveLength(34);
   await expect(page.getByRole("main").getByRole("heading").first()).toHaveText(
     /Welcome/,
   );
 
-  await expect(page.locator(".text-lg").first()).toHaveText(
+  await expect(page.locator(".text-xl").first()).toHaveText(
     "🧪 Practice Exams Platform",
   );
   await expect(page.locator(".text-lg").last()).toHaveText(
