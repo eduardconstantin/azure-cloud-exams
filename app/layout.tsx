@@ -103,6 +103,10 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      <meta
+        name="google-adsense-account"
+        content="ca-pub-4827919789464418"
+      ></meta>
       <body className="bg-slate-900">
         <ApolloProvider>
           <TopNav />
