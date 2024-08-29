@@ -46,6 +46,9 @@ const Cookie: FC = () => {
           });
         `}
       </Script>
+      <Script
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4827919789464418`}
+      />
     </>
   );
 };
