@@ -44,8 +44,7 @@ const QuizExamForm: React.FC<Props> = ({
   images,
 }) => {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
-  const [savedAnswers, setSavedAnswers] = useState<any>([]);
-  const { points, reCount } = useResults(savedAnswers);
+  const { points, savedAnswers, setSavedAnswers } = useResults(questions);
   const [selectedImage, setSelectedImage] = useState<{
     url: string;
     alt: string;
@@ -65,12 +64,7 @@ const QuizExamForm: React.FC<Props> = ({
       ],
     },
     onSubmit: () => {
-      saveAnswers(false).then(() => {
-        reCount({
-          questions: questions,
-          answers: savedAnswers,
-        });
-      });
+      saveAnswers(false);
       stopTimer();
     },
   });
