@@ -23,6 +23,7 @@ const QuizForm: FC<Props> = ({
   link,
 }) => {
   const { register, handleSubmit, reset, watch } = useForm();
+
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(1);
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
@@ -33,16 +34,6 @@ const QuizForm: FC<Props> = ({
     url: string;
     alt: string;
   } | null>(null);
-
-  const onSubmit = (data: FieldValues) => {
-    setSavedAnswers((prev) => ({
-      ...prev,
-      [currentQuestionIndex]: data.options[currentQuestionIndex],
-    }));
-    setShowCorrectAnswer(true);
-    setCanGoBack(true);
-    reset();
-  };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
@@ -56,6 +47,16 @@ const QuizForm: FC<Props> = ({
   if (isLoading) return <p>Loading...</p>;
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
+
+  const onSubmit = (data: FieldValues) => {
+    setSavedAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: watchInput,
+    }));
+    setShowCorrectAnswer(true);
+    setCanGoBack(true);
+    reset();
+  };
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
   return (
@@ -213,11 +214,13 @@ const QuizForm: FC<Props> = ({
           size="medium"
           disabled={currentQuestionIndex < lastIndex}
           onClick={() => {
+            if (!showCorrectAnswer) {
+              setSavedAnswers((prev) => ({
+                ...prev,
+                [currentQuestionIndex]: watchInput,
+              }));
+            }
             setShowCorrectAnswer(false);
-            setSavedAnswers((prev) => ({
-              ...prev,
-              [currentQuestionIndex]: watchInput,
-            }));
             if (currentQuestionIndex === totalQuestions) {
               handleNextQuestion(1);
               setLastIndex(1);
