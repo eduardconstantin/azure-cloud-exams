@@ -41,3 +41,7 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
