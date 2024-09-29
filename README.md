@@ -6,17 +6,6 @@ This is a web application built with Next.js, TypeScript, CosmosDB, GraphQL and 
 that tests your knowledge of Azure fundamentals, specifically for the AZ-900 certification exam. The questions are
 stored in a Cosmos DB database and retrieved using GraphQL queries. The application is deployed on Microsoft Azure.
 
-This project was created for learning purposes to help me understand Microsoft Azure and CosmosDB in preparation for
-the AZ-900 exam.
-
-UPDATE: The project is now using this
-[repo](https://github.com/Ditectrev/Microsoft-Azure-AZ-900-Microsoft-Azure-Fundamentals-Exam-Questions-Answers) as a
-database, replacing Cosmos DB.
-
-UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev)
-
-UPDATE3: Ditectrev took over this project and using it as a platform for students to practice their exam preparations for tests from our repositories.
-
 IMPORTANT: do not delete commented out code related to CosmosDB. We might use it to store questions soon in the future instead of from the repositories. Additionally, for the same reason let's keep Azure deployment, with that, the usage of NoSQL (CosmosDB) database is practically ready after commenting out some lines of code.
 
 </div>
@@ -74,6 +63,17 @@ npm run dev
 ```
 
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+
+
+## Star History
+
+<a href="https://star-history.com/#Ditectrev/Practice-Exams-Platform&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Ditectrev/Practice-Exams-Platform&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Ditectrev/Practice-Exams-Platform&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Ditectrev/Practice-Exams-Platform&type=Date" />
+  </picture>
+</a>
 
 ## 👥 Contributing
 
