@@ -39,7 +39,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
     useTimer({ minutes: minutes, seconds: seconds });
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
   const [revealExam, setRevealExam] = useState<boolean>(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [countAnswered, setCountAnswered] = useState<number>(0);
   const { data, loading, error } = useQuery(questionsQuery, {
     variables: { range: 30, link: url },
