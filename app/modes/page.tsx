@@ -19,7 +19,7 @@ const Modes: NextPage<{ searchParams: { url: string; name: string } }> = ({
         <ExamLink
           href={{
             pathname: "/practice",
-            query: { url },
+            query: { url, name },
           }}
           heading="Practice mode"
           paragraph="Learn and familiarize yourself with the questions and answers without any time constraint."
@@ -30,7 +30,7 @@ const Modes: NextPage<{ searchParams: { url: string; name: string } }> = ({
         <ExamLink
           href={{
             pathname: "/exam",
-            query: { url },
+            query: { url, name },
           }}
           heading="Exam mode"
           paragraph="Put your knowledge to the test by answering a fixed number of randomly selected questions under a time
