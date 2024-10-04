@@ -97,7 +97,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            ANSWERED: {countAnswered}/{numberOfQuestions}
+            ✅ {countAnswered}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM
