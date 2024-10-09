@@ -51,7 +51,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
           }`}
         >
           <svg
-            className={`border rounded-full absolute h-5 w-5 p-0.5 ${
+            className={`border ${type==="checkbox"?"rounded":"rounded-full"} absolute h-5 w-5 p-0.5 ${
               showCorrectAnswer && isAnswer
                 ? "text-emerald-500 border-emerald-600"
                 : "text-gray-200 border-slate-500"
@@ -63,11 +63,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
             <path
               className={`${defaultChecked ? "block" : "hidden"}`}
               fillRule="evenodd"
-              d={
-                type === "radio"
-                  ? "M 16 8 A 8 8 0 1 1 0 8 a 8 8 0 0 1 16 0 z z"
-                  : "M 2 0 a 2 2 0 0 0 -2 2 v 12 a 2 2 0 0 0 2 2 h 12 a 2 2 0 0 0 2 -2 V 2 a 2 2 0 0 0 -2 -2 H 2 z z"
-              }
+              d="M 2 0 a 2 2 0 0 0 -2 2 v 12 a 2 2 0 0 0 2 2 h 12 a 2 2 0 0 0 2 -2 V 2 a 2 2 0 0 0 -2 -2 H 2 z z"
               clipRule="evenodd"
             />
           </svg>
