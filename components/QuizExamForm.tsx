@@ -64,11 +64,9 @@ const QuizExamForm: React.FC<Props> = ({
       ],
     },
     onSubmit: () => {
-      saveAnswers(false).then(() => {
-        reCount({
-          questions: questions,
-          answers: savedAnswers,
-        });
+      reCount({
+        questions: questions,
+        answers: savedAnswers,
       });
       stopTimer();
     },
@@ -90,25 +88,23 @@ const QuizExamForm: React.FC<Props> = ({
     }
   }, [remainingTime]);
 
-  const nextQuestion = (skip: boolean) => {
-    if (skip === false) {
+  useEffect(() => {
+    if (savedAnswers.length > 0) {
       let done = true;
       for (let x = 0; x < savedAnswers.length; x++) {
-        if (savedAnswers[x] === null && x !== currentQuestionIndex) {
+        if (savedAnswers[x] === null) {
           done = false;
           break;
         }
       }
       if (done === true) {
-        handleCountAnswered();
         formik.submitForm();
-        return;
-      } else {
-        saveAnswers(skip);
       }
-    } else {
-      saveAnswers(skip);
     }
+  }, [savedAnswers]);
+
+  const nextQuestion = (skip: boolean) => {
+    saveAnswers(skip);
     let areAllQuestionsAnswered = false;
     let i = currentQuestionIndex + 1;
     while (savedAnswers[i] !== null && i < totalQuestions) {
