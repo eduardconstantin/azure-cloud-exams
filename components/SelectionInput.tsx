@@ -51,7 +51,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
           }`}
         >
           <svg
-            className={`border rounded absolute h-5 w-5 p-0.5 ${
+            className={`border ${type==="checkbox"?"rounded":"rounded-full"} absolute h-5 w-5 p-0.5 ${
               showCorrectAnswer && isAnswer
                 ? "text-emerald-500 border-emerald-600"
                 : "text-gray-200 border-slate-500"
