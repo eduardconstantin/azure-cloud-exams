@@ -15,7 +15,7 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
     {
       index,
       id = `option-${index}`,
-      type = "checkbox",
+      type = "radio",
       label = "Input Label",
       value,
       isAnswer = false,
