@@ -301,7 +301,7 @@ const QuizExamForm: React.FC<Props> = ({
                       }`}
                     >
                       <svg
-                        className={`border rounded-full absolute h-5 w-5 p-0.5 ${
+                        className={`border ${noOfAnswers>1?"rounded":"rounded-full"} absolute h-5 w-5 p-0.5 ${
                           showCorrectAnswer &&
                           formik.values.options[index]?.isAnswer
                             ? "text-emerald-500 border-emerald-600"
