@@ -1,7 +1,7 @@
 export type Question = {
   question: string;
   options: Option[];
-  images: Image[];
+  images?: Image[];
 };
 
 type Image = {

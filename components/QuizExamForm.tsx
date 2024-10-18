@@ -64,11 +64,9 @@ const QuizExamForm: React.FC<Props> = ({
       ],
     },
     onSubmit: () => {
-      saveAnswers(false).then(() => {
-        reCount({
-          questions: questions,
-          answers: savedAnswers,
-        });
+      reCount({
+        questions: questions,
+        answers: savedAnswers,
       });
       stopTimer();
     },
@@ -90,25 +88,23 @@ const QuizExamForm: React.FC<Props> = ({
     }
   }, [remainingTime]);
 
-  const nextQuestion = (skip: boolean) => {
-    if (skip === false) {
+  useEffect(() => {
+    if (savedAnswers.length > 0) {
       let done = true;
       for (let x = 0; x < savedAnswers.length; x++) {
-        if (savedAnswers[x] === null && x !== currentQuestionIndex) {
+        if (savedAnswers[x] === null) {
           done = false;
           break;
         }
       }
       if (done === true) {
-        handleCountAnswered();
         formik.submitForm();
-        return;
-      } else {
-        saveAnswers(skip);
       }
-    } else {
-      saveAnswers(skip);
     }
+  }, [savedAnswers]);
+
+  const nextQuestion = (skip: boolean) => {
+    saveAnswers(skip);
     let areAllQuestionsAnswered = false;
     let i = currentQuestionIndex + 1;
     while (savedAnswers[i] !== null && i < totalQuestions) {
@@ -305,7 +301,7 @@ const QuizExamForm: React.FC<Props> = ({
                       }`}
                     >
                       <svg
-                        className={`border rounded-full absolute h-5 w-5 p-0.5 ${
+                        className={`border ${noOfAnswers>1?"rounded":"rounded-full"} absolute h-5 w-5 p-0.5 ${
                           showCorrectAnswer &&
                           formik.values.options[index]?.isAnswer
                             ? "text-emerald-500 border-emerald-600"
@@ -322,7 +318,7 @@ const QuizExamForm: React.FC<Props> = ({
                               : "hidden"
                           }`}
                           fillRule="evenodd"
-                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                          d="M 2 0 a 2 2 0 0 0 -2 2 v 12 a 2 2 0 0 0 2 2 h 12 a 2 2 0 0 0 2 -2 V 2 a 2 2 0 0 0 -2 -2 H 2 z z"
                           clipRule="evenodd"
                         />
                       </svg>
