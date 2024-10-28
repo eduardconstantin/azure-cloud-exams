@@ -1,18 +1,9 @@
 import { type FC, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
-import { Question } from "./types";
+import { Props } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
-
-type Props = {
-  isLoading: boolean;
-  questionSet: Question;
-  handleNextQuestion: (q: number) => void;
-  currentQuestionIndex: number;
-  totalQuestions: number;
-  link: string;
-};
 
 const QuizForm: FC<Props> = ({
   isLoading,
@@ -37,10 +28,14 @@ const QuizForm: FC<Props> = ({
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    if (savedAnswer !== null && typeof savedAnswer === "string") {
+    if (savedAnswer === null) {
+      return undefined;
+    }
+    if (typeof savedAnswer === "string") {
       return savedAnswer === optionText;
-    } else {
-      return;
+    }
+    if (Array.isArray(savedAnswer)) {
+      return savedAnswer.includes(optionText);
     }
   };
 
