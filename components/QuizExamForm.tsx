@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import Image from "next/image";
 import { Question } from "./types";
 import { FieldArray, FormikProvider, Field, useFormik } from "formik";
+import { useForm } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
 
@@ -24,7 +25,7 @@ type Props = {
   images?: { url: string; alt: string }[];
 };
 
-const QuizExamForm: React.FC<Props> = ({
+const QuizExamForm: FC<Props> = ({
   isLoading,
   handleNextQuestion,
   handleSkipQuestion,
@@ -301,7 +302,9 @@ const QuizExamForm: React.FC<Props> = ({
                       }`}
                     >
                       <svg
-                        className={`border ${noOfAnswers>1?"rounded":"rounded-full"} absolute h-5 w-5 p-0.5 ${
+                        className={`border ${
+                          noOfAnswers > 1 ? "rounded" : "rounded-full"
+                        } absolute h-5 w-5 p-0.5 ${
                           showCorrectAnswer &&
                           formik.values.options[index]?.isAnswer
                             ? "text-emerald-500 border-emerald-600"
