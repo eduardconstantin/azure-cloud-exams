@@ -45,7 +45,7 @@ const QuizExamForm: FC<Props> = ({
 }) => {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<any>([]);
-  const { points, reCount } = useResults(savedAnswers);
+  const { points, reCount } = useResults();
   const [selectedImage, setSelectedImage] = useState<{
     url: string;
     alt: string;

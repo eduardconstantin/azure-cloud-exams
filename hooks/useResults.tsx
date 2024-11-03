@@ -11,7 +11,7 @@ export type ResultsHook = {
   reCount: (data: ResultsData) => void;
 };
 
-const useResults = (data: ResultsData): ResultsHook => {
+const useResults = (): ResultsHook => {
   const [points, setPoints] = useState(0);
 
   const countPoints = (data: ResultsData) => {
