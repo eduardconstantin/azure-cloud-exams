@@ -24,7 +24,7 @@ type Props = {
   images?: { url: string; alt: string }[];
 };
 
-const QuizExamFormUF: FC<Props> = ({
+const QuizExamForm: FC<Props> = ({
   isLoading,
   handleNextQuestion,
   handleSkipQuestion,
@@ -53,13 +53,13 @@ const QuizExamFormUF: FC<Props> = ({
     ? options?.filter((el: any) => el.isAnswer === true).length
     : 0;
 
-  const { control, handleSubmit, setValue, watch } = useForm({
+  const { control, handleSubmit, setValue, watch, register } = useForm({
     defaultValues: {
       options: [{ checked: false, text: "Option 1", isAnswer: false }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, replace } = useFieldArray({
     control,
     name: "options",
   });
@@ -129,12 +129,8 @@ const QuizExamFormUF: FC<Props> = ({
   };
 
   const isQuestionAnswered = () => {
-    for (const answer of fields) {
-      if (answer.checked === true) {
-        return true;
-      }
-    }
-    return false;
+    const options = watch("options");
+    return options.some((option) => option.checked);
   };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
@@ -155,7 +151,7 @@ const QuizExamFormUF: FC<Props> = ({
       text: option.text,
       isAnswer: option.isAnswer,
     }));
-    append(opt || []);
+    replace(opt || []);
   }, [options]);
 
   const saveAnswers = async (skip = false) => {
@@ -240,7 +236,8 @@ const QuizExamFormUF: FC<Props> = ({
                 <input
                   {...field}
                   type="checkbox"
-                  id={`options.${index}`}
+                  id={`options.${currentQuestionIndex}.${index}`}
+                  className={`peer hidden [&:checked_+_label_svg_path]:block `}
                   disabled={showCorrectAnswer}
                   checked={field.value}
                   onChange={(e) => {
@@ -259,7 +256,7 @@ const QuizExamFormUF: FC<Props> = ({
               )}
             />
             <label
-              htmlFor={`options.${index}`}
+              htmlFor={`options.${currentQuestionIndex}.${index}`}
               className={`m-[1px] flex cursor-pointer items-center rounded-lg border hover:bg-slate-600 p-4 text-xs sm:text-sm font-medium shadow-sm ${
                 showCorrectAnswer && option.isAnswer
                   ? option.checked
@@ -382,4 +379,4 @@ const QuizExamFormUF: FC<Props> = ({
   );
 };
 
-export default QuizExamFormUF;
+export default QuizExamForm;
