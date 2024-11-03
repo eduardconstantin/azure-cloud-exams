@@ -1,9 +1,9 @@
 import { useEffect, useState, type FC } from "react";
 import Image from "next/image";
-import { Question } from "./types";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
+import { Question, Option } from "@azure-fundamentals/components/types";
 
 type Props = {
   isLoading: boolean;
@@ -14,7 +14,7 @@ type Props = {
   totalQuestions: number;
   question: string;
   questions: Question[];
-  options: any;
+  options: Option[];
   stopTimer: () => void;
   getResultPoints: (data: number) => void;
   revealExam?: boolean;
@@ -64,7 +64,7 @@ const QuizExamForm: FC<Props> = ({
     name: "options",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     reCount({ questions: questions, answers: savedAnswers });
     stopTimer();
   };
@@ -133,7 +133,7 @@ const QuizExamForm: FC<Props> = ({
     return options.some((option) => option.checked);
   };
 
-  const isOptionChecked = (optionText: string): boolean | undefined => {
+  const isOptionChecked = (optionText: string): boolean => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
     return typeof savedAnswer === "string" || !savedAnswer
       ? savedAnswer === optionText
@@ -155,28 +155,17 @@ const QuizExamForm: FC<Props> = ({
   }, [options]);
 
   const saveAnswers = async (skip = false) => {
+    const saved = [...savedAnswers];
     if (skip) {
-      let saved = [...savedAnswers];
       saved[currentQuestionIndex] = null;
-      setSavedAnswers(saved);
-      return;
+    } else {
+      const options = watch("options");
+      const selectedArr = options
+        .filter((opt) => opt.checked)
+        .map((opt) => opt.text);
+      saved[currentQuestionIndex] =
+        noOfAnswers > 1 ? selectedArr : selectedArr[0] || null;
     }
-
-    const options = watch("options");
-    let selectedArr = [];
-    let selected = null;
-
-    options.forEach((answer) => {
-      if (answer.checked && noOfAnswers > 1) {
-        selectedArr.push(answer.text);
-      } else if (answer.checked && noOfAnswers === 1) {
-        selected = answer.text;
-      }
-    });
-
-    let saved = [...savedAnswers];
-    saved[currentQuestionIndex] =
-      noOfAnswers > 1 && selectedArr.length > 0 ? selectedArr : selected;
     setSavedAnswers(saved);
   };
 

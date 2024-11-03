@@ -3,7 +3,7 @@ type Image = {
   url: string;
 };
 
-type Option = {
+export type Option = {
   text: string;
   isAnswer: boolean;
 };
