@@ -5,7 +5,7 @@ import type { NextPage } from "next";
 import { gql, useQuery } from "@apollo/client";
 import useTimer from "@azure-fundamentals/hooks/useTimer";
 import { Button } from "@azure-fundamentals/components/Button";
-import QuizExamForm from "@azure-fundamentals/components/QuizExamForm";
+import QuizExamForm from "@azure-fundamentals/components/QuizExamFormUF";
 import { Question } from "@azure-fundamentals/components/types";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
 
