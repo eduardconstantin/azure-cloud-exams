@@ -4,6 +4,7 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
 import { Question, Option } from "@azure-fundamentals/components/types";
+import { valueFromAST } from "graphql";
 
 type Props = {
   isLoading: boolean;
@@ -224,11 +225,12 @@ const QuizExamForm: FC<Props> = ({
               render={({ field }) => (
                 <input
                   {...field}
-                  type="checkbox"
+                  type={noOfAnswers > 1 ? "checkbox" : "radio"}
                   id={`options.${currentQuestionIndex}.${index}`}
                   className={`peer hidden [&:checked_+_label_svg_path]:block `}
                   disabled={showCorrectAnswer}
                   checked={field.value}
+                  value={field.name}
                   onChange={(e) => {
                     if (noOfAnswers === 1) {
                       fields.forEach((_, idx) => {
