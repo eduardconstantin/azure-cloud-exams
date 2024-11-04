@@ -102,29 +102,29 @@ const QuizExamForm: FC<Props> = ({
 
   const nextQuestion = (skip: boolean) => {
     saveAnswers(skip);
-    let areAllQuestionsAnswered = false;
-    let i = currentQuestionIndex + 1;
-    while (savedAnswers[i] !== null && i < totalQuestions) {
-      i++;
+
+    let nextIndex = currentQuestionIndex + 1;
+
+    while (savedAnswers[nextIndex] !== null && nextIndex < totalQuestions) {
+      nextIndex++;
     }
-    if (i >= totalQuestions) {
-      i = 0;
-    }
-    while (savedAnswers[i] !== null && i < totalQuestions) {
-      i++;
-    }
-    if (i >= totalQuestions) {
-      areAllQuestionsAnswered = true;
-    }
-    if (skip === true) {
-      handleSkipQuestion(i);
-    } else {
-      if (areAllQuestionsAnswered) {
-        handleSubmit(onSubmit)();
-      } else {
-        handleCountAnswered();
-        handleNextQuestion(i);
+
+    if (nextIndex >= totalQuestions) {
+      nextIndex = 0;
+      while (savedAnswers[nextIndex] !== null && nextIndex < totalQuestions) {
+        nextIndex++;
       }
+    }
+
+    const areAllQuestionsAnswered = nextIndex >= totalQuestions;
+
+    if (skip) {
+      handleSkipQuestion(nextIndex);
+    } else if (areAllQuestionsAnswered) {
+      handleSubmit(onSubmit)();
+    } else {
+      handleCountAnswered();
+      handleNextQuestion(nextIndex);
     }
   };
 
