@@ -4,7 +4,6 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
 import { Question, Option } from "@azure-fundamentals/components/types";
-import { valueFromAST } from "graphql";
 
 type Props = {
   isLoading: boolean;
