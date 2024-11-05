@@ -142,7 +142,7 @@ const QuizForm: FC<Props> = ({
           </button>
         </div>
         <p className="text-white md:px-12 pt-10 pb-5 select-none">{question}</p>
-        {images.length !== 0 && (
+        {images && (
           <ul className="flex flex-row justify-center gap-2 mt-5 mb-8 select-none md:px-12 px-0">
             {images.map((image) => (
               <li
