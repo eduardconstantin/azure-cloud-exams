@@ -11,7 +11,7 @@ export type Option = {
 export type Question = {
   question: string;
   options: Option[];
-  images: Image[];
+  images?: Image[];
 };
 
 export type Props = {
