@@ -1,10 +1,5 @@
 import { Question } from "../components/types";
 
-interface Option {
-  text: string;
-  isAnswer: boolean;
-}
-
 interface Data {
   questions: Question[];
   answers: (string | string[])[];
