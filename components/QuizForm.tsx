@@ -1,20 +1,11 @@
 import { type FC, useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
-import { Question } from "./types";
+import { Props } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
 // import NumberInputComponent from "./NumberInputComponent";
 import LoadingIndicator from "./LoadingIndicator";
-
-type Props = {
-  isLoading: boolean;
-  questionSet: Question;
-  handleNextQuestion: (q: number) => void;
-  currentQuestionIndex: number;
-  totalQuestions: number;
-  link: string;
-};
 
 const QuizForm: FC<Props> = ({
   isLoading,
@@ -25,12 +16,13 @@ const QuizForm: FC<Props> = ({
   link,
 }) => {
   const { register, handleSubmit, watch } = useForm();
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState<{
-    [key: number]: boolean;
-  }>({});
   const [isThinking, setIsThinking] = useState<boolean>(false);
   const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
   const [explanation, setExplanation] = useState<string | null>(null);
+
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
+  const [lastIndex, setLastIndex] = useState<number>(1);
+  const [canGoBack, setCanGoBack] = useState<boolean>(false);
   const [savedAnswers, setSavedAnswers] = useState<{
     [key: number]: string | string[];
   }>({});
@@ -86,21 +78,16 @@ const QuizForm: FC<Props> = ({
     }));
   };
 
-  const onSubmit = (data: FieldValues) => {
-    setSavedAnswers((prev) => ({
-      ...prev,
-      [currentQuestionIndex]: data.options[currentQuestionIndex],
-    }));
-
-    recordShowCorrectAnswer();
-  };
-
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
-    if (savedAnswer !== null && typeof savedAnswer === "string") {
+    if (savedAnswer === null) {
+      return undefined;
+    }
+    if (typeof savedAnswer === "string") {
       return savedAnswer === optionText;
-    } else {
-      return false;
+    }
+    if (Array.isArray(savedAnswer)) {
+      return savedAnswer.includes(optionText);
     }
   };
 
@@ -149,6 +136,16 @@ const QuizForm: FC<Props> = ({
 
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
+
+  const onSubmit = (data: FieldValues) => {
+    setSavedAnswers((prev) => ({
+      ...prev,
+      [currentQuestionIndex]: watchInput,
+    }));
+    setShowCorrectAnswer(true);
+    setCanGoBack(true);
+    reset();
+  };
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
 
@@ -264,7 +261,7 @@ const QuizForm: FC<Props> = ({
           </button>
         </div>
         <p className="text-white md:px-12 pt-10 pb-5 select-none">{question}</p>
-        {images.length !== 0 && (
+        {images && (
           <ul className="flex flex-row justify-center gap-2 mt-5 mb-8 select-none md:px-12 px-0">
             {images.map((image) => (
               <li
@@ -358,8 +355,25 @@ const QuizForm: FC<Props> = ({
           type="button"
           intent="primary"
           size="medium"
-          disabled={currentQuestionIndex == totalQuestions}
-          onClick={handleNextQueClick}
+          disabled={currentQuestionIndex < lastIndex}
+          onClick={() => {
+            if (!showCorrectAnswer) {
+              setSavedAnswers((prev) => ({
+                ...prev,
+                [currentQuestionIndex]: watchInput,
+              }));
+            }
+            setShowCorrectAnswer(false);
+            if (currentQuestionIndex === totalQuestions) {
+              handleNextQuestion(1);
+              setLastIndex(1);
+            } else {
+              handleNextQuestion(currentQuestionIndex + 1);
+              setLastIndex(currentQuestionIndex + 1);
+            }
+            setCanGoBack(false);
+            reset();
+          }}
         >
           Next Question
         </Button>
