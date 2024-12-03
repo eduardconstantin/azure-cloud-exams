@@ -5,7 +5,7 @@ import type { NextPage } from "next";
 import { gql, useQuery } from "@apollo/client";
 import useTimer from "@azure-fundamentals/hooks/useTimer";
 import { Button } from "@azure-fundamentals/components/Button";
-import QuizExamForm from "@azure-fundamentals/components/QuizExamForm";
+import QuizExamForm from "@azure-fundamentals/components/QuizExamFormUF";
 import { Question } from "@azure-fundamentals/components/types";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
 import LoadingIndicator from "@azure-fundamentals/components/LoadingIndicator";
@@ -129,7 +129,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
               totalQuestions={data.randomQuestions?.length}
               currentQuestionIndex={currentQuestionIndex}
               question={currentQuestion?.question ?? ""}
-              options={currentQuestion?.options}
+              options={currentQuestion?.options ?? []}
               images={currentQuestion?.images}
               stopTimer={stopTimer}
               revealExam={revealExam}
