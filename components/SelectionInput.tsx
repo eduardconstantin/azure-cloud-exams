@@ -8,7 +8,6 @@ type Props = {
   showCorrectAnswer?: boolean;
   disabled?: boolean;
   checked?: boolean;
-  handleChange?: (e: React.MouseEvent<HTMLInputElement>) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const SelectionInput = forwardRef<HTMLInputElement, Props>(
@@ -23,8 +22,6 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
       showCorrectAnswer,
       disabled = false,
       defaultChecked,
-      checked,
-      handleChange = () => {},
       ...rest
     },
     ref,
@@ -39,8 +36,6 @@ const SelectionInput = forwardRef<HTMLInputElement, Props>(
           id={id}
           className={`peer hidden [&:checked_+_label_svg_path]:block `}
           defaultChecked={defaultChecked}
-          checked={checked}
-          onClick={handleChange}
           {...rest}
         />
         <label

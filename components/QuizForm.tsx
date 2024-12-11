@@ -4,7 +4,7 @@ import { Props } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
-// import NumberInputComponent from "./NumberInputComponent";
+import NumberInputComponent from "./NumberInputComponent";
 import LoadingIndicator from "./LoadingIndicator";
 
 const QuizForm: FC<Props> = ({
@@ -15,10 +15,7 @@ const QuizForm: FC<Props> = ({
   totalQuestions,
   link,
 }) => {
-  const { register, handleSubmit, watch } = useForm();
-  const [isThinking, setIsThinking] = useState<boolean>(false);
-  const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
-  const [explanation, setExplanation] = useState<string | null>(null);
+  const { register, handleSubmit, reset, watch } = useForm();
 
   const [showCorrectAnswer, setShowCorrectAnswer] = useState<boolean>(false);
   const [lastIndex, setLastIndex] = useState<number>(1);
@@ -35,6 +32,10 @@ const QuizForm: FC<Props> = ({
     url: string;
     alt: string;
   } | null>(null);
+
+  const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
+  const [explanation, setExplanation] = useState<string | null>(null);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -70,13 +71,6 @@ const QuizForm: FC<Props> = ({
 
     checkOllamaStatus();
   }, []);
-
-  const recordShowCorrectAnswer = () => {
-    setShowCorrectAnswer((prev) => ({
-      ...prev,
-      [currentQuestionIndex]: true,
-    }));
-  };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
@@ -128,10 +122,11 @@ const QuizForm: FC<Props> = ({
   };
 
   if (isLoading) return <LoadingIndicator />;
+
   //Error Handling for loading issues
   if (!questionSet) {
     handleNextQuestion(1);
-    return <p>Loading questions failed</p>;
+    return <p>Loading questions failed.</p>;
   }
 
   const { question, options, images } = questionSet!;
@@ -148,44 +143,6 @@ const QuizForm: FC<Props> = ({
   };
 
   const noOfAnswers = options.filter((el) => el.isAnswer === true).length;
-
-  const handleNextQueClick = () => {
-    setExplanation(null);
-    setSavedAnswers((prev) => ({
-      ...prev,
-      [currentQuestionIndex]: watchInput,
-    }));
-    handleNextQuestion(currentQuestionIndex + 1);
-  };
-
-  const isOptionCheckedWithoutReveal = (
-    optionText: string,
-  ): boolean | undefined => {
-    const savedAnswer = checkedAnswers[currentQuestionIndex];
-    if (savedAnswer?.length) {
-      return savedAnswer.includes(optionText);
-    } else {
-      return false;
-    }
-  };
-
-  const handleRadioCheckboxClick = (event: any, isItMulti: boolean = false) => {
-    const valueToManage = event.target.value;
-    let finalData = [valueToManage];
-    if (isItMulti) {
-      const savedData = checkedAnswers[currentQuestionIndex] || [];
-      if (savedData.includes(valueToManage)) {
-        finalData = savedData.filter((item) => item !== valueToManage);
-      } else {
-        finalData = [...savedData, valueToManage];
-      }
-    }
-    setCheckedAnswers((prev) => ({
-      ...prev,
-      [currentQuestionIndex]: finalData,
-    }));
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative min-h-40">
@@ -193,9 +150,15 @@ const QuizForm: FC<Props> = ({
           <button
             type="button"
             onClick={() => {
+              if (currentQuestionIndex < lastIndex + 2) {
+                setShowCorrectAnswer(true);
+              } else {
+                setShowCorrectAnswer(false);
+              }
+              reset();
               handleNextQuestion(currentQuestionIndex - 1);
             }}
-            disabled={currentQuestionIndex == 1}
+            disabled={!(currentQuestionIndex > 1) || !canGoBack}
             className="group"
           >
             <svg
@@ -217,22 +180,10 @@ const QuizForm: FC<Props> = ({
             <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
               Q&A
             </span>
-            {/*  Debounce rerendering issue on prev next click
-              <NumberInputComponent
+            <NumberInputComponent
               totalQuestions={totalQuestions}
               currentQuestionIndex={currentQuestionIndex}
               handleNextQuestion={handleNextQuestion}
-            /> */}
-
-            <input
-              className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-              type="number"
-              min={0}
-              max={totalQuestions}
-              value={currentQuestionIndex}
-              onChange={(e) => {
-                handleNextQuestion(Number(e.target.value));
-              }}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
               {totalQuestions}
@@ -240,8 +191,16 @@ const QuizForm: FC<Props> = ({
           </div>
           <button
             type="button"
-            onClick={handleNextQueClick}
-            disabled={currentQuestionIndex == totalQuestions}
+            onClick={() => {
+              if (currentQuestionIndex < lastIndex) {
+                setShowCorrectAnswer(true);
+              } else {
+                setShowCorrectAnswer(false);
+              }
+              reset();
+              handleNextQuestion(currentQuestionIndex + 1);
+            }}
+            disabled={!(currentQuestionIndex < lastIndex)}
             className="group"
           >
             <svg
@@ -309,17 +268,9 @@ const QuizForm: FC<Props> = ({
               type={noOfAnswers > 1 ? "checkbox" : "radio"}
               label={option.text}
               isAnswer={option.isAnswer}
-              showCorrectAnswer={
-                showCorrectAnswer[currentQuestionIndex] || false
-              }
-              disabled={showCorrectAnswer[currentQuestionIndex] || false}
-              checked={
-                isOptionChecked(option.text) ||
-                isOptionCheckedWithoutReveal(option.text)
-              }
-              handleChange={(e: any) => {
-                handleRadioCheckboxClick(e, noOfAnswers > 1);
-              }}
+              showCorrectAnswer={showCorrectAnswer}
+              disabled={showCorrectAnswer}
+              defaultChecked={isOptionChecked(option.text)}
             />
           </li>
         ))}
@@ -332,7 +283,7 @@ const QuizForm: FC<Props> = ({
           type="submit"
           intent="secondary"
           size="medium"
-          disabled={showCorrectAnswer[currentQuestionIndex] || false}
+          disabled={showCorrectAnswer}
         >
           Reveal Answer
         </Button>
@@ -343,9 +294,10 @@ const QuizForm: FC<Props> = ({
             size="medium"
             disabled={isThinking}
             onClick={() => {
-              recordShowCorrectAnswer();
+              setShowCorrectAnswer(true);
               setIsThinking(true);
               explainCorrectAnswer();
+              reset();
             }}
           >
             {isThinking ? "Thinking..." : "Explain"}
@@ -364,6 +316,7 @@ const QuizForm: FC<Props> = ({
               }));
             }
             setShowCorrectAnswer(false);
+            setExplanation(null);
             if (currentQuestionIndex === totalQuestions) {
               handleNextQuestion(1);
               setLastIndex(1);

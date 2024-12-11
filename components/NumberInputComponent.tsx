@@ -1,5 +1,6 @@
 import useDebounce from "@azure-fundamentals/hooks/useDebounce";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 interface Props {
   totalQuestions: number;
@@ -14,6 +15,7 @@ const NumberInputComponent: React.FC<Props> = ({
 }) => {
   const [inputValue, setInputValue] = useState(currentQuestionIndex);
   const debouncedInputValue = useDebounce(inputValue, 1000);
+  const { reset } = useForm();
 
   useEffect(() => {
     if (debouncedInputValue !== currentQuestionIndex) {
@@ -23,6 +25,7 @@ const NumberInputComponent: React.FC<Props> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(Number(e.target.value));
+    reset();
   };
 
   return (
