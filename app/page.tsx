@@ -31,20 +31,32 @@ const Home: NextPage = () => {
         placeholder="Search exams"
         className="mb-6 px-4 py-2 border border-gray-300 rounded-md w-3/4 lg:w-1/2"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 mx-5 lg:mx-0">
-        {filteredExams.map((exam) => (
-          <NameLink
-            key={exam.name}
-            href={{
-              pathname: "/modes",
-              query: { url: exam.url, name: exam.name },
-            }}
-            heading={exam.name}
-            paragraph={exam.subtitle}
-            wrapperClassNames="hover:bg-[#C7D2E2]"
-            headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
-          />
-        ))}
+      <div
+        className={`grid ${
+          filteredExams.length > 0
+            ? "grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5"
+            : "flex justify-center items-center"
+        } mx-5 lg:mx-0`}
+      >
+        {filteredExams.length > 0 ? (
+          filteredExams.map((exam) => (
+            <NameLink
+              key={exam.name}
+              href={{
+                pathname: "/modes",
+                query: { url: exam.url, name: exam.name },
+              }}
+              heading={exam.name}
+              paragraph={exam.subtitle}
+              wrapperClassNames="hover:bg-[#C7D2E2]"
+              headingClassNames="group-hover:from-[#fff] group-hover:to-[#fff]"
+            />
+          ))
+        ) : (
+          <p className="text-white text-lg mt-4">
+            No exams were found for your query.
+          </p>
+        )}
       </div>
     </div>
   );
