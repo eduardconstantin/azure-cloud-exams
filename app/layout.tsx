@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   ],
   creator: "Eduard-Constantin Ibinceanu",
   description:
-    "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community.",
+    "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
   formatDetection: { telephone: true },
   icons: [
     {
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://education.ditectrev.com"),
   openGraph: {
     description:
-      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community.",
+      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
     images: [
       {
         alt: "Ditectrev Logo",
@@ -73,14 +73,14 @@ export const metadata: Metadata = {
   },
   themeColor: "#3f51b5",
   title: {
-    default: "🧪 Practice Exams Platform - %s | Ditectrev",
-    template: "🧪 Practice Exams Platform - %s | Ditectrev",
+    default: "🧪 Practice Exams Platform | Ditectrev",
+    template: "🧪 Practice Exams Platform | Ditectrev",
   },
   twitter: {
     card: "summary_large_image",
     creator: "@ditectrev",
     description:
-      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community.",
+      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
     images: [
       {
         alt: "Ditectrev Logo",
