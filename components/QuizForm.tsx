@@ -123,10 +123,18 @@ const QuizForm: FC<Props> = ({
 
   if (isLoading) return <LoadingIndicator />;
 
-  //Error Handling for loading issues
   if (!questionSet) {
     handleNextQuestion(1);
-    return <p>Loading questions failed.</p>;
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <p className="text-red-500 text-lg font-semibold">
+          Oops! Something went wrong while loading the questions.
+        </p>
+        <p className="text-white text-md mt-2">
+          Please try refreshing the page or check your internet connection.
+        </p>
+      </div>
+    );
   }
 
   const { question, options, images } = questionSet!;
