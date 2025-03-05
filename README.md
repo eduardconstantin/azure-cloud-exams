@@ -15,8 +15,6 @@ database, replacing Cosmos DB.
 
 UPDATE2: The project has a new name to better fit it's purpose, now it has all azure exams from this [collection](https://github.com/Ditectrev?q=azure&type=all&language=&sort=)
 
-[<img src="https://api.gitsponsors.com/api/badge/img?id=605226127" height="40">](https://api.gitsponsors.com/api/badge/link?p=mnJPEhPUWjSHcGe4TUhW1VQUcAjwJEZ4IjE81wMBhu2KnB8s6AoMtpbGZtSTpF1shPnw9TcYfG8Ia/SfXNZ8/V45YSeijrg1FNkYuv5JqzUXzkLDfGQYWTrhqWCW1gKBjvEl/VHO1/p5r0/YoxdJlw==)
-
 </div>
 
 <br />
