@@ -38,7 +38,7 @@ const Footer = () => {
       icon: <SiGithub className="github" size={iconSize} />,
     },
     {
-      url: "https://play.google.com/store/books/collection/cluster?gsr=SheCARQKEAoMWjZNR0VRQUFRQkFKEAkQBA%3D%3D:S:ANO1ljK1zJ0",
+      url: "https://play.google.com/store/books/author?id=Daniel+Danielecki",
       icon: <SiGoogleplay className="googleplay" size={iconSize} />,
     },
     {
