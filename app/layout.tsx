@@ -7,10 +7,92 @@ import Cookie from "@azure-fundamentals/components/Cookie";
 import "styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
-  title: "Azure Cloud Exams",
+  appleWebApp: {
+    capable: true,
+    title: "🧪 Practice Exams Platform | Ditectrev",
+    statusBarStyle: "black",
+  },
+  applicationName: "🧪 Practice Exams Platform | Ditectrev",
+  authors: [
+    {
+      name: "Daniel Danielecki",
+      url: "https://github.com/danieldanielecki",
+    },
+    {
+      name: "Eduard-Constantin Ibinceanu",
+      url: "https://github.com/eduardconstantin",
+    },
+  ],
+  creator: "Eduard-Constantin Ibinceanu",
+  description:
+    "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
+  formatDetection: { telephone: true },
+  icons: [
+    {
+      rel: "apple-touch-icon",
+      type: "image/x-icon",
+      url: "/favicon.ico",
+    },
+    {
+      rel: "icon",
+      type: "image/x-icon",
+      url: "/favicon.ico",
+    },
+  ],
+  keywords: [
+    "AWS Exams",
+    "Azure Exams",
+    "Exams Simulator",
+    "GCP Exams",
+    "ITIL4 Exams",
+    "Practice Exams Platform",
+    "Practice Tests Platform",
+    "Scrum Exams",
+  ],
+  manifest: "/manifest.json",
+  metadataBase: new URL("https://education.ditectrev.com"),
   openGraph: {
-    title: "Azure Cloud Exams",
+    description:
+      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
+    images: [
+      {
+        alt: "Ditectrev Logo",
+        url: "/logo.svg",
+      },
+    ],
+    siteName: "🧪 Practice Exams Platform | Ditectrev",
+    title: "🧪 Practice Exams Platform | Ditectrev",
+    type: "website",
+    url: "https://education.ditectrev.com",
+  },
+  publisher: "Ditectrev",
+  referrer: "strict-origin-when-cross-origin",
+  robots: {
+    follow: true,
+    index: true,
+  },
+  themeColor: "#3f51b5",
+  title: {
+    default: "🧪 Practice Exams Platform | Ditectrev",
+    template: "🧪 Practice Exams Platform | Ditectrev",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@ditectrev",
+    description:
+      "🎓 Practice Exams (Web) Platform developed by Ditectrev's Community. #Build Your Digital Future with us.",
+    images: [
+      {
+        alt: "Ditectrev Logo",
+        url: "/logo.svg",
+      },
+    ],
+    site: "@ditectrev",
+    title: "🧪 Practice Exams Platform | Ditectrev",
+  },
+  viewport: {
+    initialScale: 1,
+    width: "device-width",
   },
 };
 

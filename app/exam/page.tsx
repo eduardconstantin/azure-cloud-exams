@@ -8,6 +8,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import QuizExamForm from "@azure-fundamentals/components/QuizExamFormUF";
 import { Question } from "@azure-fundamentals/components/types";
 import ExamResult from "@azure-fundamentals/components/ExamResult";
+import LoadingIndicator from "@azure-fundamentals/components/LoadingIndicator";
 
 const questionsQuery = gql`
   query RandomQuestions($range: Int!, $link: String) {
@@ -86,7 +87,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
     setCurrentQuestion(data?.randomQuestions[0]);
   }, [data]);
 
-  if (loading) return <p>Loading</p>;
+  if (loading) return <LoadingIndicator />;
   if (error) return <p>Oh no... {error.message}</p>;
 
   const numberOfQuestions = data.randomQuestions.length || 0;
@@ -96,7 +97,7 @@ const Exam: NextPage<{ searchParams: { url: string; name: string } }> = ({
       <div>
         <div className="px-2 sm:px-10 w-full flex flex-row justify-between items-center">
           <p className="text-white font-bold text-sm sm:text-2xl">
-            {countAnswered}/{numberOfQuestions}
+            ✅ {countAnswered}/{numberOfQuestions}
           </p>
           <h1 className="text-white font-bold text-lg sm:text-3xl">
             PRACTICE EXAM

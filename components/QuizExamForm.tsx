@@ -2,9 +2,9 @@ import { useEffect, useState, type FC } from "react";
 import Image from "next/image";
 import { Question } from "./types";
 import { FieldArray, FormikProvider, Field, useFormik } from "formik";
-import { useForm } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
+import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
   isLoading: boolean;
@@ -189,7 +189,7 @@ const QuizExamForm: FC<Props> = ({
     setSavedAnswers(saved);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <FormikProvider value={formik}>

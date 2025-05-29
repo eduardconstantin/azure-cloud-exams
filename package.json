@@ -1,6 +1,6 @@
 {
-  "name": "azure-cloud-exams",
-  "version": "1.0.0",
+  "name": "practice-exams-platform",
+  "version": "1.2.0",
   "private": true,
   "engines": {
     "node": "20.x"
@@ -12,7 +12,10 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "e2e": "npx playwright test",
+    "e2e:ui": "npx playwright test --ui",
+    "e2e:headed": "npx playwright test --headed"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
@@ -31,16 +34,19 @@
     "formik": "^2.4.5",
     "graphql": "^16.6.0",
     "next": "^14.2.26",
+    "next-pwa": "^5.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-github-btn": "^1.4.0",
     "react-hook-form": "^7.43.1",
+    "react-icons": "^5.2.1",
     "reflect-metadata": "^0.1.13",
     "typescript": "4.9.5",
     "vanilla-cookieconsent": "^3.0.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",
+    "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.1",

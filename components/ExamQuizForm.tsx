@@ -3,6 +3,7 @@ import { Button } from "@azure-fundamentals/components/Button";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Question } from "@azure-fundamentals/components/types";
+import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
   isLoading: boolean;
@@ -35,7 +36,22 @@ const ExamQuizForm: FC<Props> = ({
     handleNextQuestion(currentQuestionIndex + 1);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator />;
+
+  if (!questionSet) {
+    handleNextQuestion(1);
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <p className="text-red-500 text-lg font-semibold">
+          Oops! Something went wrong while loading the questions.
+        </p>
+        <p className="text-white text-md mt-2">
+          Please try refreshing the page or check your internet connection.
+        </p>
+      </div>
+    );
+  }
+
   const { question, options } = questionSet;
 
   const noOfAnswers = options.filter((el) => el.isAnswer).length;

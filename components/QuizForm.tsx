@@ -1,9 +1,11 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { Props } from "./types";
 import Image from "next/image";
 import SelectionInput from "./SelectionInput";
 import { Button } from "./Button";
+import NumberInputComponent from "./NumberInputComponent";
+import LoadingIndicator from "./LoadingIndicator";
 
 const QuizForm: FC<Props> = ({
   isLoading,
@@ -21,10 +23,54 @@ const QuizForm: FC<Props> = ({
   const [savedAnswers, setSavedAnswers] = useState<{
     [key: number]: string | string[];
   }>({});
+
+  const [checkedAnswers, setCheckedAnswers] = useState<{
+    [key: number]: string[];
+  }>({});
+
   const [selectedImage, setSelectedImage] = useState<{
     url: string;
     alt: string;
   } | null>(null);
+
+  const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [ollamaAvailable, setOllamaAvailable] = useState<boolean>(false);
+  const [explanation, setExplanation] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [setSelectedImage]);
+
+  const handleClickOutside = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (event.target === event.currentTarget) {
+      setSelectedImage(null);
+    }
+  };
+
+  useEffect(() => {
+    const checkOllamaStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:11434");
+        if (response.ok) {
+          setOllamaAvailable(true);
+        }
+      } catch (error) {
+        console.error("Error checking server status:", error);
+      }
+    };
+
+    checkOllamaStatus();
+  }, []);
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
@@ -39,7 +85,58 @@ const QuizForm: FC<Props> = ({
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  const explainCorrectAnswer = async () => {
+    try {
+      const prompt = `${question} Explain why these answers are correct: ${options
+        .filter((o) => o.isAnswer == true)
+        .map((o) => o.text)}`;
+
+      const response = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "mistral",
+          prompt: prompt,
+          stream: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      if (responseData && "response" in responseData) {
+        setExplanation(responseData.response);
+      } else {
+        console.error("Response does not contain explanation:", responseData);
+      }
+    } catch (error) {
+      console.error("Error fetching explanation:", error);
+    } finally {
+      setIsThinking(false);
+    }
+  };
+
+  if (isLoading) return <LoadingIndicator />;
+
+  if (!questionSet) {
+    handleNextQuestion(1);
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <p className="text-red-500 text-lg font-semibold">
+          Oops! Something went wrong while loading the questions.
+        </p>
+        <p className="text-white text-md mt-2">
+          Please try refreshing the page or check your internet connection.
+        </p>
+      </div>
+    );
+  }
+
   const { question, options, images } = questionSet!;
   const watchInput = watch(`options.${currentQuestionIndex}`);
 
@@ -91,21 +188,10 @@ const QuizForm: FC<Props> = ({
             <span className="absolute text-white opacity-10 font-bold text-6xl bottom-0 -z-[1] select-none">
               Q&A
             </span>
-            <input
-              className="w-[40px] text-white rounded-l-md border outline-0 border-slate-700 bg-slate-900 text-center text-md [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-              type="number"
-              min={0}
-              max={totalQuestions}
-              value={currentQuestionIndex}
-              onChange={(e) => {
-                if (Number(e.target.value) < lastIndex + 1) {
-                  setShowCorrectAnswer(true);
-                } else {
-                  setShowCorrectAnswer(false);
-                }
-                handleNextQuestion(Number(e.target.value));
-                reset();
-              }}
+            <NumberInputComponent
+              totalQuestions={totalQuestions}
+              currentQuestionIndex={currentQuestionIndex}
+              handleNextQuestion={handleNextQuestion}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
               {totalQuestions}
@@ -163,7 +249,10 @@ const QuizForm: FC<Props> = ({
           </ul>
         )}
         {selectedImage && (
-          <div className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+          <div
+            onClick={handleClickOutside}
+            className="fixed top-0 left-0 z-50 w-full h-full flex justify-center items-center bg-black bg-opacity-50"
+          >
             <img
               src={link + selectedImage.url}
               alt={selectedImage.alt}
@@ -194,6 +283,9 @@ const QuizForm: FC<Props> = ({
           </li>
         ))}
       </ul>
+      {explanation && (
+        <p className="text-white md:px-12 mb-16 select-none">{explanation}</p>
+      )}
       <div className="flex justify-center flex-col sm:flex-row">
         <Button
           type="submit"
@@ -203,6 +295,22 @@ const QuizForm: FC<Props> = ({
         >
           Reveal Answer
         </Button>
+        {ollamaAvailable && (
+          <Button
+            type="button"
+            intent="secondary"
+            size="medium"
+            disabled={isThinking}
+            onClick={() => {
+              setShowCorrectAnswer(true);
+              setIsThinking(true);
+              explainCorrectAnswer();
+              reset();
+            }}
+          >
+            {isThinking ? "Thinking..." : "Explain"}
+          </Button>
+        )}
         <Button
           type="button"
           intent="primary"
@@ -216,6 +324,7 @@ const QuizForm: FC<Props> = ({
               }));
             }
             setShowCorrectAnswer(false);
+            setExplanation(null);
             if (currentQuestionIndex === totalQuestions) {
               handleNextQuestion(1);
               setLastIndex(1);

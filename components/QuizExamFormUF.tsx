@@ -4,6 +4,7 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "./Button";
 import useResults from "@azure-fundamentals/hooks/useResults";
 import { Question, Option } from "@azure-fundamentals/components/types";
+import LoadingIndicator from "./LoadingIndicator";
 
 type Props = {
   isLoading: boolean;
@@ -169,7 +170,7 @@ const QuizExamForm: FC<Props> = ({
     setSavedAnswers(saved);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
