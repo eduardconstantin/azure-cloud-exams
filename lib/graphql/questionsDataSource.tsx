@@ -78,7 +78,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
           if (question) {
             // Upload to Cosmos DB for future use
             try {
-              await container.items.create(question);
+              await container.items.upsert(question);
             } catch (err) {
               console.warn("Failed to upload question to Cosmos DB:", err);
             }
@@ -108,7 +108,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
           // Upload all questions to Cosmos DB
           try {
             for (const question of questions) {
-              await container.items.create(question);
+              await container.items.upsert(question);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
@@ -140,7 +140,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
           // Upload selected questions to Cosmos DB
           try {
             for (const question of selected) {
-              await container.items.create(question);
+              await container.items.upsert(question);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
