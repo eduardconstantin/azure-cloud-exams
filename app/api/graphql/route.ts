@@ -1,4 +1,3 @@
-import { CosmosContainer } from "@azure-fundamentals/lib/graphql/cosmos-client";
 import {
   CombinedQuestionsDataSource,
   RepoQuestionsDataSource,
@@ -26,7 +25,7 @@ const handler = startServerAndCreateNextHandler(server, {
     if (process.env.AZURE_COSMOSDB_ENDPOINT) {
       return {
         dataSources: {
-          questionsDB: CombinedQuestionsDataSource(CosmosContainer()),
+          questionsDB: CombinedQuestionsDataSource(),
         },
       };
     } else {
@@ -54,4 +53,24 @@ const handler = startServerAndCreateNextHandler(server, {
   },
 });
 
-export { handler as GET, handler as POST };
+// Wrap the handler to handle errors
+const wrappedHandler = async (req: Request) => {
+  try {
+    return await handler(req);
+  } catch (error) {
+    console.error("GraphQL Error:", error);
+    return new Response(
+      JSON.stringify({
+        errors: [{ message: "Internal server error" }],
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  }
+};
+
+export { wrappedHandler as GET, wrappedHandler as POST };

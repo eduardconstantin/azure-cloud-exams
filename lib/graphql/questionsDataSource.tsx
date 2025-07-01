@@ -1,5 +1,6 @@
 import { Container } from "@azure/cosmos";
 import { fetchQuestions } from "./repoQuestions";
+import { getContainer } from "./cosmos-client";
 
 export const QuestionsDataSource = (container: Container) => {
   return {
@@ -67,18 +68,25 @@ export const RepoQuestionsDataSource = (container: any) => {
   };
 };
 
-export const CombinedQuestionsDataSource = (container: Container) => {
+export const CombinedQuestionsDataSource = () => {
   return {
     async getQuestion(id: string, link: string) {
       try {
+        // Extract exam name from URL and create a safe container name
+        const segments = link.split("/");
+        const examName = segments[segments.length - 3]
+          .replace(/-/g, "_")
+          .toLowerCase();
+        const examContainer = await getContainer(examName);
+
         // Try GitHub first
         const questions = await fetchQuestions(link);
         if (questions) {
           const question = questions.find((q: any) => q.id === id);
           if (question) {
-            // Upload to Cosmos DB for future use
+            // Upload to exam-specific container
             try {
-              await container.items.upsert(question);
+              await examContainer.items.upsert(question);
             } catch (err) {
               console.warn("Failed to upload question to Cosmos DB:", err);
             }
@@ -91,7 +99,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
           query: "SELECT * FROM c WHERE c.id = @id",
           parameters: [{ name: "@id", value: id }],
         };
-        const { resources: items } = await container.items
+        const { resources: items } = await examContainer.items
           .query(querySpec)
           .fetchAll();
         return items[0];
@@ -102,13 +110,20 @@ export const CombinedQuestionsDataSource = (container: Container) => {
 
     async getQuestions(link: string) {
       try {
+        // Extract exam name from URL and create a safe container name
+        const segments = link.split("/");
+        const examName = segments[segments.length - 3]
+          .replace(/-/g, "_")
+          .toLowerCase();
+        const examContainer = await getContainer(examName);
+
         // Try GitHub first
         const questions = await fetchQuestions(link);
         if (questions) {
-          // Upload all questions to Cosmos DB
+          // Upload all questions to exam-specific container
           try {
             for (const question of questions) {
-              await container.items.upsert(question);
+              await examContainer.items.upsert(question);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
@@ -120,7 +135,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
         const querySpec = {
           query: "SELECT VALUE COUNT(c.id) FROM c",
         };
-        const { resources: items } = await container.items
+        const { resources: items } = await examContainer.items
           .query(querySpec)
           .fetchAll();
         return { count: items[0] };
@@ -131,16 +146,23 @@ export const CombinedQuestionsDataSource = (container: Container) => {
 
     async getRandomQuestions(range: number, link: string) {
       try {
+        // Extract exam name from URL and create a safe container name
+        const segments = link.split("/");
+        const examName = segments[segments.length - 3]
+          .replace(/-/g, "_")
+          .toLowerCase();
+        const examContainer = await getContainer(examName);
+
         // Try GitHub first
         const questions = await fetchQuestions(link);
         if (questions) {
           const shuffled = [...questions].sort(() => 0.5 - Math.random());
           const selected = shuffled.slice(0, range);
 
-          // Upload selected questions to Cosmos DB
+          // Upload selected questions to exam-specific container
           try {
             for (const question of selected) {
-              await container.items.upsert(question);
+              await examContainer.items.upsert(question);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
@@ -153,7 +175,7 @@ export const CombinedQuestionsDataSource = (container: Container) => {
         const querySpec = {
           query: "SELECT * FROM c",
         };
-        const { resources: items } = await container.items
+        const { resources: items } = await examContainer.items
           .query(querySpec)
           .fetchAll();
         const shuffled = [...items].sort(() => 0.5 - Math.random());
