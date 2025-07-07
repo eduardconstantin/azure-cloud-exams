@@ -1,6 +1,6 @@
 import { Container } from "@azure/cosmos";
 import { fetchQuestions } from "./repoQuestions";
-import { getContainer } from "./cosmos-client";
+import { getQuestionsContainer } from "./cosmos-client";
 
 export const QuestionsDataSource = (container: Container) => {
   return {
@@ -68,25 +68,48 @@ export const RepoQuestionsDataSource = (container: any) => {
   };
 };
 
+// Helper function to extract exam ID from URL
+const extractExamId = (link: string): string => {
+  const segments = link.split("/");
+  return segments[segments.length - 3].replace(/-/g, "_").toLowerCase();
+};
+
 export const CombinedQuestionsDataSource = () => {
   return {
     async getQuestion(id: string, link: string) {
       try {
-        // Extract exam name from URL and create a safe container name
-        const segments = link.split("/");
-        const examName = segments[segments.length - 3]
-          .replace(/-/g, "_")
-          .toLowerCase();
-        const examContainer = await getContainer(examName);
+        const examId = extractExamId(link);
+        const questionsContainer = await getQuestionsContainer();
 
-        // Try GitHub first
+        // Try Cosmos DB first (most efficient)
+        const querySpec = {
+          query: "SELECT * FROM c WHERE c.id = @id AND c.examId = @examId",
+          parameters: [
+            { name: "@id", value: id },
+            { name: "@examId", value: examId },
+          ],
+        };
+        const { resources: items } = await questionsContainer.items
+          .query(querySpec)
+          .fetchAll();
+
+        if (items.length > 0) {
+          return items[0];
+        }
+
+        // Fallback to GitHub if not found in database
         const questions = await fetchQuestions(link);
         if (questions) {
           const question = questions.find((q: any) => q.id === id);
           if (question) {
-            // Upload to exam-specific container
+            // Add examId to the question document and upload to database
+            const questionWithExamId = {
+              ...question,
+              examId: examId,
+            };
+
             try {
-              await examContainer.items.upsert(question);
+              await questionsContainer.items.upsert(questionWithExamId);
             } catch (err) {
               console.warn("Failed to upload question to Cosmos DB:", err);
             }
@@ -94,15 +117,7 @@ export const CombinedQuestionsDataSource = () => {
           }
         }
 
-        // Fallback to Cosmos DB
-        const querySpec = {
-          query: "SELECT * FROM c WHERE c.id = @id",
-          parameters: [{ name: "@id", value: id }],
-        };
-        const { resources: items } = await examContainer.items
-          .query(querySpec)
-          .fetchAll();
-        return items[0];
+        return null;
       } catch (err) {
         throw new Error("Error fetching question: " + err);
       }
@@ -110,20 +125,33 @@ export const CombinedQuestionsDataSource = () => {
 
     async getQuestions(link: string) {
       try {
-        // Extract exam name from URL and create a safe container name
-        const segments = link.split("/");
-        const examName = segments[segments.length - 3]
-          .replace(/-/g, "_")
-          .toLowerCase();
-        const examContainer = await getContainer(examName);
+        const examId = extractExamId(link);
+        const questionsContainer = await getQuestionsContainer();
 
-        // Try GitHub first
+        // Try Cosmos DB first
+        const querySpec = {
+          query: "SELECT VALUE COUNT(c.id) FROM c WHERE c.examId = @examId",
+          parameters: [{ name: "@examId", value: examId }],
+        };
+        const { resources: items } = await questionsContainer.items
+          .query(querySpec)
+          .fetchAll();
+
+        if (items[0] > 0) {
+          return { count: items[0] };
+        }
+
+        // Fallback to GitHub if no questions found in database
         const questions = await fetchQuestions(link);
         if (questions) {
-          // Upload all questions to exam-specific container
+          // Upload all questions to database (only if they don't exist)
           try {
             for (const question of questions) {
-              await examContainer.items.upsert(question);
+              const questionWithExamId = {
+                ...question,
+                examId: examId,
+              };
+              await questionsContainer.items.upsert(questionWithExamId);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
@@ -131,14 +159,7 @@ export const CombinedQuestionsDataSource = () => {
           return { count: questions.length };
         }
 
-        // Fallback to Cosmos DB
-        const querySpec = {
-          query: "SELECT VALUE COUNT(c.id) FROM c",
-        };
-        const { resources: items } = await examContainer.items
-          .query(querySpec)
-          .fetchAll();
-        return { count: items[0] };
+        return { count: 0 };
       } catch (err) {
         throw new Error("Error fetching questions: " + err);
       }
@@ -146,23 +167,38 @@ export const CombinedQuestionsDataSource = () => {
 
     async getRandomQuestions(range: number, link: string) {
       try {
-        // Extract exam name from URL and create a safe container name
-        const segments = link.split("/");
-        const examName = segments[segments.length - 3]
-          .replace(/-/g, "_")
-          .toLowerCase();
-        const examContainer = await getContainer(examName);
+        const examId = extractExamId(link);
+        const questionsContainer = await getQuestionsContainer();
 
-        // Try GitHub first
+        // Try Cosmos DB first
+        const querySpec = {
+          query: "SELECT * FROM c WHERE c.examId = @examId",
+          parameters: [{ name: "@examId", value: examId }],
+        };
+        const { resources: items } = await questionsContainer.items
+          .query(querySpec)
+          .fetchAll();
+
+        if (items.length > 0) {
+          // Questions exist in database, return random selection
+          const shuffled = [...items].sort(() => 0.5 - Math.random());
+          return shuffled.slice(0, range);
+        }
+
+        // Fallback to GitHub if no questions found in database
         const questions = await fetchQuestions(link);
         if (questions) {
           const shuffled = [...questions].sort(() => 0.5 - Math.random());
           const selected = shuffled.slice(0, range);
 
-          // Upload selected questions to exam-specific container
+          // Upload selected questions to database (only if they don't exist)
           try {
             for (const question of selected) {
-              await examContainer.items.upsert(question);
+              const questionWithExamId = {
+                ...question,
+                examId: examId,
+              };
+              await questionsContainer.items.upsert(questionWithExamId);
             }
           } catch (err) {
             console.warn("Failed to upload questions to Cosmos DB:", err);
@@ -171,15 +207,7 @@ export const CombinedQuestionsDataSource = () => {
           return selected;
         }
 
-        // Fallback to Cosmos DB
-        const querySpec = {
-          query: "SELECT * FROM c",
-        };
-        const { resources: items } = await examContainer.items
-          .query(querySpec)
-          .fetchAll();
-        const shuffled = [...items].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, range);
+        return [];
       } catch (err) {
         throw new Error("Error fetching random questions: " + err);
       }

@@ -9,15 +9,15 @@ export const getDatabase = () => {
   return client.database(process.env.AZURE_COSMOSDB_DATABASE!);
 };
 
-export const getContainer = async (containerName: string) => {
+export const getQuestionsContainer = async () => {
   const database = getDatabase();
 
   // Try to create container if it doesn't exist
   try {
     const { container } = await database.containers.createIfNotExists({
-      id: containerName,
+      id: "questions",
       partitionKey: {
-        paths: ["/id"],
+        paths: ["/examId"],
       },
     });
     return container;
@@ -25,9 +25,9 @@ export const getContainer = async (containerName: string) => {
     // If container creation fails, try to get the existing container
     if (error.code === 409) {
       console.log(
-        `Container ${containerName} already exists, using existing container`,
+        `Container questions already exists, using existing container`,
       );
-      return database.container(containerName);
+      return database.container("questions");
     } else {
       console.error("Error creating container:", error);
       throw error;
