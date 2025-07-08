@@ -1,11 +1,12 @@
-// import { CosmosContainer } from "@azure-fundamentals/src/graphql/cosmos-client";
-// import { QuestionsDataSource, LocalQuestionsDataSource } from "@azure-fundamentals/src/graphql/questionsDataSource";
+import {
+  CombinedQuestionsDataSource,
+  RepoQuestionsDataSource,
+} from "@azure-fundamentals/lib/graphql/questionsDataSource";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import typeDefs from "@azure-fundamentals/lib/graphql/schemas";
 import resolvers from "@azure-fundamentals/lib/graphql/resolvers";
-//import { RepoQuestionsDataSource } from "@azure-fundamentals/lib/graphql/questionsDataSource";
-//import { FetchQuestions } from "@azure-fundamentals/lib/graphql/repoQuestions";
+import { fetchQuestions } from "@azure-fundamentals/lib/graphql/repoQuestions";
 
 interface ContextValue {
   dataSources: {
@@ -19,22 +20,57 @@ const server = new ApolloServer<ContextValue>({
   introspection: process.env.NODE_ENV !== "production",
 });
 
-//const questions = await FetchQuestions();
-
-const handler = startServerAndCreateNextHandler(
-  server,
-  /*{
+const handler = startServerAndCreateNextHandler(server, {
   context: async () => {
-    return {
-      dataSources: {
-        // questionsDB: process.env.AZURE_COSMOSDB_ENDPOINT
-        //   ? QuestionsDataSource(CosmosContainer())
-        //   : LocalQuestionsDataSource(questions),
-        questionsDB: RepoQuestionsDataSource(questions),
-      },
-    };
+    if (process.env.AZURE_COSMOSDB_ENDPOINT) {
+      return {
+        dataSources: {
+          questionsDB: CombinedQuestionsDataSource(),
+        },
+      };
+    } else {
+      // Fallback to GitHub-only data source
+      return {
+        dataSources: {
+          questionsDB: {
+            getQuestion: async (id: string, link: string) => {
+              const questions = await fetchQuestions(link);
+              return questions?.find((q: any) => q.id === id);
+            },
+            getQuestions: async (link: string) => {
+              const questions = await fetchQuestions(link);
+              return { count: questions?.length || 0 };
+            },
+            getRandomQuestions: async (range: number, link: string) => {
+              const questions = await fetchQuestions(link);
+              const shuffled = questions?.sort(() => 0.5 - Math.random());
+              return shuffled?.slice(0, range) || [];
+            },
+          },
+        },
+      };
+    }
   },
-}*/
-);
+});
 
-export { handler as GET, handler as POST };
+// Wrap the handler to handle errors
+const wrappedHandler = async (req: Request) => {
+  try {
+    return await handler(req);
+  } catch (error) {
+    console.error("GraphQL Error:", error);
+    return new Response(
+      JSON.stringify({
+        errors: [{ message: "Internal server error" }],
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  }
+};
+
+export { wrappedHandler as GET, wrappedHandler as POST };

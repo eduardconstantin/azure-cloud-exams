@@ -14,6 +14,7 @@ const typeDefs = gql`
     question: String
     options: [Option]
     images: [Images]
+    examId: String
   }
   type Questions {
     count: Int
