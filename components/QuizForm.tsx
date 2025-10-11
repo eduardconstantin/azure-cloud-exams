@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { Props } from "./types";
 import Image from "next/image";
@@ -25,6 +25,35 @@ const QuizForm: FC<Props> = ({
     url: string;
     alt: string;
   } | null>(null);
+
+  const [debouncedValue, setDebouncedValue] =
+    useState<number>(currentQuestionIndex);
+  const [inputValue, setInputValue] = useState<number>(currentQuestionIndex);
+
+  // Debounce Effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (debouncedValue !== currentQuestionIndex) {
+        handleNextQuestion(debouncedValue);
+        reset();
+      }
+    }, 400); //debounce delay (400ms)
+    return () => clearTimeout(timer);
+  }, [debouncedValue]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (value <= 0 || value > totalQuestions) return;
+
+    if (value < lastIndex + 1) {
+      setShowCorrectAnswer(true);
+    } else {
+      setShowCorrectAnswer(false);
+    }
+
+    setInputValue(value);
+    setDebouncedValue(value);
+  };
 
   const isOptionChecked = (optionText: string): boolean | undefined => {
     const savedAnswer = savedAnswers[currentQuestionIndex];
@@ -96,16 +125,8 @@ const QuizForm: FC<Props> = ({
               type="number"
               min={0}
               max={totalQuestions}
-              value={currentQuestionIndex}
-              onChange={(e) => {
-                if (Number(e.target.value) < lastIndex + 1) {
-                  setShowCorrectAnswer(true);
-                } else {
-                  setShowCorrectAnswer(false);
-                }
-                handleNextQuestion(Number(e.target.value));
-                reset();
-              }}
+              value={inputValue}
+              onChange={handleInputChange}
             />
             <p className="text-white text-md font-semibold text-center w-[40px] rounded-r-md border bg-slate-800 border-slate-700">
               {totalQuestions}
