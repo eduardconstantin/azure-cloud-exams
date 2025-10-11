@@ -248,7 +248,9 @@ const QuizForm: FC<Props> = ({
             reset();
           }}
         >
-          Next Question
+          {currentQuestionIndex === totalQuestions
+            ? "Start from beginning"
+            : "Next Question"}
         </Button>
       </div>
     </form>
